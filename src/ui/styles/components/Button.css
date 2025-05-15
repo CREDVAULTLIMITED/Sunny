@@ -1,0 +1,211 @@
+/**
+ * Button Component Styles
+ * 
+ * Styles for the Button component with multiple variants and states
+ */
+
+.sunny-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-primary, 'Inter', sans-serif);
+  font-weight: 500;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Button Sizes */
+.sunny-button--small {
+  height: 2rem;
+  padding: 0 0.75rem;
+  font-size: 0.875rem;
+  min-width: 4rem;
+}
+
+.sunny-button--medium {
+  height: 2.5rem;
+  padding: 0 1rem;
+  font-size: 1rem;
+  min-width: 5rem;
+}
+
+.sunny-button--large {
+  height: 3rem;
+  padding: 0 1.25rem;
+  font-size: 1.125rem;
+  min-width: 6rem;
+}
+
+/* Button Variants */
+.sunny-button--primary {
+  background-color: var(--color-primary-500, #0099e6);
+  color: white;
+}
+
+.sunny-button--primary:hover:not(:disabled) {
+  background-color: var(--color-primary-600, #0077b3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.sunny-button--primary:active:not(:disabled) {
+  background-color: var(--color-primary-700, #005580);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.sunny-button--secondary {
+  background-color: var(--color-secondary-500, #e6ab00);
+  color: white;
+}
+
+.sunny-button--secondary:hover:not(:disabled) {
+  background-color: var(--color-secondary-600, #b38600);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.sunny-button--secondary:active:not(:disabled) {
+  background-color: var(--color-secondary-700, #806100);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.sunny-button--tertiary {
+  background-color: var(--color-neutral-100, #eef1f4);
+  color: var(--color-neutral-800, #333d4b);
+}
+
+.sunny-button--tertiary:hover:not(:disabled) {
+  background-color: var(--color-neutral-200, #e2e7ec);
+  transform: translateY(-1px);
+}
+
+.sunny-button--tertiary:active:not(:disabled) {
+  background-color: var(--color-neutral-300, #d0d7df);
+  transform: translateY(0);
+}
+
+.sunny-button--outline {
+  background-color: transparent;
+  color: var(--color-primary-500, #0099e6);
+  border: 1px solid var(--color-primary-500, #0099e6);
+}
+
+.sunny-button--outline:hover:not(:disabled) {
+  background-color: var(--color-primary-50, #e6f7ff);
+  transform: translateY(-1px);
+}
+
+.sunny-button--outline:active:not(:disabled) {
+  background-color: var(--color-primary-100, #b3e6ff);
+  transform: translateY(0);
+}
+
+.sunny-button--text {
+  background-color: transparent;
+  color: var(--color-primary-500, #0099e6);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.sunny-button--text:hover:not(:disabled) {
+  background-color: var(--color-primary-50, #e6f7ff);
+}
+
+.sunny-button--text:active:not(:disabled) {
+  background-color: var(--color-primary-100, #b3e6ff);
+}
+
+.sunny-button--danger {
+  background-color: var(--color-error-main, #ff1a1a);
+  color: white;
+}
+
+.sunny-button--danger:hover:not(:disabled) {
+  background-color: var(--color-error-dark, #cc0000);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.sunny-button--danger:active:not(:disabled) {
+  background-color: #990000;
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Button States */
+.sunny-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.sunny-button--full-width {
+  width: 100%;
+}
+
+/* Button with Icon */
+.sunny-button--with-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.sunny-button__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sunny-button__icon--left {
+  margin-right: 0.5rem;
+}
+
+.sunny-button__icon--right {
+  margin-left: 0.5rem;
+}
+
+/* Loading State */
+.sunny-button--loading {
+  cursor: wait;
+}
+
+.sunny-button__loader {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.sunny-button__loader-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  margin: 0 0.125rem;
+  opacity: 0.7;
+  animation: button-loader 1.4s infinite ease-in-out both;
+}
+
+.sunny-button__loader-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.sunny-button__loader-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes button-loader {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}

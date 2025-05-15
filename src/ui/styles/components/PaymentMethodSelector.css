@@ -1,0 +1,85 @@
+/**
+ * PaymentMethodSelector Component Styles
+ * 
+ * Styles for the PaymentMethodSelector component
+ */
+
+.sunny-payment-method-selector {
+  width: 100%;
+}
+
+.sunny-payment-method-selector__methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Size Variants */
+.sunny-payment-method-selector--small .sunny-payment-method-selector__methods {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.sunny-payment-method-selector--large .sunny-payment-method-selector__methods {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Method Card */
+.sunny-payment-method-selector__method {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.sunny-payment-method-selector__method:hover {
+  transform: translateY(-2px);
+}
+
+.sunny-payment-method-selector__method--selected {
+  border-color: var(--color-primary-500, #0099e6);
+  background-color: var(--color-primary-50, #e6f7ff);
+}
+
+.sunny-payment-method-selector__method-content {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.sunny-payment-method-selector__method-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.sunny-payment-method-selector__method-icon img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.sunny-payment-method-selector__method-details {
+  flex: 1;
+}
+
+.sunny-payment-method-selector__method-name {
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--color-text-primary, #333d4b);
+}
+
+.sunny-payment-method-selector__method-description {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6c7a8c);
+  margin-top: 0.25rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .sunny-payment-method-selector__methods {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,395 @@
+/**
+ * MultiCurrencyManager Component Styles
+ * 
+ * Styles for the MultiCurrencyManager component
+ */
+
+.sunny-currency-manager {
+  width: 100%;
+  font-family: var(--font-primary, 'Inter', sans-serif);
+}
+
+/* Header */
+.sunny-currency-manager__header {
+  margin-bottom: 2rem;
+}
+
+.sunny-currency-manager__title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #333d4b);
+  margin: 0 0 0.5rem 0;
+}
+
+.sunny-currency-manager__description {
+  font-size: 1rem;
+  color: var(--color-text-secondary, #6c7a8c);
+  margin: 0;
+}
+
+/* Content Layout */
+.sunny-currency-manager__content {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Settings Column */
+.sunny-currency-manager__settings-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sunny-currency-manager__settings-card {
+  padding: 1.5rem;
+}
+
+/* Currencies Column */
+.sunny-currency-manager__currencies-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sunny-currency-manager__currencies-card {
+  padding: 1.5rem;
+}
+
+.sunny-currency-manager__exchange-rates-card {
+  padding: 1.5rem;
+}
+
+/* Card Titles */
+.sunny-currency-manager__card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #333d4b);
+  margin: 0 0 1rem 0;
+}
+
+.sunny-currency-manager__card-description {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6c7a8c);
+  margin: 0 0 1.5rem 0;
+}
+
+/* Settings */
+.sunny-currency-manager__setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.sunny-currency-manager__setting:last-child {
+  margin-bottom: 0;
+}
+
+.sunny-currency-manager__setting-label {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6c7a8c);
+}
+
+/* Toggle Switch */
+.sunny-currency-manager__toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.sunny-currency-manager__toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.sunny-currency-manager__toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-neutral-300, #d0d7df);
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.sunny-currency-manager__toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.sunny-currency-manager__toggle input:checked + .sunny-currency-manager__toggle-slider {
+  background-color: var(--color-primary-500, #0099e6);
+}
+
+.sunny-currency-manager__toggle input:focus + .sunny-currency-manager__toggle-slider {
+  box-shadow: 0 0 1px var(--color-primary-500, #0099e6);
+}
+
+.sunny-currency-manager__toggle input:checked + .sunny-currency-manager__toggle-slider:before {
+  transform: translateX(24px);
+}
+
+/* Inputs */
+.sunny-currency-manager__setting-input {
+  width: 80px;
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--color-border, #d0d7df);
+  border-radius: 0.375rem;
+  background-color: white;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.sunny-currency-manager__setting-input:focus {
+  outline: none;
+  border-color: var(--color-primary-500, #0099e6);
+  box-shadow: 0 0 0 3px var(--color-primary-100, #b3e6ff);
+}
+
+/* Select */
+.sunny-currency-manager__setting-select {
+  width: 200px;
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--color-border, #d0d7df);
+  border-radius: 0.375rem;
+  background-color: white;
+  transition: border-color 0.2s ease-in-out;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236c7a8c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px;
+  padding-right: 2.5rem;
+}
+
+.sunny-currency-manager__setting-select:focus {
+  outline: none;
+  border-color: var(--color-primary-500, #0099e6);
+  box-shadow: 0 0 0 3px var(--color-primary-100, #b3e6ff);
+}
+
+/* Search */
+.sunny-currency-manager__search-container {
+  margin-bottom: 1.5rem;
+}
+
+.sunny-currency-manager__search-input {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--color-border, #d0d7df);
+  border-radius: 0.375rem;
+  background-color: white;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.sunny-currency-manager__search-input:focus {
+  outline: none;
+  border-color: var(--color-primary-500, #0099e6);
+  box-shadow: 0 0 0 3px var(--color-primary-100, #b3e6ff);
+}
+
+/* Currency Grid */
+.sunny-currency-manager__currency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.sunny-currency-manager__currency-item {
+  position: relative;
+  padding: 1rem;
+  border: 1px solid var(--color-border, #d0d7df);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.sunny-currency-manager__currency-item:hover {
+  border-color: var(--color-primary-300, #4dc2ff);
+  background-color: var(--color-primary-50, #e6f7ff);
+}
+
+.sunny-currency-manager__currency-item--selected {
+  border-color: var(--color-primary-500, #0099e6);
+  background-color: var(--color-primary-50, #e6f7ff);
+}
+
+.sunny-currency-manager__currency-item--base {
+  border-color: var(--color-secondary-500, #e6ab00);
+  background-color: var(--color-secondary-50, #fff8e6);
+}
+
+.sunny-currency-manager__currency-code {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #333d4b);
+  margin-bottom: 0.25rem;
+}
+
+.sunny-currency-manager__currency-name {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, #6c7a8c);
+}
+
+.sunny-currency-manager__currency-check {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary-500, #0099e6);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+}
+
+.sunny-currency-manager__currency-base-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.125rem 0.375rem;
+  background-color: var(--color-secondary-500, #e6ab00);
+  color: white;
+  border-radius: 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Exchange Rates */
+.sunny-currency-manager__exchange-rates-list {
+  margin-bottom: 1.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.sunny-currency-manager__exchange-rate-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-divider, #e2e7ec);
+}
+
+.sunny-currency-manager__exchange-rate-item:last-child {
+  border-bottom: none;
+}
+
+.sunny-currency-manager__exchange-rate-currency {
+  width: 60px;
+  font-weight: 600;
+  color: var(--color-text-primary, #333d4b);
+}
+
+.sunny-currency-manager__exchange-rate-value {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6c7a8c);
+}
+
+.sunny-currency-manager__exchange-rate-example {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, #6c7a8c);
+  text-align: right;
+}
+
+.sunny-currency-manager__exchange-rates-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Actions */
+.sunny-currency-manager__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Error */
+.sunny-currency-manager__error {
+  background-color: var(--color-error-light, #ffe6e6);
+  color: var(--color-error-main, #ff1a1a);
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+/* Loading State */
+.sunny-currency-manager--loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.sunny-currency-manager__loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sunny-currency-manager__loader-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-neutral-200, #e2e7ec);
+  border-top-color: var(--color-primary-500, #0099e6);
+  border-radius: 50%;
+  animation: spinner 1s linear infinite;
+}
+
+.sunny-currency-manager__loader-text {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6c7a8c);
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .sunny-currency-manager__content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .sunny-currency-manager__setting {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .sunny-currency-manager__setting-select,
+  .sunny-currency-manager__setting-input {
+    width: 100%;
+  }
+  
+  .sunny-currency-manager__currency-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
