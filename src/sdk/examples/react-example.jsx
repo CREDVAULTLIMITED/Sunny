@@ -9,7 +9,7 @@ import {
   PaymentForm, 
   QRCodePayment, 
   PaymentButton 
-} from '../SunnyReactSDK';
+} from '../SunnyReactSDK.js';
 
 // Example App component
 const App = () => {

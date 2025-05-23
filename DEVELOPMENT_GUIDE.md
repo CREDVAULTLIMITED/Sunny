@@ -14,6 +14,7 @@ This guide provides detailed information for developers working on the Sunny Pay
 8. [Security Guidelines](#security-guidelines)
 9. [Documentation Standards](#documentation-standards)
 10. [Release Process](#release-process)
+11. [Database Setup and Usage](#database-setup-and-usage)
 
 ## Development Environment Setup
 
@@ -428,10 +429,64 @@ We use Semantic Versioning (SemVer):
 6. Merge to main and development
 7. Deploy to production
 
-## Additional Resources
+## Database Setup and Usage
 
-- [Technical Overview](./TECHNICAL_OVERVIEW.md)
-- [API Reference](./docs/api-reference.md)
-- [Security Architecture](./security-architecture.md)
-- [Contributing Guide](./CONTRIBUTING.md)
-- [Code Quality Overview](./CODE_QUALITY.md)
+### Dual Database Configuration
+
+The system uses both PostgreSQL and MongoDB. Here's how to work with them:
+
+#### PostgreSQL Setup
+1. Configure in `.env`:
+   ```
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_NAME=sunny_payments
+   DB_USER=postgres
+   DB_PASSWORD=your_password
+   DB_SSL=false
+   ```
+
+2. Table initialization:
+   ```bash
+   npm run db:migrate
+   ```
+
+3. Usage pattern:
+   - All financial transactions
+   - User accounts
+   - Merchant data
+   - Settlement records
+
+#### MongoDB Setup
+1. Configure in `.env`:
+   ```
+   MONGO_URI=mongodb://localhost:27017/sunny_payments_dev
+   ```
+
+2. Collection initialization:
+   ```bash
+   npm run db:seed
+   ```
+
+3. Usage pattern:
+   - Session management
+   - Analytics data
+   - Event logging
+   - Feature flags
+
+### Best Practices
+
+1. **Data Consistency**
+   - Use transactions in PostgreSQL for financial operations
+   - Implement retry mechanisms for MongoDB operations
+   - Handle cross-database consistency through application logic
+
+2. **Performance Optimization**
+   - Use appropriate indexes in both databases
+   - Implement connection pooling
+   - Cache frequently accessed data
+
+3. **Error Handling**
+   - Implement proper fallbacks for database failures
+   - Log all database errors with context
+   - Use circuit breakers for database operations

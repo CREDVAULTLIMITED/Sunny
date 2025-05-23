@@ -6,20 +6,23 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { PAYMENT_METHODS, PAYMENT_STATUS, ERROR_CODES } from './constants';
-import MobileMoneyProcessor from './mobileMoney/MobileMoneyProcessor';
-import CardPaymentProcessor from './card/CardPaymentProcessor';
-import BankTransferProcessor from './bank/BankTransferProcessor';
-import QRCodeManager from './qr/QRCodeManager';
-import CryptoProcessor from './crypto/CryptoProcessor';
-import P2PTransferManager from './p2p/P2PTransferManager';
-import IdentityManager from './identity/IdentityManager';
-import { logTransaction, logError } from './transactionLogger';
-import { calculateFees } from './feeCalculator';
-import { instantSettlement } from './instantSettlement';
+import { PAYMENT_METHODS, PAYMENT_STATUS, ERROR_CODES } from './constants.js';
+import MobileMoneyProcessor from './mobileMoney/MobileMoneyProcessor.js';
+import CardPaymentProcessor from './card/CardPaymentProcessor.js';
+import BankTransferProcessor from './bank/BankTransferProcessor.js';
+import QRCodeManager from './qr/QRCodeManager.js';
+import CryptoProcessor from './crypto/CryptoProcessor.js';
+import P2PTransferManager from './p2p/P2PTransferManager.js';
+import IdentityManager from './identity/IdentityManager.js';
+import { logTransaction, logError } from './transactionLogger.js';
+import { calculateFees } from './feeCalculator.js';
+import { instantSettlement } from './instantSettlement.js';
+import EnhancedRegulatoryPaymentRoutingAI from './ai/EnhancedRegulatoryPaymentRoutingAI.js';
+import RegionalAnalytics from './analytics/regionalAnalytics.js';
+import RegulatoryComplianceEngine from './compliance/RegulatoryComplianceEngine.js';
 
 class PaymentOrchestrator {
-  constructor() {
+  constructor(config = {}) {
     // Initialize payment processors
     this.mobileMoneyProcessor = new MobileMoneyProcessor();
     this.cardPaymentProcessor = new CardPaymentProcessor();
@@ -28,6 +31,23 @@ class PaymentOrchestrator {
     this.cryptoProcessor = new CryptoProcessor();
     this.p2pTransferManager = new P2PTransferManager();
     this.identityManager = new IdentityManager();
+    
+    // Initialize regulatory and analytics components
+    this.regionalAnalytics = new RegionalAnalytics(config.regionalAnalytics || {});
+    this.regulatoryComplianceEngine = new RegulatoryComplianceEngine(config.regulatoryEngine || {});
+    
+    // Initialize enhanced payment routing AI with regulatory capabilities
+    this.routingAI = new EnhancedRegulatoryPaymentRoutingAI({
+      enableRegulatoryOptimization: config.enableRegulatoryOptimization !== undefined ? 
+        config.enableRegulatoryOptimization : true,
+      enableTaxOptimization: config.enableTaxOptimization !== undefined ? 
+        config.enableTaxOptimization : true,
+      regulatoryWeight: config.regulatoryWeight || 0.3,
+      taxWeight: config.taxWeight || 0.2,
+      regulatoryEngine: {
+        regionalAnalytics: config.regionalAnalytics || {}
+      }
+    });
     
     // Map payment methods to their processors
     this.processors = {
@@ -45,6 +65,22 @@ class PaymentOrchestrator {
     // Retry configuration
     this.maxRetries = 3;
     this.retryDelayMs = 2000;
+    
+    // Regulatory compliance configuration
+    this.enableRegulatoryOptimization = config.enableRegulatoryOptimization !== undefined ? 
+      config.enableRegulatoryOptimization : true;
+    this.enableTaxOptimization = config.enableTaxOptimization !== undefined ? 
+      config.enableTaxOptimization : true;
+    this.dynamicFeeAdjustment = config.dynamicFeeAdjustment !== undefined ? 
+      config.dynamicFeeAdjustment : true;
+    
+    // Analytics storage
+    this.regulatoryAnalytics = {
+      optimizedTransactions: 0,
+      regulatorySavings: 0,
+      taxSavings: 0,
+      complianceEvents: []
+    };
   }
 
   /**
@@ -77,8 +113,13 @@ class PaymentOrchestrator {
       // Log transaction initiation
       logTransaction('PAYMENT_INITIATED', transaction);
       
-      // Calculate fees
-      const fees = calculateFees(paymentDetails);
+      // Calculate fees with regulatory optimization if enabled
+      let fees;
+      if (this.dynamicFeeAdjustment) {
+        fees = await this._calculateOptimizedFees(paymentDetails);
+      } else {
+        fees = calculateFees(paymentDetails);
+      }
       transaction.fees = fees;
       
       // Resolve recipient identity if using an alias
@@ -90,8 +131,23 @@ class PaymentOrchestrator {
         transaction.resolvedRecipient = resolvedIdentity;
       }
       
-      // Determine payment method
-      const paymentMethod = paymentDetails.paymentMethod;
+      // Determine payment method with regulatory optimization if enabled
+      let paymentMethod;
+      let routingAnalytics = null;
+      
+      if (this.enableRegulatoryOptimization || this.enableTaxOptimization) {
+        // Use the enhanced regulatory routing AI
+        const routingResult = await this._determineOptimalPaymentMethod(paymentDetails);
+        paymentMethod = routingResult.paymentMethod;
+        routingAnalytics = routingResult.analytics;
+        
+        // Add routing analytics to transaction
+        transaction.routingAnalytics = routingAnalytics;
+        transaction.logs.push(`Selected ${paymentMethod} based on regulatory efficiency analysis`);
+      } else {
+        // Use provided payment method
+        paymentMethod = paymentDetails.paymentMethod;
+      }
       
       // Get appropriate processor
       const processor = this.processors[paymentMethod];
@@ -352,12 +408,14 @@ class PaymentOrchestrator {
       throw new Error('Currency is required');
     }
     
-    if (!paymentDetails.paymentMethod) {
-      throw new Error('Payment method is required');
+    // Payment method is only required if regulatory optimization is disabled
+    if (!this.enableRegulatoryOptimization && !paymentDetails.paymentMethod) {
+      throw new Error('Payment method is required when regulatory optimization is disabled');
     }
     
-    // Check if payment method is supported
-    if (!Object.values(PAYMENT_METHODS).includes(paymentDetails.paymentMethod)) {
+    // If payment method is provided, check if it's supported
+    if (paymentDetails.paymentMethod && 
+        !Object.values(PAYMENT_METHODS).includes(paymentDetails.paymentMethod)) {
       throw new Error(`Unsupported payment method: ${paymentDetails.paymentMethod}`);
     }
     
@@ -391,6 +449,15 @@ class PaymentOrchestrator {
           throw new Error('Cryptocurrency details are required');
         }
         break;
+        
+      default:
+        // This is a fallback validation for any payment methods that passed the initial check
+        // but don't have specific validation rules
+        logTransaction('UNUSUAL_PAYMENT_METHOD', {
+          method: paymentDetails.paymentMethod,
+          details: paymentDetails
+        });
+        break;
     }
   }
 
@@ -402,6 +469,75 @@ class PaymentOrchestrator {
   _generateTransactionId() {
     return `TXN-${uuidv4()}`;
   }
+  
+  /**
+   * Determine the optimal payment method based on regulatory compliance and tax efficiency
+   * 
+   * @param {Object} paymentDetails - Payment details
+   * @returns {Promise<Object>} Optimal payment method with analytics
+   */
+  async _determineOptimalPaymentMethod(paymentDetails) {
+    try {
+      const sourceRegion = paymentDetails.country || paymentDetails.sourceCountry || 'unknown';
+      const destinationRegion = paymentDetails.recipientCountry || paymentDetails.destinationCountry || sourceRegion;
+      
+      // Prepare transaction data for routing AI
+      const routingData = {
+        amount: paymentDetails.amount,
+        currency: paymentDetails.currency,
+        sourceRegion,
+        destinationRegion,
+        availableMethods: Object.values(PAYMENT_METHODS),
+        preferredMethod: paymentDetails.paymentMethod || null,
+        isCrossBorder: sourceRegion !== destinationRegion &&
+          sourceRegion !== 'unknown' && destinationRegion !== 'unknown'
+      };
+      
+      // Get routing recommendation from AI
+      const routingResult = await this.routingAI.predictOptimalMethod(routingData);
+      
+      // Use the preferred method if available, otherwise use the AI recommendation
+      const selectedMethod = paymentDetails.paymentMethod || routingResult.predictedMethod;
+      
+      // Record analytics
+      const regulatoryFactors = routingResult.regulatoryFactors || {};
+      
+      // If this was a regulatory-optimized choice that differs from user preference
+      let optimized = false;
+      if (regulatoryFactors.optimized && 
+          paymentDetails.paymentMethod && 
+          selectedMethod !== paymentDetails.paymentMethod) {
+        this.regulatoryAnalytics.optimizedTransactions++;
+        optimized = true;
+      }
+      
+      return {
+        paymentMethod: selectedMethod,
+        analytics: {
+          prediction: routingResult,
+          reasoning: routingResult.reasoning,
+          regulatoryFactors,
+          optimized,
+          timestamp: new Date().toISOString()
+        }
+      };
+    } catch (error) {
+      console.error('Error determining optimal payment method:', error);
+      
+      // Fall back to the provided method or a default
+      return {
+        paymentMethod: paymentDetails.paymentMethod || PAYMENT_METHODS.CARD,
+        analytics: {
+          error: error.message,
+          fallback: true,
+          timestamp: new Date().toISOString()
+        }
+      };
+    }
+  }
+  
+  /**
+   * Calculate optimized fees based on regulatory and tax considerations
+   * (Implementation details to be completed)
+   */
 }
-
-export default PaymentOrchestrator;

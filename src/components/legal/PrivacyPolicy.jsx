@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SunnyLogo from '../../assets/images/Sunny logo.svg';
+import SunnyLogo from '../../assets/images/Sunny logo.svg.js';
 import './Legal.css';
 
 const PrivacyPolicy = () => {

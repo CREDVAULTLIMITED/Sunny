@@ -4,8 +4,8 @@
  * Handles instant settlement of funds to recipient accounts
  */
 
-import { PAYMENT_METHODS, SETTLEMENT_STATUS, ERROR_CODES } from './constants';
-import { logTransaction, logError } from './transactionLogger';
+import { PAYMENT_METHODS, SETTLEMENT_STATUS, ERROR_CODES } from './constants.js';
+import { logTransaction, logError } from './transactionLogger.js';
 
 /**
  * Process instant settlement for a completed transaction
@@ -21,8 +21,7 @@ export const instantSettlement = async (settlementDetails) => {
       currency,
       fees,
       recipient,
-      paymentMethod,
-      processorReference
+      paymentMethod
     } = settlementDetails;
     
     // Log settlement initiation
@@ -250,6 +249,40 @@ const processInternalSettlement = async (settlementDetails, settlementAmount) =>
   };
 };
 
-export default {
-  instantSettlement
+/**
+ * Get pending payouts
+ * 
+ * @returns {Promise<Object>} Object containing pending payout details
+ */
+export const getPendingPayouts = async () => {
+  // In a real implementation, this would fetch from a database
+  // For now, return mock data that matches the dashboard's needs
+  return {
+    totalAmount: 5000, // Total amount of pending payouts
+    count: 3, // Number of pending payouts
+    payouts: [
+      {
+        id: 'PO-1',
+        amount: 2000,
+        status: 'PENDING',
+        merchantId: 'M-123',
+        createdAt: new Date()
+      },
+      {
+        id: 'PO-2',
+        amount: 1500,
+        status: 'PENDING',
+        merchantId: 'M-456',
+        createdAt: new Date()
+      },
+      {
+        id: 'PO-3',
+        amount: 1500,
+        status: 'PENDING',
+        merchantId: 'M-789',
+        createdAt: new Date()
+      }
+    ]
+  };
 };
+

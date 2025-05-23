@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useEffect, createContext, useContext } from 'react';
-import SunnySDK from './SunnySDK';
+import SunnySDK from './SunnySDK.js';
 
 // Create context for the SDK
 const SunnyContext = createContext(null);
@@ -92,7 +92,7 @@ export const PaymentForm = ({ paymentDetails, onSuccess, onError }) => {
     routingNumber: '',
     accountHolderName: ''
   });
-  const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   
   // Handle form submission
@@ -104,7 +104,7 @@ export const PaymentForm = ({ paymentDetails, onSuccess, onError }) => {
       return;
     }
     
-    setLoading(true);
+    setIsSubmitting(true);
     setError(null);
     
     try {
@@ -127,12 +127,15 @@ export const PaymentForm = ({ paymentDetails, onSuccess, onError }) => {
         case 'BANK_TRANSFER':
           request.bankDetails = bankDetails;
           break;
+        default:
+          // No additional details needed for other payment methods
+          break;
       }
       
       // Process payment
       const result = await sdk.createPayment(request);
       
-      setLoading(false);
+      setIsSubmitting(false);
       
       if (result.success) {
         onSuccess && onSuccess(result);
@@ -141,14 +144,14 @@ export const PaymentForm = ({ paymentDetails, onSuccess, onError }) => {
         onError && onError(result);
       }
     } catch (err) {
-      setLoading(false);
+      setIsSubmitting(false);
       setError(err.message);
       onError && onError(err);
     }
   };
   
   // Render loading state
-  if (loading) {
+  if (loading || isSubmitting) {
     return <div className="sunny-loading">Loading payment form...</div>;
   }
   
@@ -361,9 +364,9 @@ export const PaymentForm = ({ paymentDetails, onSuccess, onError }) => {
         <button
           type="submit"
           className="sunny-submit-button"
-          disabled={loading}
+          disabled={isSubmitting}
         >
-          {loading ? 'Processing...' : `Pay ${paymentDetails.currency} ${paymentDetails.amount}`}
+          {isSubmitting ? 'Processing...' : `Pay ${paymentDetails.currency} ${paymentDetails.amount}`}
         </button>
       </div>
     </form>
@@ -443,6 +446,8 @@ export const QRCodePayment = ({ paymentDetails, onSuccess, onError }) => {
         clearInterval(statusCheckInterval);
       }
     };
+    // statusCheckInterval is both set and used in this effect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sdk, paymentDetails, onSuccess, onError]);
   
   // Render loading state
@@ -556,10 +561,12 @@ export const PaymentButton = ({ paymentDetails, onSuccess, onError, text }) => {
   );
 };
 
-export default {
+const SunnyReactSDK = {
   SunnyProvider,
   useSunny,
   PaymentForm,
   QRCodePayment,
   PaymentButton
 };
+
+export default SunnyReactSDK;

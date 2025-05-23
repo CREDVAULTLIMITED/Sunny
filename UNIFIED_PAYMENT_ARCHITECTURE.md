@@ -1,5 +1,14 @@
 # Sunny Payment Gateway - Unified Payment Architecture
 
+> **DISCLAIMER: PUBLIC DOCUMENT**  
+> This document contains high-level architectural information intended for public consumption.
+> It describes general design patterns and abstract implementations, not actual production code.
+> Any examples provided are for illustrative purposes only and may not reflect current implementation.
+> Detailed implementation specifics, security mechanisms, and proprietary algorithms are maintained
+> in private documentation accessible only to authorized personnel.
+> 
+> Last reviewed: May 18, 2025
+
 ## Overview
 
 Sunny Payment Gateway has been designed as an all-in-one core payment engine that consolidates multiple global payment methods under a single unified architecture. This document outlines the architectural design and components that enable Sunny to serve as a comprehensive payment platform.

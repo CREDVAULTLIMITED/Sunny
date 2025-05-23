@@ -4,11 +4,11 @@
  * Routes for user authentication (login, signup, password reset)
  */
 
-import express from 'express';
-import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
-import User from '../models/User.js';
-import { protect } from '../middleware/auth.js';
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const User = require('../models/User');
+const { protect } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -16,8 +16,10 @@ const router = express.Router();
  * @route   POST /api/auth/signup
  * @desc    Register a new user
  * @access  Public
- */
-router.post('/signup', async (req, res) => {
+*/
+
+// Helper function to handle user registration logic
+async function registerUser(req, res) {
   try {
     const {
       firstName,
@@ -85,13 +87,27 @@ router.post('/signup', async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Signup error:', error);
+    console.error('Registration error:', error);
     res.status(500).json({
       success: false,
       message: error.message || 'An error occurred during registration'
     });
   }
-});
+}
+
+/**
+ * @route   POST /api/auth/signup
+ * @desc    Register a new user
+ * @access  Public
+ */
+router.post('/signup', registerUser);
+
+/**
+ * @route   POST /api/auth/register
+ * @desc    Register a new user (alias for signup)
+ * @access  Public
+ */
+router.post('/register', registerUser);
 
 /**
  * @route   POST /api/auth/login
@@ -289,4 +305,4 @@ router.get('/me', protect, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

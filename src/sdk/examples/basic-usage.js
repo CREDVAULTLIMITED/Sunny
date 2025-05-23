@@ -2,7 +2,7 @@
  * Basic usage example for the Sunny Payment Gateway SDK
  */
 
-import SunnySDK from '../SunnySDK';
+import SunnySDK from '../SunnySDK.js';
 
 // Initialize the SDK
 const sunny = new SunnySDK({

@@ -4,8 +4,8 @@
  * AI-driven payment routing and optimization engine using TinyLlama
  */
 
-import PaymentRoutingAI from './PaymentRoutingAI';
-import OllamaService from './OllamaService';
+import PaymentRoutingAI from './PaymentRoutingAI.js';
+import OllamaService from './OllamaService.js';
 
 class EnhancedPaymentRoutingAI extends PaymentRoutingAI {
   constructor(config = {}) {

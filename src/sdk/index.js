@@ -4,7 +4,7 @@
  * Exports all SDK components
  */
 
-import SunnySDK from './SunnySDK';
+import SunnySDK from './SunnySDK.js';
 import SunnyReactSDK, { 
   SunnyProvider, 
   useSunny, 

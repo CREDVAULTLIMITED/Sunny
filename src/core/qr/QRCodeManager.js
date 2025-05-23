@@ -4,8 +4,8 @@
  * Handles generation and processing of QR code payments
  */
 
-import { QR_CODE_TYPES, PAYMENT_STATUS, ERROR_CODES } from '../constants';
-import { logTransaction, logError } from '../transactionLogger';
+import { QR_CODE_TYPES, PAYMENT_STATUS, ERROR_CODES } from '../constants.js';
+import { logTransaction, logError } from '../transactionLogger.js';
 
 class QRCodeManager {
   constructor() {

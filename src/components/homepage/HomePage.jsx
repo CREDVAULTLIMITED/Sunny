@@ -1,267 +1,402 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, Suspense, useRef } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../../i18n/config';
 import './HomePage.css';
-import SunnyLogo from '../../assets/images/Sunny logo.svg';
-import { clearAuth } from '../auth/AuthUtils';
+// eslint-disable-next-line no-unused-vars
+import SunnyLogo from '../../assets/images/sunny-logo.svg';
+
+// Add global styles for RTL support
+import './rtl.css';
+
+// Loading placeholder component
+const LoadingPage = () => (
+  <div className="flex items-center justify-center min-h-screen bg-white">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--primary-blue)]"></div>
+  </div>
+);
 
 const HomePage = () => {
-  // Clear authentication when visiting homepage
-  useEffect(() => {
-    clearAuth();
-  }, []);
+  // eslint-disable-next-line no-unused-vars
+  const { t, i18n } = useTranslation();
+  const [showLangMenu, setShowLangMenu] = useState(false);
+  const [isRTL, setIsRTL] = useState(i18n.dir() === 'rtl');
+  const [isLoading, setIsLoading] = useState(false);
+  const langMenuRef = useRef(null);
   
+  // eslint-disable-next-line no-unused-vars
+  const languages = [
+    { code: 'en', name: 'English' },
+    { code: 'fr', name: 'Français' },
+    { code: 'es', name: 'Español' },
+    { code: 'zh', name: '中文' },
+    { code: 'ar', name: 'العربية' }
+  ];
+
+  // Update RTL state when language changes
+  useEffect(() => {
+    setIsRTL(i18n.dir() === 'rtl');
+    // Update HTML lang attribute
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language, i18n]);
+
+  // Close language menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (langMenuRef.current && !langMenuRef.current.contains(event.target)) {
+        setShowLangMenu(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [langMenuRef]);
+
+  const changeLanguage = async (langCode) => {
+    if (langCode === i18n.language) {
+      setShowLangMenu(false);
+      return;
+    }
+
+    // Store scroll position before change
+    const scrollPos = window.scrollY;
+
+    setIsLoading(true);
+    await i18n.changeLanguage(langCode);
+
+    // Add to localStorage for persistence
+    localStorage.setItem('sunnyLanguage', langCode);
+
+    // Add a class for transition effects
+    document.body.classList.add('language-transition');
+
+    // Short timeout to allow UI to update smoothly
+    setTimeout(() => {
+      setIsLoading(false);
+      // Restore scroll position
+      window.scrollTo(0, scrollPos);
+      // Remove transition class
+      setTimeout(() => {
+        document.body.classList.remove('language-transition');
+      }, 500);
+    }, 400);
+
+    setShowLangMenu(false);
+  };
+
   return (
-    <div className="homepage">
-      <header className="homepage-header">
-        <div className="container">
-          <nav className="main-nav">
-            <div className="logo">
-              <img src={SunnyLogo} alt="Sunny Payments" />
-              <span>Sunny</span>
-            </div>
-            <div className="nav-links">
-              <a href="#features">Features</a>
-              <a href="#solutions">Solutions</a>
-              <a href="#pricing">Pricing</a>
-              <a href="#developers">Developers</a>
-            </div>
-            <div className="nav-buttons">
-              <a href="/login" className="btn btn-text">Log in</a>
-              <a href="/signup" className="btn btn-primary">Sign up</a>
-            </div>
-          </nav>
-        </div>
-      </header>
-
-      <section className="hero">
-        <div className="container">
-          <div className="hero-content">
-            <div className="hero-text">
-              <h1>Modern payment solutions for the digital economy</h1>
-              <p>Streamline your payment processes with our secure, reliable, and easy-to-integrate payment platform.</p>
-              <div className="hero-actions">
-                <a href="/signup" className="btn btn-primary btn-large">Get started</a>
-                <a href="#demo" className="btn btn-outline btn-large">See demo</a>
-              </div>
-              <div className="hero-stats">
-                <div className="stat">
-                  <span className="stat-value">99.99%</span>
-                  <span className="stat-label">Uptime</span>
-                </div>
-                <div className="stat">
-                  <span className="stat-value">150+</span>
-                  <span className="stat-label">Countries</span>
-                </div>
-                <div className="stat">
-                  <span className="stat-value">10M+</span>
-                  <span className="stat-label">Transactions</span>
-                </div>
-              </div>
-            </div>
-            <div className="hero-visual">
-              <div className="payment-cards">
-                <div className="payment-card">
-                  <div className="card-header">
-                    <div className="card-logo"></div>
-                    <div className="card-chip"></div>
+    <Suspense fallback={<LoadingPage />}>
+      {isLoading ? <LoadingPage /> : (
+        <div className={`min-h-screen homepage ${isRTL ? 'rtl' : 'ltr'} transition-all duration-300`}>
+          {/* Header / Navigation */}
+          <header className="site-header">
+            <div className="container">
+              <div className="header-content">
+                <div className="main-nav">
+                  <div className="logo">
+                    <img src={SunnyLogo} alt="Sunny Payments" className="sunny-logo" />
+                    <span>Sunny</span>
                   </div>
-                  <div className="card-number">•••• •••• •••• 4242</div>
-                  <div className="card-footer">
-                    <div className="card-name">J. SMITH</div>
-                    <div className="card-expiry">05/25</div>
-                  </div>
+                  <nav className="nav-links">
+                    <Link to="/">{t('common.home', 'Home')}</Link>
+                    <Link to="/solutions">{t('common.solutions', 'Solutions')}</Link>
+                    <Link to="/pricing">{t('common.pricing', 'Pricing')}</Link>
+                    <Link to="/developers">{t('common.developers', 'Developers')}</Link>
+                    <Link to="/about">{t('common.about', 'About')}</Link>
+                  </nav>
                 </div>
-                <div className="payment-card card-alt">
-                  <div className="card-header">
-                    <div className="card-logo"></div>
-                    <div className="card-chip"></div>
+                <div className="nav-buttons">
+                  <div className="relative" ref={langMenuRef}>
+                    <button 
+                      onClick={() => setShowLangMenu(!showLangMenu)} 
+                      className="btn btn-text"
+                    >
+                      {languages.find(lang => lang.code === i18n.language)?.name || 'English'}
+                    </button>
+                    
+                    {showLangMenu && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                        <div className="py-1">
+                          {languages.map((language) => (
+                            <button
+                              key={language.code}
+                              onClick={() => changeLanguage(language.code)}
+                              className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                            >
+                              {language.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div className="card-number">•••• •••• •••• 8888</div>
-                  <div className="card-footer">
-                    <div className="card-name">A. JOHNSON</div>
-                    <div className="card-expiry">12/24</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="features" id="features">
-        <div className="container">
-          <div className="section-header">
-            <h2>Everything you need to accept payments worldwide</h2>
-            <p>A complete payments platform engineered for growth and scale</p>
-          </div>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" width="24" height="24">
-                  <path fill="currentColor" d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
-                </svg>
-              </div>
-              <h3>Global Payments</h3>
-              <p>Accept payments in 135+ currencies with local payment methods and optimized checkout flows.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" width="24" height="24">
-                  <path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-                </svg>
-              </div>
-              <h3>Advanced Security</h3>
-              <p>Enterprise-grade security with PCI compliance, fraud prevention, and data encryption.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" width="24" height="24">
-                  <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2V9h2v8zm4 0h-2v-6h2v6zm-8 0H6v-4h2v4z"/>
-                </svg>
-              </div>
-              <h3>Real-time Analytics</h3>
-              <p>Comprehensive dashboard with insights, transaction monitoring, and financial reporting.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" width="24" height="24">
-                  <path fill="currentColor" d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
-                </svg>
-              </div>
-              <h3>Developer-First API</h3>
-              <p>Flexible, well-documented APIs with SDKs for all major platforms and languages.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="solutions" id="solutions">
-        <div className="container">
-          <div className="section-header">
-            <h2>Solutions for every business</h2>
-            <p>Whether you're a startup or enterprise, we have the right solution for you</p>
-          </div>
-          <div className="solutions-grid">
-            <div className="solution-card">
-              <h3>E-commerce</h3>
-              <p>Optimize your online checkout experience with our seamless payment integration.</p>
-              <a href="#ecommerce" className="learn-more">Learn more</a>
-            </div>
-            <div className="solution-card">
-              <h3>SaaS & Subscriptions</h3>
-              <p>Manage recurring billing and reduce churn with our subscription management tools.</p>
-              <a href="#saas" className="learn-more">Learn more</a>
-            </div>
-            <div className="solution-card">
-              <h3>Marketplaces</h3>
-              <p>Split payments, manage multiple sellers, and handle complex payment flows.</p>
-              <a href="#marketplaces" className="learn-more">Learn more</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="testimonials">
-        <div className="container">
-          <div className="testimonial-slider">
-            <div className="testimonial">
-              <div className="testimonial-content">
-                <p>"Sunny Payments has transformed how we handle transactions. Their platform is intuitive, reliable, and the support team is exceptional."</p>
-              </div>
-              <div className="testimonial-author">
-                <div className="author-avatar"></div>
-                <div className="author-info">
-                  <h4>Sarah Johnson</h4>
-                  <p>CTO, TechStart Inc.</p>
+                  <Link to="/login" className="btn btn-outline">{t('common.signIn', 'Sign in')}</Link>
+                  <Link to="/signup" className="btn btn-primary">{t('common.getStarted', 'Get Started')}</Link>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </header>
 
-      <section className="cta-section">
-        <div className="container">
-          <div className="cta-content">
-            <h2>Ready to get started?</h2>
-            <p>Join thousands of businesses using Sunny Payments to power their payment infrastructure.</p>
-            <div className="cta-buttons">
-              <Link to="/signup" className="btn btn-primary btn-large">Create account</Link>
-              <a href="#contact" className="btn btn-outline btn-large">Contact sales</a>
+          {/* Hero Section */}
+          <section className="hero">
+            <div className="container">
+              <div className="hero-content">
+                <div className="hero-text">
+                  <h1>{t('homePage.hero.title1', 'Next Generation')} {t('homePage.hero.title2', 'Payment Platform')}</h1>
+                  <p>{t('homePage.hero.description', 'Send, receive, and manage payments seamlessly across global markets with a single integration.')}</p>
+                  <div className="hero-actions">
+                    <Link to="/signup" className="btn btn-primary btn-large">{t('common.getStarted', 'Get Started')}</Link>
+                    <Link to="/contact" className="btn btn-outline btn-large">{t('common.contact', 'Contact')}</Link>
+                  </div>
+                  <div className="hero-stats">
+                    <div className="stat">
+                      <div className="stat-value">150+</div>
+                      <div className="stat-label">{t('homePage.stats.countries', 'Countries')}</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-value">99.9%</div>
+                      <div className="stat-label">{t('homePage.stats.uptime', 'Uptime')}</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-value">10M+</div>
+                      <div className="stat-label">{t('homePage.stats.transactions', 'Transactions')}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="hero-visual">
+                  <div className="payment-cards">
+                    <div className="payment-card">
+                      <div className="card-header">
+                        <div className="card-logo"></div>
+                        <div className="card-chip"></div>
+                      </div>
+                      <div className="card-number">**** **** **** 4242</div>
+                      <div className="card-footer">
+                        <div>JOHN DOE</div>
+                        <div>04/25</div>
+                      </div>
+                    </div>
+                    <div className="payment-card card-alt">
+                      <div className="card-header">
+                        <div className="card-logo"></div>
+                        <div className="card-chip"></div>
+                      </div>
+                      <div className="card-number">**** **** **** 5555</div>
+                      <div className="card-footer">
+                        <div>JANE SMITH</div>
+                        <div>08/27</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      <footer className="site-footer">
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand">
-              <div className="logo">
-                <img src={SunnyLogo} alt="Sunny Payments" />
-                <span>Sunny</span>
+          {/* Features Section */}
+          <section className="features">
+            <div className="container">
+              <div className="section-header">
+                <h2>{t('homePage.features.title', 'Everything you need to handle payments')}</h2>
+                <p>{t('homePage.features.subtitle', 'Our comprehensive suite of payment solutions is designed to help businesses of all sizes accept payments globally.')}</p>
               </div>
-              <p>Modern payment infrastructure for businesses of all sizes.</p>
-            </div>
-            <div className="footer-links">
-              <div className="footer-links-column">
-                <h4>Product</h4>
-                <ul>
-                  <li><a href="#payments">Payments</a></li>
-                  <li><a href="#billing">Billing</a></li>
-                  <li><a href="#connect">Connect</a></li>
-                  <li><a href="#terminal">Terminal</a></li>
-                </ul>
-              </div>
-              <div className="footer-links-column">
-                <h4>Company</h4>
-                <ul>
-                  <li><a href="#about">About</a></li>
-                  <li><a href="#customers">Customers</a></li>
-                  <li><a href="#careers">Careers</a></li>
-                  <li><a href="#blog">Blog</a></li>
-                </ul>
-              </div>
-              <div className="footer-links-column">
-                <h4>Resources</h4>
-                <ul>
-                  <li><a href="#docs">Documentation</a></li>
-                  <li><a href="#support">Support</a></li>
-                  <li><a href="#pricing">Pricing</a></li>
-                  <li><a href="#contact">Contact</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <div className="footer-legal">
-              <p>© {new Date().getFullYear()} Sunny Payments. All rights reserved.</p>
-              <div className="footer-legal-links">
-                <Link to="/terms" style={{color: "#94a3b8", marginRight: "20px", fontSize: "14px"}}>Terms of Service</Link>
-                <Link to="/privacy" style={{color: "#94a3b8", fontSize: "14px"}}>Privacy Policy</Link>
+              <div className="features-grid">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                  </div>
+                  <h3>{t('homePage.features.cardPayments.title', 'Card Payments')}</h3>
+                  <p>{t('homePage.features.cardPayments.description', 'Accept all major credit and debit cards securely.')}</p>
+                </div>
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h3>{t('homePage.features.mobilePayments.title', 'Mobile Payments')}</h3>
+                  <p>{t('homePage.features.mobilePayments.description', 'Integrate with popular mobile money providers across Africa, Asia, and beyond to reach billions of customers.')}</p>
+                </div>
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                  </div>
+                  <h3>{t('homePage.features.cryptoPayments.title', 'Crypto Payments')}</h3>
+                  <p>{t('homePage.features.cryptoPayments.description', 'Accept cryptocurrency payments with instant conversion to fiat currencies and same-day settlements.')}</p>
+                </div>
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                    </svg>
+                  </div>
+                  <h3>{t('homePage.features.bankTransfers.title', 'Bank Transfers')}</h3>
+                  <p>{t('homePage.features.bankTransfers.description', 'Direct bank transfers with instant notifications.')}</p>
+                </div>
               </div>
             </div>
-            <div className="footer-social">
-              <a href="#twitter" aria-label="Twitter">
-                <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path fill="currentColor" d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
-                </svg>
-              </a>
-              <a href="#linkedin" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
-                </svg>
-              </a>
-              <a href="#github" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
-                </svg>
-              </a>
+          </section>
+
+          {/* Solutions Section */}
+          <section className="solutions">
+            <div className="container">
+              <div className="section-header">
+                <h2>{t('homePage.solutions.title', 'Solutions for Every Business')}</h2>
+                <p>{t('homePage.solutions.subtitle', 'Whether you\'re a startup or an enterprise, our payment solutions can be tailored to meet your specific needs.')}</p>
+              </div>
+              <div className="solutions-grid">
+                <div className="solution-card">
+                  <h3>{t('homePage.solutions.ecommerce.title', 'E-commerce')}</h3>
+                  <p>{t('homePage.solutions.ecommerce.description', 'Optimize your online store with our seamless checkout experiences, fraud protection, and global payment methods.')}</p>
+                  <a href="/solutions/ecommerce" className="learn-more">
+                    {t('common.learnMore', 'Learn More')}
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+                <div className="solution-card">
+                  <h3>{t('homePage.solutions.marketplaces.title', 'Marketplaces')}</h3>
+                  <p>{t('homePage.solutions.marketplaces.description', 'Manage complex payment flows between buyers and sellers with our powerful marketplace solutions.')}</p>
+                  <a href="/solutions/marketplaces" className="learn-more">
+                    {t('common.learnMore', 'Learn More')}
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+                <div className="solution-card">
+                  <h3>{t('homePage.solutions.saas.title', 'SaaS')}</h3>
+                  <p>{t('homePage.solutions.saas.description', 'Streamline recurring billing with flexible subscription management tools and global payment processing.')}</p>
+                  <a href="/solutions/saas" className="learn-more">
+                    {t('common.learnMore', 'Learn More')}
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
             </div>
-          </div>
+          </section>
+
+          {/* Testimonials Section */}
+          <section className="testimonials">
+            <div className="container">
+              <div className="section-header">
+                <h2>{t('homePage.stats.title', 'Trusted by businesses worldwide')}</h2>
+                <p>{t('homePage.stats.subtitle', 'Join thousands of businesses already using our platform')}</p>
+              </div>
+              <div className="testimonial">
+                <div className="testimonial-content">
+                  "{t('homePage.testimonial.quote', 'Sunny Payments has transformed our global expansion. Their flexible payment options and robust API have increased our conversion rates by 35% across new markets.')}"
+                </div>
+                <div className="testimonial-author">
+                  <div className="author-avatar"></div>
+                  <div className="author-info">
+                    <h4>Sarah Johnson</h4>
+                    <p>CTO, GlobalTech Solutions</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* CTA Section */}
+          <section className="cta-section">
+            <div className="container">
+              <div className="cta-content">
+                <h2>{t('homePage.cta.title', 'Ready to get started?')}</h2>
+                <p>{t('homePage.cta.subtitle', 'Create your account today.')}</p>
+                <div className="cta-buttons">
+                  <Link to="/signup" className="btn btn-primary btn-large">{t('common.getStarted', 'Get Started')}</Link>
+                  <Link to="/contact" className="btn btn-outline btn-large">{t('common.contact', 'Contact')}</Link>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="site-footer">
+            <div className="container">
+              <div className="footer-grid">
+                <div className="footer-brand">
+                  <div className="logo">
+                    <img src={SunnyLogo} alt="Sunny Payments" className="sunny-logo footer-logo"/>
+                    <span>Sunny</span>
+                  </div>
+                  <p>{t('footerTagline', 'Empowering businesses worldwide with seamless payment solutions')}</p>
+                </div>
+                <div className="footer-links">
+                  <div className="footer-links-column">
+                    <h4>{t('product')}</h4>
+                    <ul>
+                      <li><Link to="/features">{t('features')}</Link></li>
+                      <li><Link to="/pricing">{t('pricing')}</Link></li>
+                      <li><Link to="/integrations">{t('integrations')}</Link></li>
+                      <li><Link to="/enterprise">{t('enterprise')}</Link></li>
+                    </ul>
+                  </div>
+                  <div className="footer-links-column">
+                    <h4>{t('developers')}</h4>
+                    <ul>
+                      <li><Link to="/documentation">{t('documentation')}</Link></li>
+                      <li><Link to="/api-reference">{t('apiReference')}</Link></li>
+                      <li><Link to="/sdk">{t('sdkGuides')}</Link></li>
+                      <li><Link to="/status">{t('systemStatus')}</Link></li>
+                    </ul>
+                  </div>
+                  <div className="footer-links-column">
+                    <h4>{t('company')}</h4>
+                    <ul>
+                      <li><Link to="/about">{t('aboutUs')}</Link></li>
+                      <li><Link to="/customers">{t('customers')}</Link></li>
+                      <li><Link to="/careers">{t('careers')}</Link></li>
+                      <li><Link to="/blog">{t('blog')}</Link></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="footer-bottom">
+                <div className="footer-legal">
+                  <p>© {new Date().getFullYear()} Sunny Payments, Inc. {t('allRightsReserved')}</p>
+                  <div className="footer-legal-links">
+                    <Link to="/privacy">{t('privacy')}</Link>
+                    <span className="mx-2">|</span>
+                    <Link to="/terms">{t('terms')}</Link>
+                  </div>
+                </div>
+                <div className="footer-social">
+                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                    </svg>
+                  </a>
+                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                      <rect x="2" y="9" width="4" height="12"></rect>
+                      <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                  </a>
+                  <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
-      </footer>
-    </div>
+      )}
+    </Suspense>
   );
 };
 

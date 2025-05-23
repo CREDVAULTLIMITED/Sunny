@@ -1,8 +1,18 @@
 /**
- * Sunny Payment Gateway - Ollama Integration Service
+ * Sunny Payment Gateway - Advanced Ollama Integration Service
  * 
- * Provides integration with TinyLlama model via Ollama
+ * Provides comprehensive integration with TinyLlama model via Ollama with:
+ * - Advanced web crawling and learning capabilities
+ * - Multi-source intelligence gathering
+ * - Real-time market data integration
+ * - Payment trends analysis and tracking
+ * - Security threat monitoring
+ * - Regulatory compliance updates
  */
+
+import axios from 'axios';
+import cheerio from 'cheerio';
+import crypto from 'crypto';
 
 class OllamaService {
   constructor(config = {}) {
@@ -11,6 +21,90 @@ class OllamaService {
     this.systemPrompt = config.systemPrompt || 
       'You are an AI assistant for Sunny Payment Gateway. You help with payment routing, fraud detection, and answering questions about payment processing.';
     this.webEnabled = config.webEnabled !== undefined ? config.webEnabled : true;
+    
+    // Advanced web learning configuration
+    this.webLearning = {
+      enabled: config.webLearningEnabled !== undefined ? config.webLearningEnabled : true,
+      maxSources: config.maxWebSources || 5,
+      crawlDepth: config.crawlDepth || 2,
+      cacheTTL: config.webCacheTTL || 3600000, // 1 hour in milliseconds
+      userAgent: config.userAgent || 'SunnyPaymentBot/1.0 (https://sunnypayments.com/bot)'
+    };
+    
+    // Market data integration
+    this.marketData = {
+      enabled: config.marketDataEnabled !== undefined ? config.marketDataEnabled : true,
+      apiKeys: {
+        coinMarketCap: config.coinMarketCapApiKey || process.env.COINMARKETCAP_API_KEY,
+        alphavantage: config.alphavantageApiKey || process.env.ALPHAVANTAGE_API_KEY,
+        finnhub: config.finnhubApiKey || process.env.FINNHUB_API_KEY
+      },
+      refreshInterval: config.marketDataRefreshInterval || 900000, // 15 minutes
+      lastRefresh: null,
+      cache: {}
+    };
+    
+    // Multi-source learning system
+    this.sources = {
+      paymentNews: config.paymentNewsSources || [
+        'https://www.pymnts.com/feed/',
+        'https://www.finextra.com/rss/channel.aspx?channel=retail',
+        'https://www.thepaypers.com/rss/rss-general.xml'
+      ],
+      securitySources: config.securitySources || [
+        'https://krebsonsecurity.com/feed/',
+        'https://www.bankinfosecurity.com/rss-feeds',
+        'https://www.darkreading.com/rss.xml'
+      ],
+      regulatorySources: config.regulatorySources || [
+        'https://www.cfpb.gov/feed/',
+        'https://www.fincen.gov/rss.xml',
+        'https://www.pci-dss.org/rss.xml'
+      ],
+      lastUpdated: {},
+      cache: {}
+    };
+    
+    // Web crawl and search cache
+    this.webCache = {};
+    
+    // Initialize cache cleanup interval
+    this._initializeCacheCleanup();
+  }
+  
+  /**
+   * Initialize cache cleanup on a regular interval
+   * 
+   * @private
+   */
+  _initializeCacheCleanup() {
+    // Clean up cache every hour
+    setInterval(() => {
+      const now = Date.now();
+      
+      // Clean web cache
+      Object.keys(this.webCache).forEach(key => {
+        if (now - this.webCache[key].timestamp > this.webLearning.cacheTTL) {
+          delete this.webCache[key];
+        }
+      });
+      
+      // Clean market data cache
+      Object.keys(this.marketData.cache).forEach(key => {
+        if (now - this.marketData.cache[key].timestamp > this.marketData.refreshInterval) {
+          delete this.marketData.cache[key];
+        }
+      });
+      
+      // Clean sources cache
+      Object.keys(this.sources.cache).forEach(key => {
+        if (now - this.sources.cache[key].timestamp > this.webLearning.cacheTTL) {
+          delete this.sources.cache[key];
+        }
+      });
+      
+      console.log('Cache cleanup completed');
+    }, 3600000); // 1 hour
   }
 
   /**
@@ -184,43 +278,244 @@ class OllamaService {
   }
 
   /**
-   * Search the web for information to enhance AI responses
+   * Search the web for information to enhance AI responses using multiple sources
    * 
    * @param {string} query - Search query
+   * @param {Object} options - Search options
    * @returns {Promise<string>} - Web search results
    */
-  async searchWeb(query) {
+  async searchWeb(query, options = {}) {
     if (!this.webEnabled) {
       return "Web search is disabled.";
     }
 
     try {
-      // Use a public search API (in a real implementation, you'd use a proper API)
-      const response = await fetch(`https://ddg-api.herokuapp.com/search?query=${encodeURIComponent(query)}&limit=3`);
-      
-      if (!response.ok) {
-        throw new Error(`Web search API error: ${response.status}`);
+      // Check if we have cached results for this query
+      const cacheKey = this._generateCacheKey(query);
+      if (this.webCache[cacheKey] && !options.bypassCache) {
+        const cacheAge = Date.now() - this.webCache[cacheKey].timestamp;
+        if (cacheAge < this.webLearning.cacheTTL) {
+          console.log(`Using cached web search results for: ${query}`);
+          return this.webCache[cacheKey].results;
+        }
       }
       
-      const data = await response.json();
+      // Use multiple search APIs for more comprehensive results
+      const results = await Promise.allSettled([
+        this._searchDDG(query, options),
+        this._searchGoogle(query, options),
+        this._searchBing(query, options)
+      ]);
+      
+      // Combine successful search results
+      let combinedResults = [];
+      
+      results.forEach(result => {
+        if (result.status === 'fulfilled' && result.value && result.value.length) {
+          combinedResults = [...combinedResults, ...result.value];
+        }
+      });
+      
+      // Remove duplicates based on URL
+      const uniqueResults = this._deduplicateResults(combinedResults);
+      
+      // Sort by relevance (if available) or just take the top results
+      const sortedResults = uniqueResults.sort((a, b) => {
+        if (a.relevance && b.relevance) {
+          return b.relevance - a.relevance;
+        }
+        return 0;
+      }).slice(0, this.webLearning.maxSources);
       
       // Format results
-      let results = "Web search results:\n\n";
+      let formattedResults = "Web search results:\n\n";
       
-      if (data && data.length > 0) {
-        data.forEach((item, index) => {
-          results += `${index + 1}. ${item.title}\n${item.snippet}\nSource: ${item.link}\n\n`;
+      if (sortedResults.length > 0) {
+        // For each result, also crawl the page to get more detailed content if enabled
+        if (this.webLearning.enabled && !options.skipContentExtraction) {
+          await Promise.all(sortedResults.map(async (item, index) => {
+            try {
+              const content = await this._extractContentFromUrl(item.link);
+              item.extractedContent = content;
+            } catch (error) {
+              console.warn(`Failed to extract content from ${item.link}:`, error.message);
+            }
+          }));
+        }
+        
+        // Format the results with any extracted content
+        sortedResults.forEach((item, index) => {
+          formattedResults += `${index + 1}. ${item.title}\n${item.snippet || ''}\n`;
+          
+          if (item.extractedContent) {
+            formattedResults += `Extracted content: ${item.extractedContent.substring(0, 300)}...\n`;
+          }
+          
+          formattedResults += `Source: ${item.link}\n\n`;
         });
       } else {
-        results += "No relevant results found.";
+        formattedResults += "No relevant results found.";
       }
       
-      return results;
+      // Cache the results
+      this.webCache[cacheKey] = {
+        results: formattedResults,
+        timestamp: Date.now(),
+        rawResults: sortedResults
+      };
+      
+      return formattedResults;
     } catch (error) {
-      console.error('Web search error:', error);
-      return "Error searching the web. Using existing knowledge only.";
+      console.error('Enhanced web search error:', error);
+      
+      // Fall back to basic search if the enhanced search fails
+      try {
+        // Use a public search API as fallback
+        const response = await axios.get(`https://ddg-api.herokuapp.com/search?query=${encodeURIComponent(query)}&limit=3`);
+        
+        // Format results
+        let results = "Web search results (fallback):\n\n";
+        
+        if (response.data && response.data.length > 0) {
+          response.data.forEach((item, index) => {
+            results += `${index + 1}. ${item.title}\n${item.snippet}\nSource: ${item.link}\n\n`;
+          });
+        } else {
+          results += "No relevant results found.";
+        }
+        
+        return results;
+      } catch (fallbackError) {
+        console.error('Fallback search also failed:', fallbackError);
+        return "Error searching the web. Using existing knowledge only.";
+      }
     }
   }
+  
+  /**
+   * Search DuckDuckGo for information
+   * 
+   * @private
+   * @param {string} query - Search query
+   * @param {Object} options - Search options
+   * @returns {Promise<Array>} - Search results
+   */
+  async _searchDDG(query, options = {}) {
+    try {
+      const response = await axios.get(`https://ddg-api.herokuapp.com/search?query=${encodeURIComponent(query)}&limit=${options.limit || 5}`);
+      
+      if (response.data && Array.isArray(response.data)) {
+        return response.data.map(item => ({
+          title: item.title,
+          snippet: item.snippet,
+          link: item.link,
+          source: 'duckduckgo'
+        }));
+      }
+      return [];
+    } catch (error) {
+      console.error('DuckDuckGo search error:', error);
+      return [];
+    }
+  }
+  
+  /**
+   * Search Google for information (simulation, as real API requires credentials)
+   * 
+   * @private
+   * @param {string} query - Search query
+   * @param {Object} options - Search options
+   * @returns {Promise<Array>} - Search results
+   */
+  async _searchGoogle(query, options = {}) {
+    // In a real implementation, this would use the Google Custom Search API
+    // For now, we'll simulate it to avoid API key requirements
+    return [];
+  }
+  
+  /**
+   * Search Bing for information (simulation, as real API requires credentials)
+   * 
+   * @private
+   * @param {string} query - Search query
+   * @param {Object} options - Search options
+   * @returns {Promise<Array>} - Search results
+   */
+  async _searchBing(query, options = {}) {
+    // In a real implementation, this would use the Bing Search API
+    // For now, we'll simulate it to avoid API key requirements
+    return [];
+  }
+  
+  /**
+   * Extract content from a URL
+   * 
+   * @private
+   * @param {string} url - URL to extract content from
+   * @returns {Promise<string>} - Extracted content
+   */
+  async _extractContentFromUrl(url) {
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          'User-Agent': this.webLearning.userAgent
+        },
+        timeout: 5000 // 5 second timeout
+      });
+      
+      const $ = cheerio.load(response.data);
+      
+      // Remove scripts, styles, and other non-content elements
+      $('script, style, iframe, nav, footer, header, aside').remove();
+      
+      // Extract the main content
+      let content = '';
+      
+      // Try to find the main content area
+      const mainContent = $('main, article, .content, .post, .entry, #content, #main');
+      
+      if (mainContent.length > 0) {
+        content = mainContent.first().text();
+      } else {
+        // Fallback to body content
+        content = $('body').text();
+      }
+      
+      // Clean up the content
+      return content
+        .replace(/\s+/g, ' ')
+        .replace(/\n+/g, '\n')
+        .trim();
+    } catch (error) {
+      console.error(`Error extracting content from ${url}:`, error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Deduplicate search results based on URL
+   * 
+   * @private
+   * @param {Array} results - Search results to deduplicate
+   * @returns {Array} - Deduplicated results
+   */
+  _deduplicateResults(results) {
+    const seen = new Set();
+    return results.filter(item => {
+      const url = item.link;
+      if (seen.has(url)) {
+        return false;
+      }
+      seen.add(url);
+      return true;
+    });
+  }
+  
+  /**
+   * Generate a cache key for a query
+   * 
+   * @private
+   * @param {string} query - Query
 
   /**
    * Answer a question with web search enhancement

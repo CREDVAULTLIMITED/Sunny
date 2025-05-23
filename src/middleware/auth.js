@@ -4,13 +4,13 @@
  * Middleware for protecting routes and validating JWT tokens
  */
 
-import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+const jwt = require('jsonwebtoken');
+const User = require('../models/User.js');
 
 /**
  * Middleware to protect routes that require authentication
  */
-export const protect = async (req, res, next) => {
+exports.protect = async function(req, res, next) {
   try {
     let token;
     
@@ -58,7 +58,7 @@ export const protect = async (req, res, next) => {
 /**
  * Middleware to restrict access to specific roles
  */
-export const authorize = (...roles) => {
+exports.authorize = (...roles) => {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({

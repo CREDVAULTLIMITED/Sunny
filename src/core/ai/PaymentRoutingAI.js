@@ -140,13 +140,18 @@ class PaymentRoutingAI {
         metadata = {}
       } = transactionData;
       
-      // Add to transaction history
+      // Add to transaction history with enhanced metrics
       this.transactionHistory.push({
         timestamp: new Date().toISOString(),
         transactionData,
         methodUsed,
         success,
-        performance
+        performance: {
+          ...performance,
+          amountInBaseCurrency: amount, // Would be converted in production
+          processingTime: performance.processingTime || null,
+          errorCode: performance.errorCode || null
+        }
       });
       
       // Trim history if needed
@@ -154,43 +159,61 @@ class PaymentRoutingAI {
         this.transactionHistory = this.transactionHistory.slice(-this.maxHistorySize);
       }
       
-      // Update model weights based on result
+      // Calculate success factor (-1 to 1)
       const successFactor = success ? 1 : -1;
       
-      // Update country factor
+      // Update country factor with decay for old data
       const countryKey = `${country}:${methodUsed}`;
-      this.modelWeights.countryFactors[countryKey] = (this.modelWeights.countryFactors[countryKey] || 0) + 
-        this.learningRate * successFactor;
+      const oldCountryFactor = this.modelWeights.countryFactors[countryKey] || 0;
+      this.modelWeights.countryFactors[countryKey] = 
+        (oldCountryFactor * 0.95) + // Apply 5% decay to old data
+        (this.learningRate * successFactor);
       
-      // Update success rate factor
-      this.modelWeights.methodSuccessRates[methodUsed] = (this.modelWeights.methodSuccessRates[methodUsed] || 0) + 
-        this.learningRate * successFactor;
+      // Update success rate factor with volume-based weighting
+      const oldSuccessRate = this.modelWeights.methodSuccessRates[methodUsed] || 0;
+      const methodTransactions = this.transactionHistory.filter(t => t.methodUsed === methodUsed).length;
+      const volumeWeight = Math.min(methodTransactions / 100, 1); // Scale with volume up to 100 transactions
+      this.modelWeights.methodSuccessRates[methodUsed] = 
+        (oldSuccessRate * (1 - this.learningRate * volumeWeight)) +
+        (successFactor * this.learningRate * volumeWeight);
       
-      // Update cost factor if performance data available
+      // Update cost factor if available
       if (performance.cost !== undefined) {
         const costEfficiency = 1 - Math.min(performance.cost / amount, 1); // Higher is better
-        this.modelWeights.costFactors[methodUsed] = (this.modelWeights.costFactors[methodUsed] || 0) + 
-          this.learningRate * costEfficiency;
+        const oldCostFactor = this.modelWeights.costFactors[methodUsed] || 0;
+        this.modelWeights.costFactors[methodUsed] = 
+          (oldCostFactor * 0.9) + // Apply 10% decay to old cost data
+          (this.learningRate * costEfficiency);
       }
       
-      // Update time factor if performance data available
+      // Update time factor if available
       if (performance.processingTime !== undefined) {
-        const timeEfficiency = Math.max(0, 1 - performance.processingTime / 5000); // Normalize to 0-1, lower time is better
-        this.modelWeights.timeFactors[methodUsed] = (this.modelWeights.timeFactors[methodUsed] || 0) + 
-          this.learningRate * timeEfficiency;
+        const timeEfficiency = Math.max(0, 1 - performance.processingTime / 5000); // Normalize to 0-1
+        const oldTimeFactor = this.modelWeights.timeFactors[methodUsed] || 0;
+        this.modelWeights.timeFactors[methodUsed] = 
+          (oldTimeFactor * 0.95) + // Apply 5% decay to old timing data
+          (this.learningRate * timeEfficiency);
       }
       
-      // Update user preference if customer ID available
+      // Update user preference with higher weight for recurring customers
       if (customer.id) {
         const userKey = `${customer.id}:${methodUsed}`;
-        this.modelWeights.userPreferences[userKey] = (this.modelWeights.userPreferences[userKey] || 0) + 
-          this.learningRate * successFactor;
+        const oldPreference = this.modelWeights.userPreferences[userKey] || 0;
+        const customerTransactions = this.transactionHistory.filter(t => 
+          t.transactionData.customer?.id === customer.id
+        ).length;
+        const customerWeight = Math.min(customerTransactions / 10, 1); // Scale with customer history up to 10 transactions
+        
+        this.modelWeights.userPreferences[userKey] = 
+          (oldPreference * (1 - this.learningRate * customerWeight)) +
+          (successFactor * this.learningRate * customerWeight * 1.5); // 50% higher weight for user preferences
       }
       
       // Save updated model
       this.saveModel();
     } catch (error) {
       console.error('Learn from transaction error:', error);
+      // Log error but don't throw to avoid disrupting payment flow
     }
   }
 

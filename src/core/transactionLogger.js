@@ -99,7 +99,110 @@ const sanitizeData = (data) => {
   return sanitized;
 };
 
-export default {
-  logTransaction,
-  logError
+/**
+ * Get transaction history with optional filters
+ * 
+ * @param {Object} options - Filter options
+ * @param {Date} [options.startDate] - Start date filter
+ * @param {Date} [options.endDate] - End date filter
+ * @param {string} [options.status] - Transaction status filter
+ * @param {number} [options.limit] - Maximum number of transactions to return
+ * @param {string} [options.sort] - Sort order (e.g., 'createdAt:desc')
+ * @returns {Promise<Array>} Array of transactions
+ */
+export const getTransactionHistory = async (options = {}) => {
+  // In a real implementation, this would fetch from a database
+  // For now, return mock data that matches the dashboard's needs
+  const mockTransactions = [
+    {
+      id: 'TXN-1',
+      amount: 1000,
+      status: 'COMPLETED',
+      customerName: 'John Doe',
+      date: new Date(),
+      title: 'Payment for Services',
+      metadata: {
+        customerDetails: {
+          name: 'John Doe'
+        }
+      }
+    },
+    {
+      id: 'TXN-2',
+      amount: 750,
+      status: 'COMPLETED',
+      customerName: 'Jane Smith',
+      date: new Date(),
+      title: 'Product Purchase',
+      metadata: {
+        customerDetails: {
+          name: 'Jane Smith'
+        }
+      }
+    },
+    {
+      id: 'TXN-3',
+      amount: 2500,
+      status: 'COMPLETED',
+      customerName: 'Acme Corp',
+      date: new Date(),
+      title: 'Monthly Subscription',
+      metadata: {
+        customerDetails: {
+          name: 'Acme Corp'
+        }
+      }
+    },
+    {
+      id: 'TXN-4',
+      amount: 325,
+      status: 'PENDING',
+      customerName: 'Bob Johnson',
+      date: new Date(),
+      title: 'Service Fee',
+      metadata: {
+        customerDetails: {
+          name: 'Bob Johnson'
+        }
+      }
+    }
+  ];
+
+  // Apply filters (simulated)
+  let result = [...mockTransactions];
+  
+  // Filter by status
+  if (options.status) {
+    result = result.filter(tx => tx.status === options.status);
+  }
+  
+  // Filter by date range
+  if (options.startDate) {
+    result = result.filter(tx => new Date(tx.date) >= new Date(options.startDate));
+  }
+  
+  if (options.endDate) {
+    result = result.filter(tx => new Date(tx.date) <= new Date(options.endDate));
+  }
+  
+  // Sort (simplified implementation)
+  if (options.sort) {
+    const [field, direction] = options.sort.split(':');
+    const multiplier = direction === 'desc' ? -1 : 1;
+    
+    result.sort((a, b) => {
+      if (field === 'createdAt' || field === 'date') {
+        return multiplier * (new Date(a.date) - new Date(b.date));
+      }
+      return 0;
+    });
+  }
+  
+  // Apply limit
+  if (options.limit && options.limit > 0) {
+    result = result.slice(0, options.limit);
+  }
+  
+  return result;
 };
+

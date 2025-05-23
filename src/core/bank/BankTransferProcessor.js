@@ -4,8 +4,8 @@
  * Handles processing of bank transfers and UPI-style payments
  */
 
-import { PAYMENT_STATUS, ERROR_CODES } from '../constants';
-import { logTransaction, logError } from '../transactionLogger';
+import { PAYMENT_STATUS, ERROR_CODES } from '../constants.js';
+import { logTransaction, logError } from '../transactionLogger.js';
 
 class BankTransferProcessor {
   constructor() {

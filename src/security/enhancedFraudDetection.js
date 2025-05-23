@@ -4,8 +4,8 @@
  * Provides advanced fraud detection capabilities using AI
  */
 
-import OllamaService from '../core/ai/OllamaService';
-import { detectFraud as basicDetectFraud } from './fraudDetection';
+import OllamaService from '../core/ai/OllamaService.js';
+import { detectFraud as basicDetectFraud } from './fraudDetection.js';
 
 // Initialize Ollama service
 const ollamaService = new OllamaService();

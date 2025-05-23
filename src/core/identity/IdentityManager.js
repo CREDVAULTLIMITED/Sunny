@@ -4,8 +4,8 @@
  * Manages user identities and resolves different identity types (phone, email, username, etc.)
  */
 
-import { IDENTITY_TYPES, ERROR_CODES } from '../constants';
-import { logError } from '../transactionLogger';
+import { IDENTITY_TYPES } from '../constants.js';
+import { logError } from '../transactionLogger.js';
 
 class IdentityManager {
   constructor() {
@@ -264,7 +264,7 @@ class IdentityManager {
     if (!identifier) return '';
     
     // Remove spaces, dashes, and other formatting characters
-    let normalized = identifier.toString().replace(/[\s\-\(\)\.]/g, '');
+    let normalized = identifier.toString().replace(/[\s\-.()]/g, '');
     
     // For phone numbers, ensure they're in E.164 format if possible
     if (this._isPhoneNumber(normalized)) {

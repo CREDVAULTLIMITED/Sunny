@@ -1,45 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import './PaymentMethodsPage.css';
+import { Card } from '../../common/Card';
+import { Button } from '../../common/Button';
+import { Toggle } from '../../common/Toggle';
+import { Plus, Settings, RefreshCw, Search } from 'lucide-react';
 
 const PaymentMethodsPage = () => {
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeFilters, setActiveFilters] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('all');
 
   useEffect(() => {
     const fetchPaymentMethods = async () => {
       try {
         setIsLoading(true);
         // In a real implementation, this would be an API call
-        // For now, we'll simulate the data
-        
-        // Simulate API call delay
-        await new Promise(resolve => setTimeout(resolve, 800));
-        
-        // Mock data
         const mockPaymentMethods = [
           {
-            id: 'card',
-            name: 'Credit & Debit Cards',
-            description: 'Accept Visa, Mastercard, Amex and more',
+            id: 'mpesa',
+            name: 'M-Pesa',
+            logo: '/assets/images/payment-methods/mpesa.svg',
             status: 'active',
-            category: 'standard',
-            successRate: 97.5,
-            avgProcessingTime: 1.2,
-            fee: '2.9% + $0.30',
-            supportedCountries: ['US', 'CA', 'GB', 'EU', 'AU', 'IN', 'JP', 'SG'],
-            icon: 'M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z'
+            successRate: '99.2%',
+            volume: '$1.2M',
+            webhook: 'https://api.sunny.com/webhooks/mpesa',
+            stkEnabled: true
           },
           {
-            id: 'bank_transfer',
-            name: 'Bank Transfers',
-            description: 'ACH, SEPA, Wire and local bank transfers',
+            id: 'visa',
+            name: 'Visa',
+            logo: '/assets/images/payment-methods/visa.svg',
             status: 'active',
-            category: 'standard',
-            successRate: 99.1,
-            avgProcessingTime: 24,
-            fee: '0.8% (capped at $5)',
+            successRate: '98.7%',
+            volume: '$2.8M',
+            webhook: 'https://api.sunny.com/webhooks/visa',
+            threeDSecure: true
+          },
+          {
+            id: 'mastercard',
+            name: 'Mastercard',
+            logo: '/assets/images/payment-methods/mastercard.svg',
+            status: 'active',
+            successRate: '98.5%',
+            volume: '$2.1M',
+            webhook: 'https://api.sunny.com/webhooks/mastercard',
+            threeDSecure: true,
             supportedCountries: ['US', 'CA', 'GB', 'EU', 'AU', 'IN', 'JP', 'SG'],
             icon: 'M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z'
           },

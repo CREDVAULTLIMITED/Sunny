@@ -1,0 +1,106 @@
+.sunny-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  font-family: inherit;
+}
+
+/* Variants */
+.sunny-button-primary {
+  background: linear-gradient(135deg, #0070f3 0%, #00c6ff 100%);
+  color: white;
+}
+
+.sunny-button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 112, 243, 0.2);
+}
+
+.sunny-button-secondary {
+  background-color: #f8fafc;
+  color: #1a202c;
+}
+
+.sunny-button-secondary:hover {
+  background-color: #f1f5f9;
+  color: #0070f3;
+}
+
+.sunny-button-outline {
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+  color: #1a202c;
+}
+
+.sunny-button-outline:hover {
+  border-color: #0070f3;
+  color: #0070f3;
+}
+
+.sunny-button-danger {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.sunny-button-danger:hover {
+  background-color: #fecaca;
+}
+
+/* Sizes */
+.sunny-button-small {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.sunny-button-medium {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+.sunny-button-large {
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+}
+
+/* States */
+.sunny-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Loading Spinner */
+.sunny-button-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Icon */
+.sunny-button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sunny-button-icon svg {
+  width: 1.25em;
+  height: 1.25em;
+}

@@ -1,127 +1,165 @@
-import React, { useEffect, useRef } from 'react';
-import './Charts.css';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
+import { useSunny } from '../../../sdk/SunnyReactSDK.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
 
-const TransactionVolumeChart = ({ data }) => {
-  const canvasRef = useRef(null);
+// Register chart components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const TransactionVolumeChart = () => {
+  const { sdk } = useSunny();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [timeframe, setTimeframe] = useState('week'); // week, month, year
+
+  const loadChartData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const chartData = await sdk.getTransactionVolume({ timeframe });
+      setData(chartData);
+      setError(null);
+    } catch (err) {
+      setError(err.message || 'Failed to load chart data');
+    } finally {
+      setLoading(false);
+    }
+  }, [sdk, timeframe]);
 
   useEffect(() => {
-    if (!data || !data.length || !canvasRef.current) return;
+    loadChartData();
+  }, [loadChartData]);
 
-    const ctx = canvasRef.current.getContext('2d');
-    
-    // Clear canvas
-    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    
-    // Set dimensions
-    const width = canvasRef.current.width;
-    const height = canvasRef.current.height;
-    const padding = 40;
-    const chartWidth = width - (padding * 2);
-    const chartHeight = height - (padding * 2);
-    
-    // Find min and max values
-    const maxVolume = Math.max(...data.map(item => item.volume)) * 1.1; // Add 10% padding
-    
-    // Draw axes
-    ctx.beginPath();
-    ctx.moveTo(padding, padding);
-    ctx.lineTo(padding, height - padding);
-    ctx.lineTo(width - padding, height - padding);
-    ctx.strokeStyle = '#e2e8f0';
-    ctx.stroke();
-    
-    // Draw horizontal grid lines
-    const gridLines = 5;
-    ctx.textAlign = 'right';
-    ctx.textBaseline = 'middle';
-    ctx.font = '10px Inter, sans-serif';
-    ctx.fillStyle = '#94a3b8';
-    
-    for (let i = 0; i <= gridLines; i++) {
-      const y = padding + ((gridLines - i) / gridLines) * chartHeight;
-      const value = (i / gridLines) * maxVolume;
-      
-      ctx.beginPath();
-      ctx.moveTo(padding, y);
-      ctx.lineTo(width - padding, y);
-      ctx.strokeStyle = '#f1f5f9';
-      ctx.stroke();
-      
-      // Draw y-axis labels
-      ctx.fillText(
-        new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-          notation: 'compact',
-          maximumFractionDigits: 1
-        }).format(value),
-        padding - 5,
-        y
-      );
-    }
-    
-    // Draw data points and line
-    if (data.length > 1) {
-      const pointWidth = chartWidth / (data.length - 1);
-      
-      // Draw line
-      ctx.beginPath();
-      data.forEach((item, index) => {
-        const x = padding + (index * pointWidth);
-        const y = height - padding - (item.volume / maxVolume) * chartHeight;
-        
-        if (index === 0) {
-          ctx.moveTo(x, y);
-        } else {
-          ctx.lineTo(x, y);
+  if (loading) {
+    return (
+      <div className="h-64 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-64 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 mb-2">{error}</p>
+          <button
+            onClick={loadChartData}
+            className="text-sm text-indigo-600 hover:text-indigo-500"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const chartData = {
+    labels: data.map(d => new Date(d.date).toLocaleDateString()),
+    datasets: [
+      {
+        label: 'Transaction Volume',
+        data: data.map(d => d.value),
+        borderColor: 'rgb(59, 130, 246)',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        fill: true,
+        tension: 0.4
+      }
+    ]
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            return `Volume: ${new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              maximumFractionDigits: 0
+            }).format(context.raw)}`;
+          }
         }
-      });
-      ctx.strokeStyle = '#0070f3';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      
-      // Draw area under the line
-      ctx.lineTo(padding + ((data.length - 1) * pointWidth), height - padding);
-      ctx.lineTo(padding, height - padding);
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(0, 112, 243, 0.1)';
-      ctx.fill();
-      
-      // Draw data points
-      data.forEach((item, index) => {
-        const x = padding + (index * pointWidth);
-        const y = height - padding - (item.volume / maxVolume) * chartHeight;
-        
-        // Draw point
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, 2 * Math.PI);
-        ctx.fillStyle = '#0070f3';
-        ctx.fill();
-        ctx.strokeStyle = 'white';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        
-        // Draw x-axis labels
-        const date = new Date(item.date);
-        const dateLabel = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText(dateLabel, x, height - padding + 10);
-      });
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 7
+        }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: (value) => new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            notation: 'compact',
+            maximumFractionDigits: 1
+          }).format(value)
+        }
+      }
     }
-    
-  }, [data]);
+  };
 
   return (
-    <div className="chart-wrapper">
-      <div className="chart-canvas-container">
-        {data && data.length > 0 ? (
-          <canvas ref={canvasRef} width="600" height="300"></canvas>
-        ) : (
-          <div className="chart-no-data">No transaction data available</div>
-        )}
+    <div>
+      {/* Time Range Selector */}
+      <div className="flex justify-end mb-4 space-x-2">
+        {['week', 'month', 'year'].map((option) => (
+          <button
+            key={option}
+            onClick={() => setTimeframe(option)}
+            className={`px-3 py-1 text-sm rounded-md ${
+              timeframe === option
+                ? 'bg-indigo-100 text-indigo-700'
+                : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            {option.charAt(0).toUpperCase() + option.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      {/* Chart */}
+      <div className="h-64">
+        <Line data={chartData} options={chartOptions} />
+      </div>
+
+      {/* Total Volume */}
+      <div className="mt-4 text-right">
+        <p className="font-medium">
+          Total: {new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            maximumFractionDigits: 0
+          }).format(data.reduce((sum, item) => sum + item.value, 0))}
+        </p>
       </div>
     </div>
   );

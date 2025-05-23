@@ -5,8 +5,8 @@
  * (M-Pesa, Airtel Money, MTN Mobile Money, etc.)
  */
 
-import { MOBILE_MONEY_PROVIDERS, PAYMENT_STATUS, ERROR_CODES } from '../constants';
-import { logTransaction, logError } from '../transactionLogger';
+import { MOBILE_MONEY_PROVIDERS, PAYMENT_STATUS, ERROR_CODES } from '../constants.js';
+import { logTransaction, logError } from '../transactionLogger.js';
 
 class MobileMoneyProcessor {
   constructor() {

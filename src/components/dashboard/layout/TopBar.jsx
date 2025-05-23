@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../auth/AuthContext.js';
 import './TopBar.css';
 
 const TopBar = ({ onMenuClick }) => {

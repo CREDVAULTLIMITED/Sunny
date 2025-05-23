@@ -1,99 +1,166 @@
 /**
- * Sunny Payment Gateway Server
- * 
- * Express server with MongoDB integration
+ * Sunny Payment Gateway API Server
  */
 
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import cors from 'cors';
-import morgan from 'morgan';
-import connectDB from './src/config/db.js';
-import User from './src/models/User.js';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const path = require('path');
+const authRoutes = require('./src/routes/auth');
 
-// Import routes
-import authRoutes from './src/routes/auth.js';
-import transactionRoutes from './src/routes/transactions.js';
-import statsRoutes from './src/routes/stats.js';
-import userRoutes from './src/routes/user.js';
+// Load environment variables
+dotenv.config();
 
-// Get directory name in ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Validate configuration
+const { validateConfigOrThrow } = require('./src/config/validateConfig');
+try {
+  validateConfigOrThrow();
+  console.log('Configuration validated successfully, server ready for transactions');
+} catch (error) {
+  console.error(error.message);
+  // If running in production, exit on critical config errors
+  if (process.env.NODE_ENV === 'production') {
+    console.error('Exiting due to critical configuration errors. Fix these issues before restarting.');
+    process.exit(1);
+  } else {
+    console.warn('Running with configuration errors. Transaction processing may fail.');
+  }
+}
 
-// Create Express app
+// Initialize Express app
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
-connectDB();
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/sunny_payments_dev';
+
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log('MongoDB connected successfully');
+  })
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+  });
+
+// Handle MongoDB connection events
+mongoose.connection.on('error', err => {
+  console.error('MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.warn('MongoDB disconnected');
+});
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  await mongoose.connection.close();
+  console.log('MongoDB connection closed due to app termination');
+  process.exit(0);
+});
 
 // Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan('dev'));
+app.use(helmet()); // Security headers
+app.use(cors()); // CORS support
+app.use(morgan('combined')); // Request logging
+app.use(express.json()); // JSON body parsing
+app.use(express.urlencoded({ extended: true })); // Form data parsing
 
-// Add content type header to ensure proper encoding
-app.use((req, res, next) => {
-  res.header('Content-Type', 'text/html; charset=utf-8');
-  next();
-});
-
-// Direct routes - no redirects or client-side routing
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'dashboard/index.html'));
-});
-
-// Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public'), {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.html')) {
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    }
-  }
-}));
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'build')));
 
 // API routes
-app.use('/api/auth', authRoutes);
-app.use('/api/transactions', transactionRoutes);
-app.use('/api/stats', statsRoutes);
-app.use('/api/user', userRoutes);
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date() });
+});
 
-// Handle all other routes
+// Mount auth routes at /api/v2/auth
+app.use('/api/v2/auth', authRoutes);
+
+// Mount payment callbacks route
+const paymentCallbacksRoutes = require('./src/routes/paymentCallbacks.js');
+app.use('/api/v2/payment-callbacks', paymentCallbacksRoutes);
+
+// Add some dummy routes for testing
+app.get('/api/v2/health', (req, res) => {
+  res.json({ status: 'ok', message: 'API is running', timestamp: new Date() });
+});
+
+// Payment processing endpoint
+app.post('/api/payments', async (req, res) => {
+  try {
+    const { amount, currency, paymentMethod, card, customer } = req.body;
+    
+    // Validate required fields
+    if (!amount || !currency || !paymentMethod) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Missing required fields' 
+      });
+    }
+    
+    // Import payment gateway
+    const SunnyPaymentGateway = require('./src/core/SunnyPaymentGateway');
+    
+    // Initialize payment gateway
+    const gateway = new SunnyPaymentGateway({
+      merchantId: process.env.SUNNY_MERCHANT_ID,
+      apiKey: process.env.SUNNY_API_KEY,
+      apiSecret: process.env.SUNNY_API_SECRET,
+      environment: process.env.SUNNY_ENVIRONMENT || 'sandbox'
+    });
+    
+    // Process payment
+    const result = await gateway.processPayment({
+      amount,
+      currency,
+      paymentMethod,
+      card,
+      customer,
+      metadata: req.body.metadata
+    });
+    
+    // Return result
+    res.json(result);
+  } catch (error) {
+    console.error('Payment processing error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Payment processing failed',
+      message: error.message 
+    });
+  }
+});
+
+// API error handling middleware
+app.use('/api', (err, req, res, next) => {
+  console.error('API Error:', err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'An unexpected error occurred',
+    error: process.env.NODE_ENV === 'development' ? err.stack : undefined
+  });
+});
+
+// Catch-all handler for React app
 app.get('*', (req, res) => {
-  // Check if the path ends with a file extension
-  const hasFileExtension = /\.[^/]*$/.test(req.path);
-  
-  // If it's a file request that wasn't found in the static middleware, return 404
-  if (hasFileExtension) {
-    return res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
-  }
-  
-  // For all other routes, serve the appropriate HTML file based on the path
-  if (req.path.startsWith('/login')) {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
-  } else if (req.path.startsWith('/signup')) {
-    res.sendFile(path.join(__dirname, 'public', 'signup.html'));
-  } else if (req.path.startsWith('/forgot-password')) {
-    res.sendFile(path.join(__dirname, 'public', 'forgot-password.html'));
-  } else if (req.path.startsWith('/reset-password')) {
-    res.sendFile(path.join(__dirname, 'public', 'reset-password.html'));
-  } else {
-    res.redirect('/');
-  }
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ 
+    success: false, 
+    error: 'Server error',
+    message: process.env.NODE_ENV === 'production' ? 'An unexpected error occurred' : err.message
+  });
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Homepage: http://localhost:${PORT}/`);
-  console.log(`Dashboard: http://localhost:${PORT}/dashboard`);
+  console.log(`Sunny Payment Gateway server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });

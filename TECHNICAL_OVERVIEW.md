@@ -8,6 +8,45 @@ Sunny is a comprehensive, global payment processing solution designed to meet th
 
 Sunny employs a polyglot microservices architecture, using the most appropriate technology for each component:
 
+### Data Architecture
+
+#### Dual Database Strategy
+
+The system employs a strategic dual-database approach:
+
+1. **PostgreSQL (Primary Transactional Database)**
+   - Handles all financial transactions and critical business operations
+   - ACID-compliant for data integrity
+   - Used for:
+     - Payment transactions
+     - User accounts and authentication
+     - Merchant profiles
+     - Settlement records
+     - Audit logs
+
+2. **MongoDB (Operational and Analytics Database)**
+   - Handles flexible schema data and high-velocity operations
+   - Used for:
+     - Session management
+     - Real-time analytics
+     - Event logging
+     - Customer behavior tracking
+     - Feature flags and configurations
+     - Cache invalidation records
+
+#### Database Selection Criteria
+- Use PostgreSQL when:
+  - Data requires ACID compliance
+  - Schema is well-defined and stable
+  - Complex joins are needed
+  - Financial transactions are involved
+
+- Use MongoDB when:
+  - Schema flexibility is required
+  - High read/write throughput is needed
+  - Data structure is document-oriented
+  - Real-time analytics are being performed
+
 ### Core Components
 
 1. **Core Processing Engine (Rust)**
@@ -39,7 +78,7 @@ Sunny employs a polyglot microservices architecture, using the most appropriate 
    - Behavioral biometrics for user verification
    - Continuous model retraining with feedback loops
 
-### Data Storage
+### Storage Strategy
 
 1. **Transactional Database (PostgreSQL)**
    - ACID-compliant for financial transactions
@@ -47,11 +86,11 @@ Sunny employs a polyglot microservices architecture, using the most appropriate 
    - Point-in-time recovery
    - Encrypted at rest and in transit
 
-2. **Analytics Database (ClickHouse)**
-   - Column-oriented for high-performance analytics
-   - Real-time aggregation and reporting
-   - Efficient storage of time-series data
-   - Horizontal scaling for large datasets
+2. **Operational and Analytics Database (MongoDB)**
+   - Flexible schema design
+   - High-velocity data ingestion
+   - Real-time analytics capabilities
+   - Document-oriented storage
 
 3. **Cache Layer (Redis)**
    - High-performance in-memory caching

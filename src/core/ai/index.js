@@ -4,11 +4,11 @@
  * Exports all AI-related components
  */
 
-import PaymentRoutingAI from './PaymentRoutingAI';
-import EnhancedPaymentRoutingAI from './EnhancedPaymentRoutingAI';
-import OllamaService from './OllamaService';
-import SunnyAssistant from './SunnyAssistant';
-import WebLearningService from './WebLearningService';
+import PaymentRoutingAI from './PaymentRoutingAI.js';
+import EnhancedPaymentRoutingAI from './EnhancedPaymentRoutingAI.js';
+import OllamaService from './OllamaService.js';
+import SunnyAssistant from './SunnyAssistant.js';
+import WebLearningService from './WebLearningService.js';
 
 // Create and export instances
 const ollamaService = new OllamaService();

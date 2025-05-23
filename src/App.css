@@ -1,3 +1,144 @@
+/* App.css - Custom styles for Sunny Payments */
+
+/* Basic reset and normalization */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global styles */
+:root {
+  --sunny-indigo-50: #eef2ff;
+  --sunny-indigo-100: #e0e7ff;
+  --sunny-indigo-500: #6366f1;
+  --sunny-indigo-600: #4f46e5;
+  --sunny-indigo-700: #4338ca;
+  --sunny-orange: #FB923C;
+  --sunny-yellow: #FDBA74;
+}
+
+body {
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+a {
+  text-decoration: none;
+  color: var(--sunny-indigo-600);
+}
+
+a:hover {
+  color: var(--sunny-indigo-700);
+}
+
+/* Layout utilities */
+.page-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Form elements */
+input, select, textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--sunny-indigo-500);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+button {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Custom logo styles */
+.sunny-logo {
+  height: 2rem;
+  width: auto;
+}
+
+/* Auth pages specific styles */
+.auth-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, var(--sunny-indigo-50), white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.auth-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 28rem;
+  padding: 2rem;
+}
+
+/* Dashboard specific styles */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.dashboard-sidebar {
+  width: 16rem;
+  background-color: white;
+  border-right: 1px solid #e5e7eb;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    display: none;
+  }
+  
+  .dashboard-content {
+    padding: 1rem;
+  }
+}
+
 /* App-wide styles */
 
 * {

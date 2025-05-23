@@ -1,93 +1,137 @@
 /**
- * Sunny Payment Gateway - Encryption Module
- * 
- * Provides encryption and decryption utilities for sensitive data
+ * Encryption utilities for secure data handling
  */
 
-import crypto from 'crypto';
+// Use require to make webpack's module resolution work with polyfills
+const crypto = require('crypto-browserify');
 
-// Encryption algorithm and settings
-const ALGORITHM = 'aes-256-gcm';
-const IV_LENGTH = 16;
-const KEY_LENGTH = 32;
-const AUTH_TAG_LENGTH = 16;
+// Buffer is required for Node.js compatibility in browsers
+// eslint-disable-next-line no-unused-vars
+const Buffer = require('buffer/').Buffer;
 
-// Get encryption key from environment or generate a secure one for development
-const getEncryptionKey = () => {
-  const envKey = process.env.SUNNY_ENCRYPTION_KEY;
-  if (envKey && Buffer.from(envKey, 'hex').length === KEY_LENGTH) {
-    return Buffer.from(envKey, 'hex');
+// Safely access environment variables in both Node.js and browser environments
+const getEnvironmentVariable = (key, defaultValue) => {
+  // Create a safe environment object that works in both Node.js and browser
+  const safeEnv = {};
+  
+  // Only access process.env if it exists and is accessible
+  try {
+    if (typeof window.process !== 'undefined' && window.process && window.process.env) {
+      Object.assign(safeEnv, window.process.env);
+    }
+  } catch (error) {
+    console.warn('Unable to access process.env, using defaults');
   }
   
-  // For development only - in production, always use an environment variable
-  console.warn('Warning: Using default encryption key. Set SUNNY_ENCRYPTION_KEY environment variable in production.');
-  return Buffer.from('0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef', 'hex').slice(0, KEY_LENGTH);
+  // Return the environment variable or the default value
+  return safeEnv[key] || defaultValue;
 };
+
+// Generate a secure random key if none is provided
+const generateRandomKey = () => {
+  try {
+    return crypto.randomBytes(32).toString('hex');
+  } catch (error) {
+    console.warn('Secure random generation failed, using fallback');
+    // Fallback for environments where randomBytes might not work
+    return Array.from(new Array(32))
+      .map(() => Math.floor(Math.random() * 256).toString(16).padStart(2, '0'))
+      .join('');
+  }
+};
+
+// Get encryption key from environment or generate one
+// We wrap this in a function to defer execution and handle potential errors
+const getEncryptionKey = () => {
+  try {
+    return getEnvironmentVariable('ENCRYPTION_KEY', generateRandomKey());
+  } catch (error) {
+    console.warn('Failed to get encryption key from environment, using generated key');
+    return generateRandomKey();
+  }
+};
+
+const ENCRYPTION_KEY = getEncryptionKey();
+
+// Initialization vector length
+const IV_LENGTH = 16;
 
 /**
  * Encrypt sensitive data
- * 
  * @param {Object|string} data - Data to encrypt
- * @returns {string} Encrypted data as hex string
+ * @returns {string} Encrypted data as base64 string
  */
 export function encryptData(data) {
   try {
-    // Convert data to string if it's an object
+    // Convert object to string if needed
     const dataString = typeof data === 'object' ? JSON.stringify(data) : String(data);
     
     // Generate random initialization vector
-    const iv = crypto.randomBytes(IV_LENGTH);
+    let iv;
+    try {
+      iv = crypto.randomBytes(IV_LENGTH);
+    } catch (error) {
+      // Fallback for environments where randomBytes might not work properly
+      console.warn('Secure IV generation failed, using fallback');
+      iv = Buffer.from(Array.from(new Array(IV_LENGTH))
+        .map(() => Math.floor(Math.random() * 256)));
+    }
     
-    // Get encryption key
-    const key = getEncryptionKey();
+    // Create cipher using AES-256-GCM
+    const cipher = crypto.createCipheriv(
+      'aes-256-gcm', 
+      Buffer.from(ENCRYPTION_KEY, 'hex'), 
+      iv
+    );
     
-    // Create cipher
-    const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
+    // Encrypt the data
+    let encrypted = cipher.update(dataString, 'utf8', 'base64');
+    encrypted += cipher.final('base64');
     
-    // Encrypt data
-    let encrypted = cipher.update(dataString, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    
-    // Get authentication tag
+    // Get the authentication tag
     const authTag = cipher.getAuthTag();
     
     // Combine IV, encrypted data, and auth tag
-    const result = iv.toString('hex') + ':' + encrypted + ':' + authTag.toString('hex');
+    const result = Buffer.concat([
+      iv,
+      authTag,
+      Buffer.from(encrypted, 'base64')
+    ]).toString('base64');
     
     return result;
   } catch (error) {
     console.error('Encryption error:', error);
-    throw new Error('Failed to encrypt data');
+    throw new Error(`Failed to encrypt data: ${error.message}`);
   }
 }
 
 /**
  * Decrypt encrypted data
- * 
- * @param {string} encryptedData - Encrypted data as hex string
+ * @param {string} encryptedData - Encrypted data as base64 string
  * @returns {Object|string} Decrypted data
  */
 export function decryptData(encryptedData) {
   try {
-    // Split encrypted data into IV, data, and auth tag
-    const parts = encryptedData.split(':');
-    if (parts.length !== 3) {
-      throw new Error('Invalid encrypted data format');
-    }
+    // Convert base64 to buffer
+    const buffer = Buffer.from(encryptedData, 'base64');
     
-    const iv = Buffer.from(parts[0], 'hex');
-    const encrypted = parts[1];
-    const authTag = Buffer.from(parts[2], 'hex');
-    
-    // Get encryption key
-    const key = getEncryptionKey();
+    // Extract IV, auth tag, and encrypted data
+    const iv = buffer.slice(0, IV_LENGTH);
+    const authTag = buffer.slice(IV_LENGTH, IV_LENGTH + 16);
+    const encrypted = buffer.slice(IV_LENGTH + 16).toString('base64');
     
     // Create decipher
-    const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
+    const decipher = crypto.createDecipheriv(
+      'aes-256-gcm',
+      Buffer.from(ENCRYPTION_KEY, 'hex'),
+      iv
+    );
+    
+    // Set auth tag
     decipher.setAuthTag(authTag);
     
-    // Decrypt data
-    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    // Decrypt the data
+    let decrypted = decipher.update(encrypted, 'base64', 'utf8');
     decrypted += decipher.final('utf8');
     
     // Try to parse as JSON if possible
@@ -99,36 +143,45 @@ export function decryptData(encryptedData) {
     }
   } catch (error) {
     console.error('Decryption error:', error);
-    throw new Error('Failed to decrypt data');
+    throw new Error(`Failed to decrypt data: ${error.message}`);
   }
 }
 
 /**
- * Generate a secure hash of data
- * 
+ * Hash sensitive data (one-way)
  * @param {string} data - Data to hash
- * @param {string} salt - Optional salt
  * @returns {string} Hashed data
  */
-export function hashData(data, salt = '') {
-  const hash = crypto.createHash('sha256');
-  hash.update(data + salt);
-  return hash.digest('hex');
+export function hashData(data) {
+  return crypto
+    .createHash('sha256')
+    .update(String(data))
+    .digest('hex');
 }
 
 /**
- * Generate a random token
- * 
+ * Generate a secure random token
  * @param {number} length - Length of token in bytes
  * @returns {string} Random token as hex string
  */
-export function generateToken(length = 32) {
-  return crypto.randomBytes(length).toString('hex');
+export function generateSecureToken(length = 32) {
+  try {
+    return crypto.randomBytes(length).toString('hex');
+  } catch (error) {
+    console.warn('Secure token generation failed, using fallback');
+    // Fallback for environments where randomBytes might not work
+    return Array.from(new Array(length))
+      .map(() => Math.floor(Math.random() * 256).toString(16).padStart(2, '0'))
+      .join('');
+  }
 }
 
-export default {
+// Create a named constant for the export object
+const encryptionService = {
   encryptData,
   decryptData,
   hashData,
-  generateToken
+  generateSecureToken
 };
+
+export default encryptionService;

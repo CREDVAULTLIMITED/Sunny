@@ -1,0 +1,127 @@
+{
+  "common": {
+    "brandName": "Sunny",
+    "signIn": "Connexion",
+    "signUp": "S'inscrire",
+    "getStarted": "Commencer",
+    "startNow": "Démarrer",
+    "learnMore": "En savoir plus",
+    "about": "À propos",
+    "features": "Fonctionnalités",
+    "whyChooseUs": "Pourquoi nous choisir",
+    "pricing": "Tarifs",
+    "contact": "Contact",
+    "terms": "Conditions",
+    "privacy": "Confidentialité",
+    "copyright": "© 2025 Sunny Payments. Tous droits réservés."
+  },
+  "homePage": {
+    "hero": {
+      "title1": "Nouvelle Génération",
+      "title2": "Plateforme de Paiement",
+      "description": "Envoyez, recevez et gérez des paiements en toute simplicité à travers les marchés mondiaux avec une seule intégration."
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin pour gérer les paiements",
+      "globalPayments": {
+        "title": "Paiements Mondiaux",
+        "description": "Acceptez les paiements de clients du monde entier avec une seule intégration."
+      },
+      "cardPayments": {
+        "title": "Paiements par Carte",
+        "description": "Acceptez toutes les principales cartes de crédit et de débit en toute sécurité."
+      },
+      "bankTransfers": {
+        "title": "Virements Bancaires",
+        "description": "Virements bancaires directs avec notifications instantanées."
+      }
+    },
+    "stats": {
+      "title": "Approuvé par des entreprises du monde entier",
+      "subtitle": "Rejoignez des milliers d'entreprises qui utilisent déjà notre plateforme",
+      "transactions": "Transactions",
+      "users": "Utilisateurs",
+      "countries": "Pays",
+      "transactions_value": "100K+",
+      "users_value": "24K+",
+      "countries_value": "10+"
+    },
+    "cta": {
+      "title": "Prêt à commencer ?",
+      "subtitle": "Créez votre compte aujourd'hui."
+    }
+  },
+  "auth": {
+    "login": {
+      "welcomeBack": "Bon retour",
+      "loginAccount": "Connectez-vous à votre compte",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "forgotPassword": "Mot de passe oublié ?",
+      "rememberMe": "Se souvenir de moi",
+      "loginButton": "Se connecter",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "createAccount": "S'inscrire",
+      "secureAccess": "Accès sécurisé",
+      "secureAccessDesc": "Vos données sont protégées avec une sécurité de niveau entreprise.",
+      "dashboard": "Tableau de bord en temps réel",
+      "dashboardDesc": "Surveillez vos transactions et paiements en temps réel avec des analyses détaillées.",
+      "support": "Assistance 24/7",
+      "supportDesc": "Notre équipe d'assistance est disponible à tout moment pour répondre à vos questions.",
+      "secureAuth": "Authentification sécurisée",
+      "fastAccess": "Accès rapide"
+    },
+    "signup": {
+      "createAccount": "Créez votre compte",
+      "chooseType": "Choisissez votre type de compte pour commencer",
+      "individual": {
+        "title": "Individuel",
+        "description": "Compte personnel pour vos propres paiements"
+      },
+      "organization": {
+        "title": "Organisation",
+        "description": "Compte professionnel pour les paiements de l'entreprise"
+      },
+      "alreadyAccount": "Vous avez déjà un compte ?",
+      "steps": {
+        "account": "Compte",
+        "profile": "Profil",
+        "business": "Entreprise",
+        "preferences": "Préférences"
+      },
+      "welcome": "Bienvenue sur",
+      "welcomeDesc": "Rejoignez des milliers d'utilisateurs qui gèrent leurs paiements dans le monde entier avec notre plateforme unifiée",
+      "globalPayments": {
+        "title": "Acceptation des paiements mondiaux",
+        "description": "Acceptez des paiements de clients partout dans le monde avec une seule intégration"
+      },
+      "reporting": {
+        "title": "Rapports avancés",
+        "description": "Accédez à des analyses détaillées de vos activités de paiement"
+      },
+      "security": {
+        "title": "Sécurité de niveau entreprise",
+        "description": "Vos données et transactions sont protégées avec une sécurité de pointe"
+      },
+      "form": {
+        "email": "Adresse e-mail",
+        "password": "Mot de passe",
+        "confirmPassword": "Confirmez le mot de passe",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "phoneNumber": "Numéro de téléphone",
+        "businessName": "Nom de l'entreprise",
+        "businessType": "Type d'entreprise",
+        "selectType": "Sélectionnez un type d'entreprise"
+      },
+      "next": "Suivant",
+      "creating": "Création du compte...",
+      "createButton": "Créer un compte"
+    }
+  },
+  "footer": {
+    "about": "À propos",
+    "terms": "Conditions",
+    "privacy": "Confidentialité"
+  }
+}

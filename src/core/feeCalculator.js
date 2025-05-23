@@ -4,7 +4,7 @@
  * Calculates transaction fees based on payment method, amount, currency, and other factors
  */
 
-import { PAYMENT_METHODS, FEE_TYPES, CURRENCIES, MOBILE_MONEY_PROVIDERS } from './constants';
+import { PAYMENT_METHODS, FEE_TYPES, CURRENCIES, MOBILE_MONEY_PROVIDERS } from './constants.js';
 
 // Fee configuration (in a real system, this would come from a database)
 const feeConfig = {

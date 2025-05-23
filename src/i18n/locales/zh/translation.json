@@ -1,0 +1,72 @@
+{
+  "common": {
+    "brandName": "Sunny",
+    "signIn": "登录",
+    "getStarted": "开始使用",
+    "startNow": "立即开始",
+    "copyright": "© 2023 Sunny. 保留所有权利。",
+    "features": "功能"
+  },
+  "auth": {
+    "login": {
+      "welcomeBack": "欢迎回来",
+      "loginAccount": "登录您的账户",
+      "email": "电子邮件",
+      "password": "密码",
+      "rememberMe": "记住我",
+      "loginButton": "登录",
+      "noAccount": "还没有账户？",
+      "createAccount": "创建账户",
+      "secureAccess": "安全访问",
+      "secureAccessDesc": "安全访问您的金融服务",
+      "dashboard": "控制面板",
+      "dashboardDesc": "轻松管理您的财务",
+      "support": "支持",
+      "supportDesc": "全天候支持满足您的所有需求",
+      "secureAuth": "安全认证",
+      "fastAccess": "快速访问"
+    }
+  },
+  "homePage": {
+    "hero": {
+      "title1": "简单支付",
+      "title2": "为所有人",
+      "description": "为企业和个人提供安全高效的支付解决方案"
+    },
+    "features": {
+      "title": "最佳支付平台",
+      "globalPayments": {
+        "title": "全球支付",
+        "description": "在全球范围内发送和接收付款"
+      },
+      "cardPayments": {
+        "title": "卡支付",
+        "description": "安全处理卡支付"
+      },
+      "bankTransfers": {
+        "title": "银行转账",
+        "description": "进行直接银行转账"
+      }
+    },
+    "stats": {
+      "title": "支付解决方案领导者",
+      "subtitle": "全球企业信赖",
+      "transactions": "交易",
+      "transactions_value": "1M+",
+      "users": "用户",
+      "users_value": "100K+",
+      "countries": "国家",
+      "countries_value": "150+"
+    },
+    "cta": {
+      "title": "准备简化您的支付？",
+      "subtitle": "加入数千名满意的客户"
+    }
+  },
+  "footer": {
+    "about": "关于",
+    "terms": "条款",
+    "privacy": "隐私"
+  }
+}
+

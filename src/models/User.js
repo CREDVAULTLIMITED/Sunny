@@ -1,53 +1,60 @@
 /**
  * Sunny Payment Gateway - User Model
  * 
- * Defines the user schema and model for authentication
+ * Defines the schema and methods for user accounts
  */
 
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
-const userSchema = new mongoose.Schema({
+// Schema definition
+const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
-    trim: true
+    trim: true,
+    maxlength: [50, 'First name cannot be more than 50 characters']
   },
   lastName: {
     type: String,
     required: [true, 'Last name is required'],
-    trim: true
+    trim: true,
+    maxlength: [50, 'Last name cannot be more than 50 characters']
   },
   email: {
     type: String,
     required: [true, 'Email is required'],
     unique: true,
-    lowercase: true,
     trim: true,
-    match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
+    lowercase: true,
+    match: [
+      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+      'Please provide a valid email address'
+    ]
   },
   password: {
     type: String,
     required: [true, 'Password is required'],
-    minlength: [8, 'Password must be at least 8 characters long'],
-    select: false // Don't include password in query results by default
+    minlength: [8, 'Password must be at least 8 characters'],
+    select: false // Don't include password in queries by default
   },
   accountType: {
     type: String,
-    enum: ['individual', 'business'],
+    enum: ['individual', 'business', 'developer', 'admin'],
     default: 'individual'
+  },
+  role: {
+    type: String,
+    enum: ['user', 'merchant', 'admin'],
+    default: 'user'
   },
   country: {
     type: String,
-    required: [true, 'Country is required']
-  },
-  company: {
-    type: String,
     trim: true
   },
-  phoneNumber: {
+  company: {
     type: String,
     trim: true
   },
@@ -61,33 +68,47 @@ const userSchema = new mongoose.Schema({
   resetPasswordExpires: Date,
   acceptedTerms: {
     type: Boolean,
-    required: [true, 'You must accept the terms and conditions']
+    required: [true, 'Terms must be accepted']
   },
   acceptedMarketing: {
     type: Boolean,
     default: false
   },
-  role: {
+  lastLogin: {
+    type: Date
+  },
+  twoFactorEnabled: {
+    type: Boolean,
+    default: false
+  },
+  twoFactorSecret: {
     type: String,
-    enum: ['user', 'admin', 'superadmin'],
-    default: 'user'
+    select: false
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
+  recoveryCodes: {
+    type: [String],
+    select: false
   },
-  lastLogin: Date
+  active: {
+    type: Boolean,
+    default: true
+  }
 }, {
   timestamps: true
 });
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
-  // Only hash the password if it's modified or new
-  if (!this.isModified('password')) return next();
-  
+UserSchema.pre('save', async function(next) {
+  // Only hash password if it's modified or new
+  if (!this.isModified('password')) {
+    return next();
+  }
+
   try {
+    // Generate salt
     const salt = await bcrypt.genSalt(10);
+    
+    // Hash password
     this.password = await bcrypt.hash(this.password, salt);
     next();
   } catch (error) {
@@ -95,41 +116,56 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-// Method to compare password
-userSchema.methods.comparePassword = async function(candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
+// Method to compare passwords
+UserSchema.methods.comparePassword = async function(candidatePassword) {
+  try {
+    return await bcrypt.compare(candidatePassword, this.password);
+  } catch (error) {
+    throw new Error('Password comparison failed');
+  }
 };
 
 // Method to generate JWT token
-userSchema.methods.generateAuthToken = function() {
-  return jwt.sign(
-    { 
-      id: this._id,
-      email: this.email,
-      role: this.role,
-      name: `${this.firstName} ${this.lastName}`
-    },
-    process.env.JWT_SECRET || 'sunny-jwt-secret',
-    { expiresIn: '24h' }
-  );
+UserSchema.methods.generateAuthToken = function() {
+  try {
+    return jwt.sign(
+      { 
+        id: this._id,
+        email: this.email,
+        role: this.role
+      },
+      process.env.JWT_SECRET || 'fallback_secret_dev_only',
+      { 
+        expiresIn: process.env.JWT_EXPIRY || '24h' 
+      }
+    );
+  } catch (error) {
+    throw new Error('Token generation failed');
+  }
 };
 
 // Method to generate password reset token
-userSchema.methods.generatePasswordResetToken = function() {
-  const resetToken = crypto.randomBytes(32).toString('hex');
-  
-  this.resetPasswordToken = crypto
-    .createHash('sha256')
-    .update(resetToken)
-    .digest('hex');
+UserSchema.methods.generatePasswordResetToken = function() {
+  try {
+    // Generate reset token
+    const resetToken = crypto.randomBytes(32).toString('hex');
     
-  // Token expires in 1 hour
-  this.resetPasswordExpires = Date.now() + 3600000;
-  
-  return resetToken;
+    // Hash token and set to resetPasswordToken field
+    this.resetPasswordToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex');
+      
+    // Set token expiration (30 minutes)
+    this.resetPasswordExpires = Date.now() + 30 * 60 * 1000;
+    
+    return resetToken;
+  } catch (error) {
+    throw new Error('Reset token generation failed');
+  }
 };
 
-// Create and export the User model
-const User = mongoose.model('User', userSchema);
+// Create a model from the schema
+const User = mongoose.model('User', UserSchema);
 
-export default User;
+module.exports = User;

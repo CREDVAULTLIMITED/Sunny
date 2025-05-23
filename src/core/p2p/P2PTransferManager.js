@@ -4,9 +4,9 @@
  * Handles person-to-person transfers between users
  */
 
-import { PAYMENT_STATUS, ERROR_CODES, IDENTITY_TYPES } from '../constants';
-import { logTransaction, logError } from '../transactionLogger';
-import IdentityManager from '../identity/IdentityManager';
+import { PAYMENT_STATUS, ERROR_CODES, IDENTITY_TYPES } from '../constants.js';
+import { logTransaction, logError } from '../transactionLogger.js';
+import IdentityManager from '../identity/IdentityManager.js';
 
 class P2PTransferManager {
   constructor() {
