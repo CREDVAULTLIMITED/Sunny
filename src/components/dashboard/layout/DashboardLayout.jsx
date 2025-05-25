@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from "../../../context/AuthContext.jsx";
+import { useLocation, Outlet } from 'react-router-dom';
 import './DashboardLayout.css';
 import NewSidebar from './NewSidebar';
-import { useLocation } from 'react-router-dom';
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = () => {
   const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { user, logout } = useAuth();
@@ -96,11 +96,11 @@ const DashboardLayout = ({ children }) => {
         </header>
         
         <main className="dashboard-content">
-          {children}
+          <Outlet />
         </main>
       </div>
     </div>
   );
-};
+}
 
 export default DashboardLayout;

@@ -15,8 +15,41 @@ const LoadingPage = () => (
   </div>
 );
 
+const PasswordStrengthMeter = ({ passwordStrength }) => {
+  const { t } = useTranslation();
+  
+  if (!passwordStrength) return null;
+
+  return (
+    <div className="password-strength-container">
+      <div className="password-strength-label">
+        <span>{t('auth.passwordStrength')}:</span>
+        <span className={`strength-${passwordStrength.strength}`}>
+          {t(`auth.passwordStrength.${passwordStrength.strength}`)}
+        </span>
+      </div>
+      <div className="password-strength-meter">
+        <div 
+          className={`strength-bar strength-${passwordStrength.strength}`} 
+          style={{ width: `${passwordStrength.score * 25}%` }}
+        />
+      </div>
+      {passwordStrength.feedback && passwordStrength.feedback.length > 0 && (
+        <ul className="password-feedback">
+          {passwordStrength.feedback.map((feedback, index) => (
+            <li key={index}>{feedback}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
 const LoginPage = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const { login: authContextLogin } = useAuth();
+
   // Form states
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,6 +67,7 @@ const LoginPage = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [passwordStrength, setPasswordStrength] = useState({ valid: false, strength: 'weak', score: 0, feedback: [] });
+
   const [isRateLimited, setIsRateLimited] = useState(false);
   const [rateLimitMessage, setRateLimitMessage] = useState('');
   
@@ -51,9 +85,6 @@ const LoginPage = () => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const mfaInputRef = useRef(null);
-  
-  const navigate = useNavigate();
-  const { login: authContextLogin } = useAuth();
   
   // Focus the email input on initial load
   useEffect(() => {
@@ -360,13 +391,13 @@ const LoginPage = () => {
                 </div>
               </div>
             </header>
-
+            
             <div className="auth-container">
               <div className="auth-card">
                 <div className="auth-content">
                   <div className="auth-form-header">
-                    <h1>Welcome back</h1>
-                    <p>Log in to your account</p>
+                    <h1>{t('auth.login.welcome')}</h1>
+                    <p>{t('auth.login.subtitle')}</p>
                   </div>
                   
                   {/* Success and Error Messages */}
@@ -434,7 +465,7 @@ const LoginPage = () => {
                       
                       <button type="submit" className="auth-button" disabled={isLoading}>
                         {isLoading ? (
-                          <span className="loading-spinner"></span>
+                          <span className="loading-spinner" />
                         ) : t('auth.mfa.verify')}
                       </button>
                     </form>
@@ -450,7 +481,7 @@ const LoginPage = () => {
                             type="email" 
                             id="email" 
                             name="email" 
-                            placeholder="Email address" 
+                            placeholder={t('auth.enterEmail')} 
                             autoComplete="email" 
                             required
                             value={email}
@@ -465,165 +496,106 @@ const LoginPage = () => {
                         )}
                       </div>
                       
+                      {/* Password Input Group */}
                       <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <div className={`input-wrapper ${isRTL ? 'flex-row-reverse' : ''}`}>
-                          <svg className={`input-icon ${isRTL ? 'ml-2' : 'mr-2'}`} viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
-                          </svg>
-                          <input 
-                            type={showPassword ? "text" : "password"} 
-                            id="password" 
-                            name="password" 
-                            placeholder={t('auth.login.password')} 
-                            autoComplete="current-password" 
-                            required
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                          {t('auth.password')}
+                        </label>
+                        <div className="mt-1 relative">
+                          <input
+                            type={showPassword ? 'text' : 'password'}
+                            id="password"
+                            name="password"
+                            ref={passwordInputRef}
                             value={password}
                             onChange={handlePasswordChange}
-                            ref={passwordInputRef}
-                            className={isRTL ? 'text-right' : 'text-left'}
-                            aria-describedby={passwordError ? "passwordError" : undefined}
+                            className={`appearance-none block w-full px-3 py-2 border ${
+                              passwordError ? 'border-red-300' : 'border-gray-300'
+                            } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-blue focus:border-primary-blue sm:text-sm`}
+                            placeholder={t('auth.enterPassword')}
+                            onKeyPress={(e) => {
+                              if (e.key === 'Enter') {
+                                handleSubmit(e);
+                              }
+                            }}
                           />
-                          <button 
-                            type="button" 
+                          <button
+                            type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className={`password-toggle ${isRTL ? 'mr-2' : 'ml-2'}`}
-                            aria-label={showPassword ? t('auth.login.hidePassword') : t('auth.login.showPassword')}
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-500"
                           >
                             {showPassword ? (
-                              <svg viewBox="0 0 24 24" width="20" height="20">
-                                <path fill="currentColor" d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z" />
+                              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                />
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                />
                               </svg>
                             ) : (
-                              <svg viewBox="0 0 24 24" width="20" height="20">
-                                <path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                                />
                               </svg>
                             )}
                           </button>
                         </div>
                         {passwordError && (
-                          <div id="passwordError" className="field-error" role="alert">{passwordError}</div>
-                        )}
-                        
-                        {/* Password Strength Meter */}
-                        {password.length > 0 && (
-                          <div className="password-strength-container">
-                            <div className="password-strength-label">
-                              <span>{t('auth.passwordStrength')}:</span>
-                              <span className={`strength-${passwordStrength.strength}`}>
-                                {t(`auth.passwordStrength.${passwordStrength.strength}`)}
-                              </span>
-                            </div>
-                            <div className="password-strength-meter">
-                              <div 
-                                className={`strength-bar strength-${passwordStrength.strength}`} 
-                                style={{ width: `${(passwordStrength.score / 5) * 100}%` }}
-                              ></div>
-                            </div>
-                            {passwordStrength.feedback.length > 0 && (
-                              <ul className="password-feedback">
-                                {passwordStrength.feedback.map((feedback, index) => (
-                                  <li key={index}>{t(feedback)}</li>
-                                ))}
-                              </ul>
-                            )}
+                          <div id="passwordError" className="field-error" role="alert">
+                            {passwordError}
                           </div>
                         )}
+                        {password && <PasswordStrengthMeter passwordStrength={passwordStrength} />}
                       </div>
-                      
-                      <div className="form-group remember-forgot-row">
-                        <div className={`remember-me ${isRTL ? 'flex-row-reverse' : ''}`}>
-                          <input
-                            type="checkbox"
-                            id="rememberMe"
-                            checked={rememberMe}
-                            onChange={(e) => setRememberMe(e.target.checked)}
-                            className="form-checkbox"
-                          />
-                          <label 
-                            htmlFor="rememberMe" 
-                            className={`text-sm ${isRTL ? 'mr-2' : 'ml-2'}`}
-                          >
-                            {t('auth.login.rememberMe')}
+
+                      <div className="form-group">
+                        <div className="flex justify-between items-center">
+                          <label className="inline-flex items-center">
+                            <input
+                              type="checkbox"
+                              className="form-checkbox"
+                              checked={rememberMe}
+                              onChange={(e) => setRememberMe(e.target.checked)}
+                            />
+                            <span className="ml-2">{t('auth.rememberMe')}</span>
                           </label>
-                        </div>
-                        
-                        <div className="forgot-password">
-                          <Link to="/forgot-password" className="forgot-password-link">
-                            {t('auth.login.forgotPassword')}
+                          <Link to="/forgot-password" className="text-primary-600 hover:text-primary-500">
+                            {t('auth.forgotPassword')}
                           </Link>
                         </div>
                       </div>
-                      
-                      <button 
-                        type="submit" 
-                        className="auth-button" 
+
+                      <button
+                        type="submit"
+                        className="auth-button"
                         disabled={isLoading}
-                        aria-label={t('auth.login.signIn')}
                       >
                         {isLoading ? (
-                          <span className="loading-spinner" aria-hidden="true"></span>
+                          <span className="loading-spinner" />
                         ) : t('auth.login.signIn')}
                       </button>
-                      
-                      <div className="social-login-section">
-                        <div className="separator">
-                          <span>{t('auth.login.orContinueWith')}</span>
-                        </div>
-                        
-                        <div className="social-buttons">
-                          <button
-                            type="button"
-                            onClick={() => handleSocialLogin('google')}
-                            className="social-button google"
-                            disabled={socialLoginProcessing}
-                            aria-label={t('auth.socialLogin.google')}
-                          >
-                            <svg viewBox="0 0 24 24" width="20" height="20">
-                              <path fill="currentColor" d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032 s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2 C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
-                            </svg>
-                            <span>Google</span>
-                          </button>
-                          
-                          <button
-                            type="button"
-                            onClick={() => handleSocialLogin('github')}
-                            className="social-button github"
-                            disabled={socialLoginProcessing}
-                            aria-label={t('auth.socialLogin.github')}
-                          >
-                            <svg viewBox="0 0 24 24" width="20" height="20">
-                              <path fill="currentColor" d="M12,2A10,10,0,0,0,8.84,21.5c.5.08.66-.23.66-.5V19.31C6.73,19.91,6.14,18,6.14,18A2.69,2.69,0,0,0,5,16.5c-.91-.62.07-.6.07-.6a2.1,2.1,0,0,1,1.53,1,2.15,2.15,0,0,0,2.91.83,2.16,2.16,0,0,1,.63-1.34C8,16.17,5.62,15.31,5.62,11.5a3.87,3.87,0,0,1,1-2.71,3.58,3.58,0,0,1,.1-2.64s.84-.27,2.75,1a9.63,9.63,0,0,1,5,0c1.91-1.29,2.75-1,2.75-1a3.58,3.58,0,0,1,.1,2.64,3.87,3.87,0,0,1,1,2.71c0,3.82-2.34,4.67-4.57,4.92a2.39,2.39,0,0,1,.69,1.85V21c0,.27.16.59.67.5A10,10,0,0,0,12,2Z"/>
-                            </svg>
-                            <span>GitHub</span>
-                          </button>
-                          
-                          <button
-                            type="button"
-                            onClick={() => handleSocialLogin('apple')}
-                            className="social-button apple"
-                            disabled={socialLoginProcessing}
-                            aria-label={t('auth.socialLogin.apple')}
-                          >
-                            <svg viewBox="0 0 24 24" width="20" height="20">
-                              <path fill="currentColor" d="M17.05,11.97 C17.0246096,10.5718767 17.7061526,9.25334219 18.9,8.46 C18.0554662,7.24288312 16.6892267,6.53245215 15.23,6.5 C13.723,6.329 12.295,7.3625 11.526,7.3625 C10.757,7.3625 9.524,6.5 8.261,6.5305 C6.48220592,6.5876529 4.89125485,7.68134052 4.1745,9.3405 C2.6135,12.7275 3.7305,17.7245 5.237,20.4095 C6.001,21.7095 6.9095,23.1675 8.1095,23.113 C9.2665,23.0585 9.7105,22.351 11.1285,22.351 C12.546,22.351 12.9465,23.113 14.162,23.083 C15.4275,23.053 16.2075,21.773 16.9715,20.4735 C17.549,19.5645 17.9885,18.5765 18.284,17.5415 C16.8291139,16.8483153 15.9241217,15.4087258 15.929,13.82 C15.93175,13.2191095 16.0538906,12.6249531 16.2875,12.076 C16.5211094,11.5270469 16.8607815,11.0371639 17.285,10.635 C17.1642779,11.0745423 17.0780922,11.5232252 17.028,11.977 L17.05,11.97 Z"/>
-                              <path fill="currentColor" d="M12.99,6.006 C13.5715187,5.33814546 13.893335,4.47011962 13.9,3.571 C13.0175293,3.61270023 12.1902955,4.00929542 11.594,4.67 C11.0215219,5.30281933 10.6815776,6.1347265 10.6375,7.002 C11.5275895,7.00538662 12.3832404,6.64376131 12.99,6.006 L12.99,6.006 Z"/>
-                            </svg>
-                            <span>Apple</span>
-                          </button>
-                        </div>
-                      </div>
-                      
-                      <div className="signup-prompt">
-                        <p>
-                          {t('auth.login.noAccount')} 
-                          <Link to="/register" className="signup-link">
-                            {t('auth.login.signUp')}
-                          </Link>
-                        </p>
-                      </div>
                     </form>
                   )}
+                  
+                  <div className="auth-footer">
+                    <p>
+                      {t('auth.login.noAccount')}{' '}
+                      <Link to="/signup" className="text-primary-600 hover:text-primary-500">
+                        {t('auth.login.signUp')}
+                      </Link>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

@@ -452,6 +452,10 @@ class AutomatedResponseSystem extends EventEmitter {
     
     const severity = levelMap[threat.threatLevel] || 'medium';
     
-    // For threats, determine if we need to respond based on severity
-    if (['high', 'critical
+        // For threats, determine if we need to respond based on severity
+          if (['high', 'critical'].includes(severity)) {
+            // Add your logic here for handling high or critical threats
+          }
+        }
+    }
 

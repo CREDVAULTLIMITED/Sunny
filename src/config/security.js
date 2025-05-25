@@ -281,6 +281,82 @@ const auditConfig = {
   }
 };
 
+// Security integration and monitoring settings
+const monitoringConfig = {
+    enabled: true,
+    siem: {
+        enabled: process.env.SIEM_ENABLED === 'true',
+        endpoint: process.env.SIEM_ENDPOINT,
+        apiKey: process.env.SIEM_API_KEY,
+        batchSize: parseInt(process.env.SIEM_BATCH_SIZE) || 100,
+        sendInterval: parseInt(process.env.SIEM_SEND_INTERVAL) || 60000
+    },
+    anomalyDetection: {
+        enabled: true,
+        sensitivityLevel: 'high',
+        baselineperiod: 30, // days
+        learningRate: 0.1
+    },
+    behavioralAnalysis: {
+        enabled: true,
+        profiling: true,
+        sessionTracking: true,
+        riskScoring: true
+    },
+    resourceMonitoring: {
+        enabled: true,
+        cpuThreshold: 80,
+        memoryThreshold: 85,
+        diskThreshold: 90,
+        networkThreshold: 75
+    }
+};
+
+// Advanced security features
+const advancedSecurity = {
+    quantumResistant: {
+        enabled: process.env.ENABLE_QUANTUM_RESISTANT === 'true',
+        algorithms: ['Kyber', 'Dilithium', 'SPHINCS+']
+    },
+    zeroKnowledgeProofs: {
+        enabled: process.env.ENABLE_ZK_PROOFS === 'true',
+        proofSystems: ['Groth16', 'Bulletproofs']
+    },
+    homomorphicEncryption: {
+        enabled: process.env.ENABLE_HOMOMORPHIC === 'true',
+        scheme: 'BFV'
+    }
+};
+
+// Threat intelligence configuration
+const threatIntelligence = {
+    enabled: true,
+    sources: {
+        internal: true,
+        external: process.env.EXTERNAL_THREAT_INTEL === 'true',
+        community: process.env.COMMUNITY_THREAT_INTEL === 'true'
+    },
+    updateInterval: 3600000, // 1 hour
+    automaticBlocking: true,
+    reputationThresholds: {
+        high: 80,
+        medium: 60,
+        low: 40
+    }
+};
+
+// Security analytics configuration
+const analyticsConfig = {
+    enabled: true,
+    realTimeAnalysis: true,
+    retentionPeriod: 90, // days
+    aggregationLevels: ['minute', 'hour', 'day'],
+    anomalyDetection: {
+        algorithm: 'isolation-forest',
+        sensitivity: 0.95
+    }
+};
+
 // Add new utility functions
 const securityUtils = {
   generateKey: () => crypto.randomBytes(encryptionConfig.keySize),
@@ -320,6 +396,10 @@ export default {
   idsConfig,
   networkConfig,
   auditConfig,
+  monitoring: monitoringConfig,
+  advanced: advancedSecurity,
+  threatIntelligence,
+  analytics: analyticsConfig,
   ...securityUtils,
   // Helper to determine if we're in production
   isProduction

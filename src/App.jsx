@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 // SunnyProvider is required for useSunny hook to work
 import { SunnyProvider } from './sdk/SunnyReactSDK';
@@ -89,238 +89,63 @@ class ErrorBoundary extends Component {
   }
 }
 
+// Create router configuration
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomePage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignupPage />,
+  },
+  {
+    path: '/dashboard',
+    element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
+    children: [
+      { path: '', element: <DashboardPage /> },
+      { path: 'payment-methods', element: <PaymentMethodsPage /> },
+      { path: 'identity', element: <IdentityManagementPage /> },
+      { path: 'transactions', element: <ModernTransactionsPage /> },
+      { path: 'crypto', element: <CryptoPage /> },
+      { path: 'cards', element: <CardsPage /> },
+      { path: 'customers', element: <CustomersPage /> },
+      { path: 'markets', element: <GlobalMarketsPage /> },
+      { path: 'settlements', element: <SettlementsPage /> },
+      { path: 'compliance', element: <CompliancePage /> },
+      { path: 'settings', element: <SettingsPage /> },
+      { path: 'gesture-face-pay', element: <GestureFacePayPage /> },
+      { path: 'offline', element: <OfflineModePage /> },
+      { path: 'multi-id-search', element: <MultiIdSearchPage /> },
+      { path: 'api-keys', element: <ApiKeysPage /> },
+      { path: 'webhooks', element: <WebhooksPage /> },
+      { path: 'api-explorer', element: <ApiExplorerPage /> },
+      { path: 'sdk-integration', element: <SdkIntegrationPage /> },
+      { path: 'reports', element: <ReportsPage /> },
+      { path: 'mobile-money', element: <MobileMoneyPage /> },
+      { path: 'bank-transfers', element: <BankTransfersPage /> },
+      { path: 'balances', element: <BalancesPage /> },
+    ],
+  },
+  {
+    path: '*',
+    element: <Navigate to="/dashboard" replace />,
+  },
+]);
+
+// App component
 function App() {
-  console.log("App component is rendering - initialization started");
-  
-  // Track app initialization state
-  const [initializationComplete, setInitializationComplete] = useState(false);
-  
-  // Run initialization logic
-  useEffect(() => {
-    console.log("App initialization effect running");
-    try {
-      // Any initialization logic can go here
-      
-      // Mark initialization as complete
-      setInitializationComplete(true);
-      console.log("App initialization completed successfully");
-    } catch (error) {
-      console.error("Error during app initialization:", error);
-    }
-  }, []);
-  
-  // eslint-disable-next-line no-unused-vars
-  const sdkConfig = {
-    apiKey: process.env.REACT_APP_SUNNY_API_KEY || 'test_key_123456',
-    environment: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
-    region: 'global',
-    defaultCurrency: 'USD',
-    logLevel: process.env.NODE_ENV === 'development' ? 'debug' : 'error'
-  };
-  
-  console.log("Environment:", process.env.NODE_ENV);
-  console.log("Initialization state:", initializationComplete ? "Complete" : "In progress");
-  
   return (
     <ErrorBoundary>
-      {/* SunnyProvider is required for components using useSunny hook */}
-      <SunnyProvider config={sdkConfig}>
-        <ErrorBoundary>
-          <AuthProvider>
-            <Router>
-              <ErrorBoundary>
-                <Routes>
-                  {/* Public routes */}
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/signup" element={<SignupPage />} />
-                  
-                  {/* Dashboard routes */}
-                  <Route path="/dashboard" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <DashboardPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/payment-methods" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <PaymentMethodsPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/identity-management" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <IdentityManagementPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  {/* Add more routes for other dashboard pages */}
-                  <Route path="/dashboard/transactions" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <ModernTransactionsPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/balances" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <BalancesPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/mobile-money" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <MobileMoneyPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/bank-transfers" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <BankTransfersPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/crypto" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <CryptoPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/cards" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <CardsPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/customers" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <CustomersPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/global-markets" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <GlobalMarketsPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/reports" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <ReportsPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/settlements" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <SettlementsPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/compliance" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <CompliancePage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/settings" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <SettingsPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/gesture-facepay" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <GestureFacePayPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/offline-mode" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <OfflineModePage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/multi-id-search" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <MultiIdSearchPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/api-keys" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <ApiKeysPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/webhooks" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <WebhooksPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/api-explorer" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <ApiExplorerPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/dashboard/sdk-integration" element={
-                    <ProtectedRoute>
-                      <DashboardLayout>
-                        <SdkIntegrationPage />
-                      </DashboardLayout>
-                    </ProtectedRoute>
-                  } />
-                  
-                  {/* Catch all route */}
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </ErrorBoundary>
-            </Router>
-          </AuthProvider>
-        </ErrorBoundary>
-      </SunnyProvider>
+      <AuthProvider>
+        <SunnyProvider>
+          <RouterProvider router={router} />
+        </SunnyProvider>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }

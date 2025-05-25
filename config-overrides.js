@@ -14,15 +14,39 @@ module.exports = function override(config, env) {
     buffer: require.resolve('buffer/'),
     path: require.resolve('path-browserify'),
     os: require.resolve('os-browserify/browser'),
-    vm: false
+    fs: false,
+    vm: false,
+    http: false,
+    https: false,
+    net: false,
+    tls: false,
+    zlib: false,
+    child_process: false,
+    dns: false
   };
 
   // Add buffer and process to plugins
   config.plugins.push(
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
-      process: 'process'
-    })
+      process: 'process/browser'
+    }),
+    new webpack.NormalModuleReplacementPlugin(
+      /node:/, 
+      (resource) => {
+        const mod = resource.request.replace(/^node:/, "");
+        switch (mod) {
+          case 'buffer':
+            resource.request = 'buffer';
+            break;
+          case 'stream':
+            resource.request = 'stream-browserify';
+            break;
+          default:
+            break;
+        }
+      }
+    )
   );
 
   return config;

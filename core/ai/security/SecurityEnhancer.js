@@ -20,11 +20,105 @@ class SecurityEnhancer extends EventEmitter {
       blockUnsafePatterns: true,
       blockThreshold: 0.7, // Confidence threshold to block requests
       warnThreshold: 0.4,  // Confidence threshold to issue warnings
+      maxRetries: 3,            // Maximum retries for failed operations
+      retryDelay: 1000,        // Delay between retries in ms
+      performanceMonitoring: true,
+      errorRecovery: {
+        enabled: true,
+        fallbackMode: 'strict'  // 'strict' or 'permissive'
+      },
       ...options
     };
     
     // Initialize attack patterns
     this.attackPatterns = this.loadAttackPatterns();
+    
+    // Performance monitoring
+    this.metrics = {
+      totalRequests: 0,
+      totalErrors: 0,
+      averageResponseTime: 0,
+      lastError: null
+    };
+
+    // Error recovery state
+    this.recoveryState = {
+      failedAttempts: 0,
+      lastFailure: null,
+      isRecovering: false
+    };
+  }
+
+  /**
+   * Handle and recover from errors
+   * @private
+   */
+  async _handleError(error, operation) {
+    this.metrics.totalErrors++;
+    this.recoveryState.failedAttempts++;
+    this.recoveryState.lastFailure = new Date();
+    this.recoveryState.isRecovering = true;
+
+    // Log the error
+    this.auditLog('security_error', {
+      operation,
+      error: error.message,
+      stack: error.stack,
+      metrics: this.metrics
+    });
+
+    // Emit error event
+    this.emit('security_error', {
+      error,
+      operation,
+      metrics: this.metrics,
+      recoveryState: this.recoveryState
+    });
+
+    // If in fallback mode, use more permissive settings
+    if (this.config.errorRecovery.enabled && 
+        this.config.errorRecovery.fallbackMode === 'permissive') {
+      // Temporarily reduce security thresholds
+      const originalThreshold = this.config.blockThreshold;
+      this.config.blockThreshold = Math.min(0.9, this.config.blockThreshold * 1.2);
+      
+      // Reset after 5 minutes
+      setTimeout(() => {
+        this.config.blockThreshold = originalThreshold;
+        this.recoveryState.isRecovering = false;
+        this.recoveryState.failedAttempts = 0;
+      }, 5 * 60 * 1000);
+    }
+
+    return {
+      success: false,
+      error: error.message,
+      recoveryAttempted: true
+    };
+  }
+
+  /**
+   * Monitor performance metrics
+   * @private
+   */
+  _updateMetrics(startTime, success = true) {
+    const duration = Date.now() - startTime;
+    this.metrics.totalRequests++;
+    
+    // Update average response time
+    this.metrics.averageResponseTime = 
+      (this.metrics.averageResponseTime * (this.metrics.totalRequests - 1) + duration) 
+      / this.metrics.totalRequests;
+
+    // Emit metrics event
+    this.emit('metrics_update', {
+      metrics: this.metrics,
+      lastOperation: {
+        duration,
+        success,
+        timestamp: new Date()
+      }
+    });
   }
 
   /**
@@ -437,7 +531,8 @@ class SecurityEnhancer extends EventEmitter {
       }
     }
     
-    return result
+    return result;
+  }
 
   /**
    * Detect sensitive data in a prompt

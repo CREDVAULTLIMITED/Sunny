@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import authService from '../../services/authService.js';
 import { loggingService } from '../../services/loggingService.js';
 import '../../i18n/config';
-import './LoginPage.css'; // Reusing styles from LoginPage
+import './LoginPage.css';
 import '../homepage/rtl.css';
 import SunnyLogo from '../../assets/images/sunny-logo.svg';
 import { generateSecureToken } from '../../security/encryption.js';
@@ -59,6 +59,7 @@ const DOCUMENT_TYPES = [
 
 // SignupPage Component
 const SignupPage = () => {
+  // Component code
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -723,7 +724,7 @@ const SignupPage = () => {
     switch (step) {
       case 1:
         return (
-          <>
+          <div>
             {/* Basic Information */}
             <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">{t('auth.signup.step1.title')}</h2>
             {/* Email */}
@@ -775,12 +776,11 @@ const SignupPage = () => {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-                >
-                  {showPassword ? (
+                >                    {showPassword ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.953 9.953 0 011.563-2.566m0 0L21 21m-1.414-1.414l-4.243-4.243m2.414-1.06l1.414 1.414m-2.414-1.06l-1.414 1.414m-1.414-1.06l1.414 1.414" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
+                  </svg>
                   ) : (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -792,12 +792,16 @@ const SignupPage = () => {
               {passwordError && <p className="mt-1 text-sm text-red-600">{passwordError}</p>}
               {password && (
                 <div className="mt-2 text-sm">
-                  <p>{t(`auth.passwordStrength.${passwordStrength.strength}`)}</p>
-                  <ul className="list-disc list-inside text-gray-600">
-                    {passwordStrength.feedback.map((feedback, index) => (
-                      <li key={index}>{feedback}</li>
-                    ))}
-                  </ul>
+                  <p className={`strength-${passwordStrength.strength}`}>
+                    {t(`auth.passwordStrength.${passwordStrength.strength}`)}
+                  </p>
+                  {Array.isArray(passwordStrength.feedback) && passwordStrength.feedback.length > 0 && (
+                    <ul className="list-disc list-inside text-gray-600">
+                      {passwordStrength.feedback.map((feedbackItem, index) => (
+                        <li key={index}>{typeof feedbackItem === 'string' ? feedbackItem : ''}</li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               )}
             </div>
@@ -840,11 +844,11 @@ const SignupPage = () => {
               </div>
               {confirmPasswordError && <p className="mt-1 text-sm text-red-600">{confirmPasswordError}</p>}
             </div>
-          </>
+          </div>
         );
       case 2:
         return (
-          <>
+          <div>
             {/* Account Type Selection */}
             <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">{t('auth.signup.step2.title')}</h2>
             <p className="text-gray-600 mb-6 text-center">{t('auth.signup.step2.description')}</p>
@@ -873,13 +877,15 @@ const SignupPage = () => {
               </button>
             </div>
             {!accountType && <p className="mt-4 text-sm text-red-600 text-center">{t('auth.validation.accountTypeRequired')}</p>}
-          </>
+          </div>
         );
       case 3:
         return (
-          <>
+          <div>
             {/* Profile Details */}
-            <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">{t(`auth.signup.step3.${accountType === 'individual' ? 'individualTitle' : 'businessTitle'}`)}</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">
+              {t(`auth.signup.step3.${accountType === 'individual' ? 'individualTitle' : 'businessTitle'}`)}
+            </h2>
             <p className="text-gray-600 mb-6 text-center">{t(`auth.signup.step3.${accountType === 'individual' ? 'individualDescription' : 'businessDescription'}`)}</p>
             {/* Name */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -1212,464 +1218,383 @@ const SignupPage = () => {
                 </div>
               </div>
             )}
-          </>
+          </div>
         );
       case 4: // Business Verification (Only for business accounts)
         if (accountType === 'individual') return null; // Should have been skipped
 
-        return (
-          <>
-            {/* Business Verification */}
-            <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">{t('auth.signup.step4.title')}</h2>
-            <p className="text-gray-600 mb-6 text-center">{t('auth.signup.step4.description')}</p>
-
-            {/* Document Type Selection */}
-            <div className="mb-4">
-              <label htmlFor="documentType" className="block text-sm font-medium text-gray-700 mb-1">
-                {t('auth.label.documentType')} <span className="text-red-500">*</span>
-              </label>
-              <select
-                id="documentType"
-                name="documentType"
-                required
-                value={documentType}
-                onChange={(e) => setDocumentType(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-[var(--primary-blue)] focus:border-[var(--primary-blue)]"
-              >
-                <option value="">{t('auth.placeholder.selectDocumentType')}</option>
-                {DOCUMENT_TYPES.map((type) => (
-                  <option key={type.id} value={type.id}>{type.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* File Upload */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('auth.label.uploadDocuments')} <span className="text-red-500">*</span>
-              </label>
-              <div
-                className={`flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md cursor-pointer ${documentType ? 'border-[var(--primary-blue)] hover:border-blue-600' : 'border-gray-300 hover:border-gray-400'}`}
-                onClick={() => documentType && fileInputRef.current?.click()}
-              >
-                <div className="space-y-1 text-center">
-                  <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  <div className="flex text-sm text-gray-600">
-                    <label htmlFor="file-upload" className={`relative cursor-pointer rounded-md bg-white font-medium ${documentType ? 'text-[var(--primary-blue)] hover:text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--primary-blue)] focus-within:ring-offset-2' : 'text-gray-500 cursor-not-allowed'}`}>
-                      <span>{t('auth.label.uploadAFile')}</span>
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        className="sr-only"
-                        onChange={handleFileUpload}
-                        ref={fileInputRef}
-                        disabled={!documentType}
-                        multiple // Allow multiple file uploads
-                      />
-                    </label>
-                    <p className="pl-1">{t('auth.label.orDragAndDrop')}</p>
-                  </div>
-                  <p className="text-xs text-gray-500">
-                    PNG, JPG, PDF up to 10MB
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Uploaded Documents List */}
-            {documents.length > 0 && (
-              <div className="mt-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-3">{t('auth.label.uploadedDocuments')}</h3>
-                <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                  {documents.map(doc => (
-                    <li key={doc.id} className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                      <div className="w-0 flex-1 flex items-center">
-                        {/* Document icon */}
-                        <svg className="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.414L14.586 5A2 2 0 0115 6.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
-                        </svg>
-                        <span className="ml-2 flex-1 w-0 truncate">
-                          {doc.name} ({doc.type})
-                        </span>
-                      </div>
-                      <div className="ml-4 flex-shrink-0 space-x-4">
-                        {doc.uploaded ? (
-                          <span className="text-green-600">{t('auth.status.uploaded')}</span>
-                        ) : doc.error ? (
-                          <span className="text-red-600">{t('auth.status.uploadError')}</span>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => simulateFileUpload(doc.id)}
-                            className="font-medium text-[var(--primary-blue)] hover:text-blue-600"
-                          >
-                            {t('auth.action.upload')}
-                          </button>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => removeDocument(doc.id)}
-                          className="font-medium text-red-600 hover:text-red-800"
-                        >
-                          {t('auth.action.remove')}
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-             {error && <p className="mt-4 text-sm text-red-600 text-center">{error}</p>}
-          </>
-        );
-      case 5: // Security Setup
-        return (
-          <>
-            {/* Security Setup (MFA) */}
-            <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">{t('auth.signup.step5.title')}</h2>
-             <p className="text-gray-600 mb-6 text-center">{t('auth.signup.step5.description')}</p>
-
-             {/* Enable MFA */}
-            <div className="flex items-center mb-6">
-              <input
-                id="setupMFA"
-                name="setupMFA"
-                type="checkbox"
-                checked={setupMFA}
-                onChange={(e) => setSetupMFA(e.target.checked)}
-                className="h-4 w-4 text-[var(--primary-blue)] border-gray-300 rounded focus:ring-[var(--primary-blue)]"
-              />
-              <label htmlFor="setupMFA" className="ml-2 block text-sm text-gray-900">
-                {t('auth.label.enableMFA')}
-              </label>
-            </div>
-
-            {setupMFA && (
-              <div className="border p-6 rounded-md space-y-6">
-                <h3 className="text-lg font-medium text-gray-900">{t('auth.mfa.setup')}</h3>
-                <p className="text-gray-600">{t('auth.mfa.instructions')}</p>
-
-                {/* MFA QR Code and Secret (Simulated) */}
-                <div className="flex flex-col items-center space-y-4">
-                  {mfaQRCode ? (
-                    <img src={mfaQRCode} alt="MFA QR Code" className="w-40 h-40 border p-2" />
-                  ) : (
-                     <div className="w-40 h-40 border p-2 flex items-center justify-center text-gray-500">
-                       {t('auth.mfa.qrCodePlaceholder')}
-                     </div>
-                  )}
-                  <p className="text-sm font-mono bg-gray-100 p-2 rounded break-all">{t('auth.mfa.secret')}: {mfaSecret || 'Generating...'}</p>
-                   <button
-                    type="button"
-                    onClick={async () => {
-                       // Simulate generating QR code and secret
-                       setIsLoading(true);
-                       await new Promise(resolve => setTimeout(resolve, 1000));
-                       setMfaSecret('SIMULATED_SECRET_' + Math.random().toString(36).substring(2, 15).toUpperCase());
-                       // Simulate generating a base64 encoded QR code image
-                       setMfaQRCode('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='); // Placeholder base64
-                       setIsLoading(false);
-                    }}
-                    disabled={isLoading || mfaQRCode !== ''}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[var(--primary-blue)] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-blue)] disabled:opacity-50 disabled:cursor-not-allowed"
-                   >
-                     {isLoading ? t('common.loading') : t('auth.mfa.generateQR')}
-                   </button>
-                </div>
-
-                {/* MFA Code Input */}
-                <div className="mb-4">
-                  <label htmlFor="mfaCode" className="block text-sm font-medium text-gray-700 mb-1">
-                    {t('auth.label.mfaCode')} <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    id="mfaCode"
-                    name="mfaCode"
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]{6}"
-                    maxLength="6"
-                    required
-                    value={mfaCode}
-                    onChange={(e) => { setMfaCode(e.target.value); validateMfaCode(e.target.value); }}
-                     onBlur={(e) => validateMfaCode(e.target.value)}
-                    className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border ${mfaCodeError ? 'border-red-500' : 'border-gray-300 focus:ring-[var(--primary-blue)] focus:border-[var(--primary-blue)]'}`}
-                    placeholder="123456"
-                    ref={mfaInputRef}
-                  />
-                  {mfaCodeError && <p className="mt-1 text-sm text-red-600">{mfaCodeError}</p>}
-                </div>
-
-                {/* Recovery Codes (Simulated) */}
-                <div className="mt-6">
-                  <h3 className="text-lg font-medium text-gray-900 mb-3">{t('auth.mfa.recoveryCodes')}</h3>
-                  <p className="text-gray-600 mb-4">{t('auth.mfa.recoveryCodesDescription')}</p>
-                  {recoveryCodes.length === 0 ? (
-                    <button
-                      type="button"
-                      onClick={async () => {
-                         setIsLoading(true);
-                         await new Promise(resolve => setTimeout(resolve, 1000));
-                         setRecoveryCodes([
-                           'CODE-A-123', 'CODE-B-456', 'CODE-C-789', 'CODE-D-012',
-                           'CODE-E-345', 'CODE-F-678', 'CODE-G-901', 'CODE-H-234'
-                         ]);
-                         setIsLoading(false);
-                      }}
-                       disabled={isLoading}
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isLoading ? t('common.loading') : t('auth.mfa.generateRecoveryCodes')}
-                    </button>
-                  ) : (
-                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-                      <div className="flex">
-                        <div className="flex-shrink-0">
-                          <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.545-1.36 3.31 0l3.498 6.298c.766 1.36 0 3.03-1.659 3.03H6.516c-1.66 0-2.424-1.67-1.659-3.03l3.498-6.298zM10 13a1 1 0 110 2 1 1 0 010-2zm1-7a1 1 0 10-2 0v3a1 1 0 102 0V6z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                        <div className="ml-3">
-                          <p className="text-sm text-yellow-700">
-                            {t('auth.mfa.recoveryCodesWarning')}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  <ul className="list-disc list-inside font-mono text-gray-700 bg-gray-100 p-4 rounded-md">
-                    {recoveryCodes.map((code, index) => (
-                      <li key={index}>{code}</li>
-                    ))}
-                  </ul>
-                  {recoveryCodes.length > 0 && (
-                    <div className="mt-4 flex items-center">
-                       <input
-                        id="downloadedRecoveryCodes"
-                        name="downloadedRecoveryCodes"
-                        type="checkbox"
-                        checked={downloadedRecoveryCodes}
-                        onChange={(e) => setDownloadedRecoveryCodes(e.target.checked)}
-                        className="h-4 w-4 text-[var(--primary-blue)] border-gray-300 rounded focus:ring-[var(--primary-blue)]"
-                      />
-                      <label htmlFor="downloadedRecoveryCodes" className="ml-2 block text-sm text-gray-900">
-                        {t('auth.label.downloadedRecoveryCodes')} <span className="text-red-500">*</span>
-                      </label>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-             {error && <p className="mt-4 text-sm text-red-600 text-center">{error}</p>}
-          </>
-        );
-      case 6: // Email Verification / Success
-         if (verificationSuccess) {
-           return (
-            <div className="text-center py-10">
-               <svg className="mx-auto h-16 w-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-               <h2 className="mt-4 text-2xl font-bold text-gray-900">{t('auth.verification.verifiedTitle')}</h2>
-               <p className="mt-2 text-gray-600">{t('auth.verification.verifiedMessage')}</p>
-               {successMessage && <p className="mt-4 text-sm text-green-600">{successMessage}</p>}
-            </div>
-           );
-         }
-
-        return (
-          <div className="text-center py-10">
-            <h2 className="text-2xl font-bold text-gray-900">{t('auth.verification.title')}</h2>
-            <p className="mt-2 text-gray-600">
-              {t('auth.verification.message', { email: verificationEmail })}
-            </p>
-            {verificationSent && successMessage && <p className="mt-4 text-sm text-green-600">{successMessage}</p>}
-             {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
-            <div className="mt-6">
-              <button
-                type="button"
-                onClick={requestNewVerificationEmail}
-                disabled={isLoading}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[var(--primary-blue)] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-blue)] disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                 {isLoading ? t('common.sending') : t('auth.action.resendVerificationEmail')}
-              </button>
-            </div>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
-
-
-  return (
-    <Suspense fallback={<LoadingPage />}>
-      <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'} transition-all duration-300`}>
-        {isLoading && !isVerificationMode && <LoadingPage />} {/* Show loading only for form steps, not verification */}
-        <header className="site-header">
-          <div className="container">
-            <div className="header-content">
-              <div className="logo">
-                <Link to="/">
-                  <img src={SunnyLogo} alt={t('common.brandName')} height="40" />
-                  <span>{t('common.brandName')}</span>
-                </Link>
-              </div>
-              <div className="flex items-center space-x-6">
-                {/* Language Switcher */}
-                <div className="language-switcher relative" ref={langMenuRef}>
-                  <button onClick={() => setShowLangMenu(!showLangMenu)} className="flex items-center text-gray-600 hover:text-gray-900 focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5v10M3 14l7-7m0 0l7 7m-7-7v10m0 0h7M3 14h.01M17 14h.01" />
-                    </svg>
-                    {languages.find(lang => lang.code === i18n.language)?.name || 'Language'}
-                    <svg className={`ml-1 h-4 w-4 transform transition-transform duration-200 ${showLangMenu ? 'rotate-180' : 'rotate-0'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                  </button>
-                  {showLangMenu && (
-                    <div className="language-menu absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50">
-                      {languages.map((lang) => (
-                        <button
-                          key={lang.code}
-                          onClick={() => changeLanguage(lang.code)}
-                          className={`block w-full text-left px-4 py-2 text-sm ${i18n.language === lang.code ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-100'}`}
-                        >
-                          {lang.name}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <main className="min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full space-y-8">
-            {!isVerificationMode && (
+            return (
               <div>
-                 <img className="mx-auto h-12 w-auto" src={SunnyLogo} alt={t('common.brandName')} />
-                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                  {t('auth.signup.title')}
-                </h2>
-                <p className="mt-2 text-center text-sm text-gray-600">
-                  {t('auth.signup.subtitle')}
-                </p>
-                {/* Progress Bar */}
-                <div className="mt-8 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                   <div className="bg-[var(--primary-blue)] h-2.5 rounded-full transition-all duration-500 ease-in-out" style={{ width: `${(currentStep / totalSteps) * 100}%` }}></div>
+                {/* Business Verification */}
+                <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">{t('auth.signup.step4.title')}</h2>
+                <p className="text-gray-600 mb-6 text-center">{t('auth.signup.step4.description')}</p>
+
+                {/* Document Type Selection */}
+                <div className="mb-4">
+                  <label htmlFor="documentType" className="block text-sm font-medium text-gray-700 mb-1">
+                    {t('auth.label.documentType')} <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    id="documentType"
+                    name="documentType"
+                    required
+                    value={documentType}
+                    onChange={(e) => setDocumentType(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-[var(--primary-blue)] focus:border-[var(--primary-blue)]"
+                  >
+                    <option value="">{t('auth.placeholder.selectDocumentType')}</option>
+                    {DOCUMENT_TYPES.map((type) => (
+                      <option key={type.id} value={type.id}>{type.label}</option>
+                    ))}
+                  </select>
                 </div>
-                 <p className="mt-2 text-center text-sm text-gray-600">{t('auth.signup.stepIndicator', { currentStep, totalSteps: accountType === 'individual' ? totalSteps - 1 : totalSteps})}</p>
+
+                {/* File Upload */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {t('auth.label.uploadDocuments')} <span className="text-red-500">*</span>
+                  </label>
+                  <div
+                    className={`flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md cursor-pointer ${documentType ? 'border-[var(--primary-blue)] hover:border-blue-600' : 'border-gray-300 hover:border-gray-400'}`}
+                    onClick={() => documentType && fileInputRef.current?.click()}
+                  >
+                    <div className="space-y-1 text-center">
+                      <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <div className="flex text-sm text-gray-600">
+                        <label htmlFor="file-upload" className={`relative cursor-pointer rounded-md bg-white font-medium ${documentType ? 'text-[var(--primary-blue)] hover:text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--primary-blue)] focus-within:ring-offset-2' : 'text-gray-500 cursor-not-allowed'}`}>
+                          <span>{t('auth.label.uploadAFile')}</span>
+                          <input
+                            id="file-upload"
+                            name="file-upload"
+                            type="file"
+                            className="sr-only"
+                            onChange={handleFileUpload}
+                            ref={fileInputRef}
+                            disabled={!documentType}
+                            multiple // Allow multiple file uploads
+                          />
+                        </label>
+                        <p className="pl-1">{t('auth.label.orDragAndDrop')}</p>
+                      </div>
+                      <p className="text-xs text-gray-500">
+                        PNG, JPG, PDF up to 10MB
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Uploaded Documents List */}
+                {documents.length > 0 && (
+                  <div className="mt-6">
+                    <h3 className="text-lg font-medium text-gray-900 mb-3">{t('auth.label.uploadedDocuments')}</h3>
+                    <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                      {documents.map(doc => (
+                        <li key={doc.id} className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                          <div className="w-0 flex-1 flex items-center">
+                            {/* Document icon */}
+                            <svg className="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                              <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.414L14.586 5A2 2 0 0115 6.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                            </svg>
+                            <span className="ml-2 flex-1 w-0 truncate">
+                              {doc.name} ({doc.type})
+                            </span>
+                          </div>
+                          <div className="ml-4 flex-shrink-0 space-x-4">
+                            {doc.uploaded ? (
+                              <span className="text-green-600">{t('auth.status.uploaded')}</span>
+                            ) : doc.error ? (
+                              <span className="text-red-600">{t('auth.status.uploadError')}</span>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => simulateFileUpload(doc.id)}
+                                className="font-medium text-[var(--primary-blue)] hover:text-blue-600"
+                              >
+                                {t('auth.action.upload')}
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => removeDocument(doc.id)}
+                              className="font-medium text-red-600 hover:text-red-800"
+                            >
+                              {t('auth.action.remove')}
+                            </button>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
-            )}
+            );
+          case 5:
+            return (
+              <div>
+                {/* Security Setup */}
+                <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">{t('auth.signup.step5.title')}</h2>
+                <p className="text-gray-600 mb-6 text-center">{t('auth.signup.step5.description')}</p>
 
+                {/* MFA Setup */}
+                <div className="mb-6">
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="setupMFA" className="block text-sm font-medium text-gray-700">
+                      {t('auth.label.enableMFA')}
+                    </label>
+                    <div className="flex items-center">
+                      <input
+                        id="setupMFA"
+                        name="setupMFA"
+                        type="checkbox"
+                        checked={setupMFA}
+                        onChange={(e) => setSetupMFA(e.target.checked)}
+                        className="h-4 w-4 text-primary-blue focus:ring-primary-blue border-gray-300 rounded"
+                      />
+                    </div>
+                  </div>
+                  <p className="mt-1 text-sm text-gray-500">{t('auth.mfa.description')}</p>
+                </div>
 
-            <form className="mt-8 space-y-6" onSubmit={handleSubmit} noValidate>
-               <input type="hidden" name="csrf_token" value={csrfToken} />
+                {/* Terms and Conditions */}
+                <div className="space-y-4 mt-8">
+                  <div>
+                    <div className="flex items-start">
+                      <div className="flex items-center h-5">
+                        <input
+                          id="acceptTerms"
+                          name="acceptTerms"
+                          type="checkbox"
+                          checked={acceptedTerms}
+                          onChange={(e) => setAcceptedTerms(e.target.checked)}
+                          className="h-4 w-4 text-primary-blue focus:ring-primary-blue border-gray-300 rounded"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="acceptTerms" className="font-medium text-gray-700">
+                          {t('auth.label.acceptTerms')} <span className="text-red-500">*</span>
+                        </label>
+                        <p className="text-gray-500">{t('auth.terms.description')}</p>
+                      </div>
+                    </div>
+                    {acceptedTermsError && <p className="mt-1 text-sm text-red-600">{acceptedTermsError}</p>}
+                  </div>
 
-              {renderStep(currentStep)}
+                  <div>
+                    <div className="flex items-start">
+                      <div className="flex items-center h-5">
+                        <input
+                          id="acceptPrivacy"
+                          name="acceptPrivacy"
+                          type="checkbox"
+                          checked={acceptedPrivacy}
+                          onChange={(e) => setAcceptedPrivacy(e.target.checked)}
+                          className="h-4 w-4 text-primary-blue focus:ring-primary-blue border-gray-300 rounded"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="acceptPrivacy" className="font-medium text-gray-700">
+                          {t('auth.label.acceptPrivacy')} <span className="text-red-500">*</span>
+                        </label>
+                        <p className="text-gray-500">{t('auth.privacy.description')}</p>
+                      </div>
+                    </div>
+                    {acceptedPrivacyError && <p className="mt-1 text-sm text-red-600">{acceptedPrivacyError}</p>}
+                  </div>
 
-              {currentStep <= (accountType === 'individual' ? totalSteps - 1 : totalSteps) && currentStep !== 6 && (
-                <div className="flex justify-between mt-6">
-                  {currentStep > 1 && (
+                  <div>
+                    <div className="flex items-start">
+                      <div className="flex items-center h-5">
+                        <input
+                          id="acceptMarketing"
+                          name="acceptMarketing"
+                          type="checkbox"
+                          checked={acceptMarketing}
+                          onChange={(e) => setAcceptMarketing(e.target.checked)}
+                          className="h-4 w-4 text-primary-blue focus:ring-primary-blue border-gray-300 rounded"
+                        />
+                      </div>
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="acceptMarketing" className="font-medium text-gray-700">
+                          {t('auth.label.acceptMarketing')}
+                        </label>
+                        <p className="text-gray-500">{t('auth.marketing.description')}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          case 6: // Email Verification
+            return (
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">{t('auth.verification.title')}</h2>
+                <p className="text-gray-600 mb-6 text-center">{t('auth.verification.description')}</p>
+                
+                {verificationSuccess ? (
+                  <div className="text-center">
+                    <svg className="mx-auto h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3 className="mt-4 text-lg font-medium text-gray-900">{t('auth.verification.success')}</h3>
+                    <p className="mt-2 text-gray-600">{t('auth.verification.redirecting')}</p>
+                  </div>
+                ) : (
+                  <div className="text-center">
+                    <p className="mb-4">{t('auth.verification.checkEmail', { email: verificationEmail })}</p>
                     <button
                       type="button"
-                      onClick={goToPreviousStep}
-                      className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={requestNewVerificationEmail}
+                      className="text-primary-blue hover:text-blue-600"
+                      disabled={isLoading}
                     >
-                      {t('common.previous')}
+                      {t('auth.verification.resendEmail')}
                     </button>
-                  )}
-                  <button
-                    type="submit"
-                    disabled={isLoading || (currentStep === 5 && setupMFA && !downloadedRecoveryCodes)}
-                    className={`ml-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[var(--primary-blue)] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-blue)] disabled:opacity-50 disabled:cursor-not-allowed`}
-                  >
-                    {isLoading ? t('common.loading') : (currentStep === 5 ? t('auth.signup.complete') : t('common.next'))}
-                  </button>
-                </div>
-              )}
-
-              {/* Terms and Privacy checkboxes for the final step before submission */}
-               {((currentStep === 5 && accountType === 'individual') || (currentStep === 5 && accountType === 'business')) && (
-                <div className="mt-6 pt-6 border-t space-y-3">
-                  <div className="flex items-center">
-                    <input
-                      id="acceptedTerms"
-                      name="acceptedTerms"
-                      type="checkbox"
-                      checked={acceptedTerms}
-                      onChange={(e) => { setAcceptedTerms(e.target.checked); validateTermsAcceptance(); }}
-                      className={`h-4 w-4 text-[var(--primary-blue)] rounded focus:ring-[var(--primary-blue)] ${acceptedTermsError ? 'border-red-500' : 'border-gray-300'}`}
-                    />
-                    <label htmlFor="acceptedTerms" className="ml-2 block text-sm text-gray-900">
-                      {t('auth.label.acceptTerms')} <span className="text-red-500">*</span>
-                    </label>
                   </div>
-                   {acceptedTermsError && <p className="mt-1 text-sm text-red-600">{acceptedTermsError}</p>}
+                )}
+              </div>
+            );
+          default:
+            return null;
+        }
+      };
 
-                  <div className="flex items-center">
-                    <input
-                      id="acceptedPrivacy"
-                      name="acceptedPrivacy"
-                      type="checkbox"
-                      checked={acceptedPrivacy}
-                      onChange={(e) => { setAcceptedPrivacy(e.target.checked); validateTermsAcceptance(); }}
-                       className={`h-4 w-4 text-[var(--primary-blue)] rounded focus:ring-[var(--primary-blue)] ${acceptedPrivacyError ? 'border-red-500' : 'border-gray-300'}`}
-                    />
-                    <label htmlFor="acceptedPrivacy" className="ml-2 block text-sm text-gray-900">
-                      {t('auth.label.acceptPrivacy')} <span className="text-red-500">*</span>
-                    </label>
+      return (
+        <Suspense fallback={<LoadingPage />}>
+          <div className={`min-h-screen ${isRTL ? 'rtl' : 'ltr'} transition-all duration-300`}>
+            {isLoading ? <LoadingPage /> : (
+              <>
+                <header className="site-header">
+                  <div className="container">
+                    <div className="header-content">
+                      <div className="logo">
+                        <Link to="/">
+                          <img src={SunnyLogo} alt={t('common.brandName')} height="40" />
+                          <span>{t('common.brandName')}</span>
+                        </Link>
+                      </div>
+                      <div className="flex items-center space-x-6">
+                        <div className="relative" ref={langMenuRef}>
+                          <button 
+                            className="flex items-center text-gray-700 hover:text-[var(--primary-blue)] focus:outline-none" 
+                            onClick={() => setShowLangMenu(!showLangMenu)}
+                            aria-label="Change language"
+                            aria-expanded={showLangMenu}
+                          >
+                            <svg className={`w-5 h-5 no-flip ${isRTL ? 'ml-1' : 'mr-1'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>{i18n.language.toUpperCase()}</span>
+                          </button>
+                          {showLangMenu && (
+                            <div className={`absolute language-menu ${isRTL ? 'left-0' : 'right-0'} mt-2 w-48 bg-white rounded-md shadow-lg z-20`}>
+                              <div className="py-1">
+                                {languages.map(lang => (
+                                  <button
+                                    key={lang.code}
+                                    className={`w-full ${isRTL ? 'text-right' : 'text-left'} px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${i18n.language === lang.code ? 'font-bold bg-gray-50' : ''}`}
+                                    onClick={() => changeLanguage(lang.code)}
+                                  >
+                                    {lang.name}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  {acceptedPrivacyError && <p className="mt-1 text-sm text-red-600">{acceptedPrivacyError}</p>}
+                </header>
 
-                   <div className="flex items-center mt-4">
-                    <input
-                      id="acceptMarketing"
-                      name="acceptMarketing"
-                      type="checkbox"
-                      checked={acceptMarketing}
-                      onChange={(e) => setAcceptMarketing(e.target.checked)}
-                      className="h-4 w-4 text-[var(--primary-blue)] border-gray-300 rounded focus:ring-[var(--primary-blue)]"
-                    />
-                    <label htmlFor="acceptMarketing" className="ml-2 block text-sm text-gray-900">
-                      {t('auth.label.acceptMarketing')}
-                    </label>
+                <div className="auth-container">
+                  <div className="auth-card">
+                    <div className="auth-content">
+                      {/* Progress Steps */}
+                      {!isVerificationMode && (
+                        <div className="mb-8">
+                          <div className="flex justify-between items-center">
+                            {Array.from({ length: totalSteps - 1 }).map((_, index) => (
+                              <React.Fragment key={index}>
+                                <div className={`step-indicator ${currentStep > index + 1 ? 'completed' : currentStep === index + 1 ? 'active' : ''}`}>
+                                  {index + 1}
+                                </div>
+                                {index < totalSteps - 2 && (
+                                  <div className={`step-line ${currentStep > index + 1 ? 'completed' : ''}`} />
+                                )}
+                              </React.Fragment>
+                            ))}
+                          </div>
+                          <div className="mt-2 text-xs text-gray-500 text-center">
+                            {t(`auth.signup.step${currentStep}.subtitle`)}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Success and Error Messages */}
+                      {successMessage && (
+                        <div className="form-success" role="alert">
+                          <svg viewBox="0 0 20 20" width="20" height="20" fill="currentColor">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+                          </svg>
+                          <span>{successMessage}</span>
+                        </div>
+                      )}
+                      
+                      {error && (
+                        <div className="form-error" role="alert">
+                          <svg viewBox="0 0 20 20" width="20" height="20" fill="currentColor">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586l-1.293-1.293z" />
+                          </svg>
+                          <span>{error}</span>
+                        </div>
+                      )}
+
+                      {/* Form */}
+                      <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* CSRF Token */}
+                        <input type="hidden" name="csrf_token" value={csrfToken} />
+
+                        {/* Render current step */}
+                        {renderStep(currentStep)}
+
+                        {/* Navigation Buttons */}
+                        {!isVerificationMode && (
+                          <div className="flex justify-between mt-8">
+                            {currentStep > 1 && (
+                              <button
+                                type="button"
+                                onClick={goToPreviousStep}
+                                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                              >
+                                {t('auth.action.back')}
+                              </button>
+                            )}
+                            <button
+                              type="submit"
+                              className="ml-auto px-6 py-2 text-sm font-medium text-white bg-primary-blue hover:bg-blue-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-blue"
+                              disabled={isLoading}
+                            >
+                              {isLoading ? (
+                                <span className="loading-spinner" />
+                              ) : currentStep === totalSteps - 1 ? (
+                                t('auth.action.complete')
+                              ) : (
+                                t('auth.action.next')
+                              )}
+                            </button>
+                          </div>
+                        )}
+                      </form>
+                    </div>
                   </div>
                 </div>
-               )}
-
-              {/* Error Message */}
-              {error && !isVerificationMode && <div className="text-red-600 text-sm text-center">{error}</div>}
-              {successMessage && !isVerificationMode && !verificationSuccess && <div className="text-green-600 text-sm text-center">{successMessage}</div>}
-
-
-              {!isVerificationMode && currentStep !== 6 && (
-                 <div className="text-center mt-6">
-                  <p className="text-sm text-gray-600">
-                    {t('auth.alreadyHaveAccount')}{' '}
-                    <Link to="/login" className="font-medium text-[var(--primary-blue)] hover:text-blue-700">
-                      {t('auth.loginNow')}
-                    </Link>
-                  </p>
-                </div>
-              )}
-
-            </form>
+              </>
+            )}
           </div>
-        </main>
+        </Suspense>
+      );
+    };
 
-        <footer className="site-footer">
-          <div className="container text-center text-sm text-gray-600 py-4">
-            © {new Date().getFullYear()} {t('common.brandName')}. {t('common.allRightsReserved')}.
-          </div>
-        </footer>
-      </div>
-    </Suspense>
-  );
-};
-
-export default SignupPage;
+    export default SignupPage;
