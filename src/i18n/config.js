@@ -9,6 +9,8 @@ import frTranslation from './locales/fr/translation.json';
 import esTranslation from './locales/es/translation.json';
 import zhTranslation from './locales/zh/translation.json';
 import arTranslation from './locales/ar/translation.json';
+import ptTranslation from './locales/pt/translation.json';
+import deTranslation from './locales/de/translation.json';
 
 // Resources containing all translations
 const resources = {
@@ -26,6 +28,12 @@ const resources = {
   },
   ar: {
     translation: arTranslation
+  },
+  pt: {
+    translation: ptTranslation
+  },
+  de: {
+    translation: deTranslation
   }
 };
 

@@ -1,110 +1,98 @@
-/**
- * Logging Service
- * Centralized logging functionality for the application
- */
+// Browser-compatible logging service
+class BrowserLogger {
+  constructor() {
+    this.logLevel = process.env.NODE_ENV === 'development' ? 'debug' : 'error';
+    this.levels = {
+      error: 0,
+      warn: 1,
+      info: 2,
+      debug: 3
+    };
+  }
 
-// Configure the log level based on environment
-const LOG_LEVEL = process.env.NODE_ENV === 'production' ? 'warn' : 'debug';
-const LOG_LEVELS = {
-  debug: 0,
-  info: 1,
-  warn: 2,
-  error: 3
-};
+  shouldLog(level) {
+    return this.levels[level] <= this.levels[this.logLevel];
+  }
 
-// Helper function to get current timestamp
-const getTimestamp = () => {
-  return new Date().toISOString();
-};
+  formatMessage(level, message, meta = {}) {
+    const timestamp = new Date().toISOString();
+    return {
+      timestamp,
+      level,
+      message,
+      ...meta
+    };
+  }
 
-// Format log messages
-const formatLogMessage = (level, message, data = {}) => {
-  const timestamp = getTimestamp();
-  let formattedMessage = `[${timestamp}] [${level.toUpperCase()}] ${message}`;
-  
-  // Add contextual data if available
-  if (Object.keys(data).length > 0) {
+  error(message, meta) {
+    if (this.shouldLog('error')) {
+      const formattedMessage = this.formatMessage('error', message, meta);
+      console.error(formattedMessage);
+      this.persistLog(formattedMessage);
+    }
+  }
+
+  warn(message, meta) {
+    if (this.shouldLog('warn')) {
+      const formattedMessage = this.formatMessage('warn', message, meta);
+      console.warn(formattedMessage);
+      this.persistLog(formattedMessage);
+    }
+  }
+
+  info(message, meta) {
+    if (this.shouldLog('info')) {
+      const formattedMessage = this.formatMessage('info', message, meta);
+      console.info(formattedMessage);
+      this.persistLog(formattedMessage);
+    }
+  }
+
+  debug(message, meta) {
+    if (this.shouldLog('debug')) {
+      const formattedMessage = this.formatMessage('debug', message, meta);
+      console.debug(formattedMessage);
+      this.persistLog(formattedMessage);
+    }
+  }
+
+  persistLog(logEntry) {
     try {
-      formattedMessage += ` - ${JSON.stringify(data)}`;
-    } catch (error) {
-      formattedMessage += ` - [Error serializing log data: ${error.message}]`;
-    }
-  }
-  
-  return formattedMessage;
-};
-
-// In production, this would send logs to a proper logging service
-const sendToRemoteLogging = (level, message, data) => {
-  // This is a placeholder for a real remote logging service
-  // In a production environment, this would send logs to a service like Sentry, LogRocket, etc.
-  if (process.env.NODE_ENV === 'production' && LOG_LEVELS[level] >= LOG_LEVELS.error) {
-    // Example: send to remote logging service
-    console.log(`[REMOTE] ${formatLogMessage(level, message, data)}`);
-  }
-};
-
-// Create the logging service object 
-const loggingService = {
-  /**
-   * Log debug message
-   * @param {string} message - Log message
-   * @param {Object} data - Additional context data
-   */
-  debug: (message, data) => {
-    if (LOG_LEVELS[LOG_LEVEL] <= LOG_LEVELS.debug) {
-      console.debug(formatLogMessage('debug', message, data));
-    }
-  },
-  
-  /**
-   * Log info message
-   * @param {string} message - Log message
-   * @param {Object} data - Additional context data
-   */
-  info: (message, data) => {
-    if (LOG_LEVELS[LOG_LEVEL] <= LOG_LEVELS.info) {
-      console.info(formatLogMessage('info', message, data));
-    }
-  },
-  
-  /**
-   * Log warning message
-   * @param {string} message - Log message
-   * @param {Object} data - Additional context data
-   */
-  warn: (message, data) => {
-    if (LOG_LEVELS[LOG_LEVEL] <= LOG_LEVELS.warn) {
-      console.warn(formatLogMessage('warn', message, data));
-      sendToRemoteLogging('warn', message, data);
-    }
-  },
-  
-  /**
-   * Log error message
-   * @param {string} message - Log message
-   * @param {Error|Object} error - Error object or additional context data
-   */
-  error: (message, error) => {
-    if (LOG_LEVELS[LOG_LEVEL] <= LOG_LEVELS.error) {
-      let errorData = {};
+      // Store logs in localStorage with a size limit
+      const MAX_LOGS = 1000;
+      const logs = JSON.parse(localStorage.getItem('appLogs') || '[]');
+      logs.push(logEntry);
       
-      if (error instanceof Error) {
-        errorData = {
-          message: error.message,
-          stack: error.stack,
-          name: error.name
-        };
-      } else if (error) {
-        errorData = error;
+      // Keep only the last MAX_LOGS entries
+      if (logs.length > MAX_LOGS) {
+        logs.splice(0, logs.length - MAX_LOGS);
       }
       
-      console.error(formatLogMessage('error', message, errorData));
-      sendToRemoteLogging('error', message, errorData);
+      localStorage.setItem('appLogs', JSON.stringify(logs));
+    } catch (error) {
+      console.error('Failed to persist log:', error);
     }
   }
-};
 
-// Export both as named and default export
-export { loggingService };
-export default loggingService;
+  getLogs() {
+    try {
+      return JSON.parse(localStorage.getItem('appLogs') || '[]');
+    } catch (error) {
+      console.error('Failed to retrieve logs:', error);
+      return [];
+    }
+  }
+
+  clearLogs() {
+    try {
+      localStorage.removeItem('appLogs');
+    } catch (error) {
+      console.error('Failed to clear logs:', error);
+    }
+  }
+}
+
+const logger = new BrowserLogger();
+
+export { logger };
+export default logger;

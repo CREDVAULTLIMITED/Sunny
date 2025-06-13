@@ -8,16 +8,16 @@
 export const colors = {
   // Primary brand colors
   primary: {
-    50: '#e6f7ff',
-    100: '#b3e6ff',
-    200: '#80d4ff',
-    300: '#4dc2ff',
-    400: '#1aafff',
-    500: '#0099e6', // Main primary color
-    600: '#0077b3',
-    700: '#005580',
-    800: '#00334d',
-    900: '#00121a',
+    50: '#f0f7ff',
+    100: '#e0eefb',
+    200: '#c0dff7',
+    300: '#93c5f4',
+    400: '#6ba7e8',
+    500: '#4a90e2', // Main primary color (more eye-friendly)
+    600: '#357abd',
+    700: '#2a6697',
+    800: '#1f4d70',
+    900: '#14334a',
   },
   
   // Secondary accent colors
@@ -65,9 +65,9 @@ export const colors = {
     dark: '#cc0000',
   },
   info: {
-    light: '#e6f0ff',
-    main: '#1a75ff',
-    dark: '#0052cc',
+    light: '#e6f7ff',
+    main: '#0070f3',
+    dark: '#0050b3',
   },
   
   // Special purpose colors

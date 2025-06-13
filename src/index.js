@@ -1,11 +1,7 @@
 /* eslint-disable import/first */
-// Define process globally before any imports
-window.process = window.process || {
-  env: {},
-  browser: true,
-  version: '',
-  nextTick: function(fn) { setTimeout(fn, 0); }
-};
+// Import process polyfill before any other imports
+import './polyfills/process-browser.js';
+import 'process/browser';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

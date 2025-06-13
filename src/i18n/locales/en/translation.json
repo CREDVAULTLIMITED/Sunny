@@ -13,7 +13,7 @@
     "contact": "Contact",
     "terms": "Terms",
     "privacy": "Privacy",
-    "copyright": "© 2025 Sunny Payments. All rights reserved.",
+    "copyright": "© 2025 CREDVAULT LIMITED. All rights reserved.",
     "home": "Home",
     "solutions": "Solutions",
     "developers": "Developers",
@@ -315,5 +315,36 @@
   "footerTagline": "Empowering businesses worldwide with seamless payment solutions",
   "privacy": "Privacy",
   "terms": "Terms",
-  "allRightsReserved": "All rights reserved"
+  "allRightsReserved": "All rights reserved",
+  "about": {
+    "title": "About Sunny",
+    "subtitle": "Building the future of payments in Africa",
+    "mission": {
+      "title": "Our Mission",
+      "description": "Empowering businesses across Africa with seamless payment solutions."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "Creating a unified payment ecosystem that connects Africa to the global economy."
+    },
+    "values": {
+      "title": "Our Values",
+      "innovation": {
+        "title": "Innovation",
+        "description": "We constantly push boundaries to create cutting-edge payment solutions."
+      },
+      "integrity": {
+        "title": "Integrity",
+        "description": "We maintain the highest standards of security and transparency."
+      },
+      "inclusion": {
+        "title": "Inclusion",
+        "description": "We make financial services accessible to everyone."
+      },
+      "impact": {
+        "title": "Impact",
+        "description": "We drive positive change in African commerce and technology."
+      }
+    }
+  }
 }

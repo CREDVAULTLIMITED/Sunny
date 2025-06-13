@@ -5,9 +5,49 @@
  */
 
 import dotenv from 'dotenv';
+import joi from 'joi';
 
 // Load environment variables from .env file
-dotenv.config();
+dotenv.config({
+  path: process.env.NODE_ENV === 'development' ? '.env.development' : '.env'
+});
+
+// Set NODE_ENV if not set
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'development';
+}
+
+// Construct DATABASE_URL from individual parameters if provided
+if (!process.env.DATABASE_URL && process.env.DB_HOST) {
+  process.env.DATABASE_URL = `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+}
+
+const envVarsSchema = joi.object({
+  NODE_ENV: joi.string().valid('development', 'production', 'test').required(),
+  PORT: joi.number().default(3000),
+  DATABASE_URL: process.env.NODE_ENV === 'development' 
+    ? joi.string().default('sqlite://./dev.db')
+    : joi.string().required(),
+  JWT_SECRET: process.env.NODE_ENV === 'development'
+    ? joi.string().default('dev-jwt-secret-key')
+    : joi.string().required(),
+  JWT_EXPIRES_IN: joi.string().default('1d'),
+  CORS_ORIGIN: joi.string().default('*'),
+  RATE_LIMIT_WINDOW_MS: joi.number().default(900000),
+  RATE_LIMIT_MAX: joi.number().default(100),
+  ENCRYPTION_KEY: process.env.NODE_ENV === 'development'
+    ? joi.string().default('dev-encryption-key-32-chars-long-123')
+    : joi.string().required(),
+  REDIS_URL: process.env.NODE_ENV === 'development'
+    ? joi.string().default('redis://localhost:6379')
+    : joi.string().required(),
+}).unknown();
+
+const { value: envVars, error } = envVarsSchema.validate(process.env);
+
+if (error) {
+  throw new Error(`Config validation error: ${error.message}`);
+}
 
 // Determine current environment
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -71,6 +111,9 @@ const baseConfig = {
     enableCurrencyConversion: process.env.ENABLE_CURRENCY_CONVERSION !== 'false',
     enableFraudDetection: process.env.ENABLE_FRAUD_DETECTION !== 'false',
     enableRecurringPayments: process.env.ENABLE_RECURRING_PAYMENTS !== 'false'
+  },
+  redis: {
+    url: envVars.REDIS_URL,
   }
 };
 
@@ -172,5 +215,51 @@ if (NODE_ENV === 'production') {
   }
 }
 
-export default config;
+/**
+ * Application configuration
+ */
+
+const appConfig = {
+  // Bank configuration
+  bank: {
+    defaultTimeout: 30000,
+    maxRetries: 3,
+    heartbeatInterval: 30000,
+    messageTimeout: 10000,
+    maxReconnectAttempts: 3,
+    reconnectDelay: 5000
+  },
+
+  // Security configuration
+  security: {
+    encryptionKey: process.env.ENCRYPTION_KEY || 'your-encryption-key',
+    threeDSecureEnabled: true,
+    threeDSecureTimeout: 5000,
+    maxFailedAttempts: 3
+  },
+
+  // API endpoints
+  api: {
+    baseUrl: process.env.API_BASE_URL || 'https://api.sunny.com',
+    version: 'v1',
+    timeout: 5000
+  },
+
+  // Bank endpoints
+  bankEndpoints: {
+    sandbox: 'wss://sandbox.bank-api.sunny.com',
+    production: 'wss://bank-api.sunny.com'
+  },
+
+  // Payment processing
+  processing: {
+    maxAmount: 999999.99,
+    minAmount: 0.01,
+    supportedCurrencies: ['USD', 'EUR', 'GBP'],
+    defaultCurrency: 'USD'
+  }
+};
+
+const finalConfig = { ...config, ...appConfig };
+export default finalConfig;
 

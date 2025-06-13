@@ -19,15 +19,9 @@ const processors = {
   stripe: {
     enabled: process.env.STRIPE_ENABLED !== 'false',
     apiVersion: process.env.STRIPE_API_VERSION || '2023-10-16',
-    secretKey: isProduction 
-      ? process.env.STRIPE_SECRET_KEY 
-      : (process.env.STRIPE_SECRET_KEY || 'sk_test_your_stripe_test_key'),
-    publishableKey: isProduction
-      ? process.env.STRIPE_PUBLISHABLE_KEY
-      : (process.env.STRIPE_PUBLISHABLE_KEY || 'pk_test_your_stripe_test_key'),
-    webhookSecret: isProduction
-      ? process.env.STRIPE_WEBHOOK_SECRET
-      : (process.env.STRIPE_WEBHOOK_SECRET || 'whsec_your_stripe_webhook_secret'),
+    secretKey: process.env.STRIPE_SECRET_KEY,
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || 'whsec_your_stripe_webhook_secret',
     // Payment method specific settings
     paymentMethods: {
       card: {
@@ -141,5 +135,17 @@ const processors = {
     // QR code expiration in minutes
     expirationMinutes: parseInt(process.env.QRCODE_EXPIRATION_MINUTES, 10) || 30,
     // Currency support for different QR code types
-    currencySupport:
+    currencySupport: {
+      alipay: ['CNY', 'USD', 'EUR', 'GBP', 'JPY'],
+      wechat: ['CNY', 'USD', 'HKD', 'JPY'],
+      upi: ['INR'],
+      crypto: ['BTC', 'ETH', 'USDT', 'USDC'],
+      bank_app: ['USD', 'EUR', 'GBP', 'INR', 'SGD'],
+      merchant_presented: ['USD', 'EUR', 'GBP', 'CNY', 'INR'],
+      customer_presented: ['USD', 'EUR', 'GBP', 'CNY', 'INR']
+    }
+  }
+};
+
+export default processors;
 

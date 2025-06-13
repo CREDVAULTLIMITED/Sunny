@@ -1,153 +1,235 @@
-import React, { Component, useState, useEffect } from 'react';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-// SunnyProvider is required for useSunny hook to work
-import { SunnyProvider } from './sdk/SunnyReactSDK';
-import DashboardLayout from './components/dashboard/layout/DashboardLayout';
-import DashboardPage from './components/dashboard/DashboardPage';
-import PaymentMethodsPage from './components/dashboard/pages/PaymentMethodsPage';
-import IdentityManagementPage from './components/dashboard/pages/IdentityManagementPage';
-import ModernTransactionsPage from './components/dashboard/pages/ModernTransactionsPage';
-import CryptoPage from './components/dashboard/pages/CryptoPage';
-import CardsPage from './components/dashboard/pages/CardsPage';
-import CustomersPage from './components/dashboard/pages/CustomersPage';
-import GlobalMarketsPage from './components/dashboard/pages/GlobalMarketsPage';
-import SettlementsPage from './components/dashboard/pages/SettlementsPage';
-import CompliancePage from './components/dashboard/pages/CompliancePage';
-import SettingsPage from './components/dashboard/pages/SettingsPage';
-import GestureFacePayPage from './components/dashboard/pages/GestureFacePayPage';
-import OfflineModePage from './components/dashboard/pages/OfflineModePage';
-import MultiIdSearchPage from './components/dashboard/pages/MultiIdSearchPage';
-import ApiKeysPage from './components/dashboard/pages/ApiKeysPage';
-import WebhooksPage from './components/dashboard/pages/WebhooksPage';
-import ApiExplorerPage from './components/dashboard/pages/ApiExplorerPage';
-import SdkIntegrationPage from './components/dashboard/pages/SdkIntegrationPage';
-import LoginPage from './components/auth/LoginPage';
-import SignupPage from './components/auth/SignupPage';
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './styles/mega-menu.css';
+import { ThemeProvider } from './ui/components/ThemeProvider';
 import HomePage from './components/homepage/HomePage';
-import ReportsPage from './components/dashboard/pages/ReportsPage';
-import MobileMoneyPage from './components/dashboard/pages/MobileMoneyPage';
-import BankTransfersPage from './components/dashboard/pages/BankTransfersPage';
-import BalancesPage from './components/dashboard/pages/BalancesPage';
-
-// Styles
-import './index.css';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n/config';
 import './App.css';
+import ProtectedRoute from './components/common/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 
-// Protected route component
-const ProtectedRoute = ({ children }) => {
-  // In a real app, this would check for authentication
-  const isAuthenticated = localStorage.getItem('sunnyAuthToken');
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  
-  return children;
-};
+// Auth callback components
+const MicrosoftAuthCallback = lazy(() => import('./pages/MicrosoftAuthCallback'));
+const AppleAuthCallback = lazy(() => import('./pages/AppleAuthCallback'));
 
-// Error boundary to catch rendering errors
-class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
-  }
+// Lazy load page components
+const PaymentsPage = lazy(() => import('./pages/products/PaymentsPage'));
+const CheckoutPage = lazy(() => import('./pages/products/CheckoutPage'));
+const PaymentLinksPage = lazy(() => import('./pages/products/PaymentLinksPage'));
+const TerminalPage = lazy(() => import('./pages/products/TerminalPage'));
+const InvoicingPage = lazy(() => import('./pages/products/InvoicingPage'));
+const BillingPage = lazy(() => import('./pages/products/BillingPage'));
+const TaxPage = lazy(() => import('./pages/products/TaxPage'));
 
-  static getDerivedStateFromError(error) {
-    return { hasError: true };
-  }
+const EcommercePage = lazy(() => import('./pages/solutions/EcommercePage'));
+const SaasPage = lazy(() => import('./pages/solutions/SaasPage'));
+const MarketplacesPage = lazy(() => import('./pages/solutions/MarketplacesPage'));
+const EnterprisePage = lazy(() => import('./pages/solutions/EnterprisePage'));
 
-  componentDidCatch(error, errorInfo) {
-    console.error("App Error Boundary caught an error:", error, errorInfo);
-    console.error("Error message:", error.message);
-    console.error("Component stack:", errorInfo.componentStack);
-    this.setState({ error, errorInfo });
-  }
+const DocsPage = lazy(() => import('./pages/developers/DocsPage'));
+const ApiPage = lazy(() => import('./pages/developers/ApiPage'));
+const SdksPage = lazy(() => import('./pages/developers/SdksPage'));
+const ComponentsPage = lazy(() => import('./pages/developers/ComponentsPage'));
 
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div style={{ 
-          padding: '20px', 
-          margin: '20px', 
-          border: '1px solid red',
-          borderRadius: '5px',
-          backgroundColor: '#ffe6e6' 
-        }}>
-          <h2>Something went wrong.</h2>
-          <details style={{ whiteSpace: 'pre-wrap' }}>
-            <summary>Error Details</summary>
-            {this.state.error && this.state.error.toString()}
-            <br />
-            {this.state.errorInfo && this.state.errorInfo.componentStack}
-          </details>
-        </div>
-      );
-    }
+const BlogPage = lazy(() => import('./pages/resources/BlogPage'));
+const CustomersPage = lazy(() => import('./pages/resources/CustomersPage'));
+const GuidesPage = lazy(() => import('./pages/resources/GuidesPage'));
+const SupportPage = lazy(() => import('./pages/resources/SupportPage'));
 
-    return this.props.children;
-  }
-}
+const PricingPage = lazy(() => import('./pages/PricingPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const SignupPage = lazy(() => import('./pages/SignupPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 
-// Create router configuration
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <HomePage />,
-  },
-  {
-    path: '/login',
-    element: <LoginPage />,
-  },
-  {
-    path: '/signup',
-    element: <SignupPage />,
-  },
-  {
-    path: '/dashboard',
-    element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
-    children: [
-      { path: '', element: <DashboardPage /> },
-      { path: 'payment-methods', element: <PaymentMethodsPage /> },
-      { path: 'identity', element: <IdentityManagementPage /> },
-      { path: 'transactions', element: <ModernTransactionsPage /> },
-      { path: 'crypto', element: <CryptoPage /> },
-      { path: 'cards', element: <CardsPage /> },
-      { path: 'customers', element: <CustomersPage /> },
-      { path: 'markets', element: <GlobalMarketsPage /> },
-      { path: 'settlements', element: <SettlementsPage /> },
-      { path: 'compliance', element: <CompliancePage /> },
-      { path: 'settings', element: <SettingsPage /> },
-      { path: 'gesture-face-pay', element: <GestureFacePayPage /> },
-      { path: 'offline', element: <OfflineModePage /> },
-      { path: 'multi-id-search', element: <MultiIdSearchPage /> },
-      { path: 'api-keys', element: <ApiKeysPage /> },
-      { path: 'webhooks', element: <WebhooksPage /> },
-      { path: 'api-explorer', element: <ApiExplorerPage /> },
-      { path: 'sdk-integration', element: <SdkIntegrationPage /> },
-      { path: 'reports', element: <ReportsPage /> },
-      { path: 'mobile-money', element: <MobileMoneyPage /> },
-      { path: 'bank-transfers', element: <BankTransfersPage /> },
-      { path: 'balances', element: <BalancesPage /> },
-    ],
-  },
-  {
-    path: '*',
-    element: <Navigate to="/dashboard" replace />,
-  },
-]);
+// Dashboard Components
+const DashboardLayout = lazy(() => import('./pages/dashboard/DashboardLayout'));
+const DashboardOverview = lazy(() => import('./pages/dashboard/DashboardOverview'));
+const DashboardPayments = lazy(() => import('./pages/dashboard/DashboardPayments'));
+const DashboardCustomers = lazy(() => import('./pages/dashboard/DashboardCustomers'));
+const DashboardProducts = lazy(() => import('./pages/dashboard/DashboardProducts'));
+const DashboardSubscriptions = lazy(() => import('./pages/dashboard/DashboardSubscriptions'));
+const DashboardInvoices = lazy(() => import('./pages/dashboard/DashboardInvoices'));
+const DashboardBalance = lazy(() => import('./pages/dashboard/DashboardBalance'));
+const DashboardPayouts = lazy(() => import('./pages/dashboard/DashboardPayouts'));
+const DashboardAcceptPayments = lazy(() => import('./pages/dashboard/DashboardAcceptPayments'));
+const DashboardOrders = lazy(() => import('./pages/dashboard/DashboardOrders'));
+const DashboardConnect = lazy(() => import('./pages/dashboard/DashboardConnect'));
+const DashboardRadar = lazy(() => import('./pages/dashboard/DashboardRadar'));
+const DashboardReports = lazy(() => import('./pages/dashboard/DashboardReports'));
+const DashboardDevelopers = lazy(() => import('./pages/dashboard/DashboardDevelopers'));
+const DashboardSettings = lazy(() => import('./pages/dashboard/DashboardSettings'));
 
-// App component
-function App() {
-  return (
-    <ErrorBoundary>
-      <AuthProvider>
-        <SunnyProvider>
-          <RouterProvider router={router} />
-        </SunnyProvider>
-      </AuthProvider>
-    </ErrorBoundary>
+const App = () => {
+  // Loading component for Suspense
+  const Loading = () => (
+    <div className="loading-screen">
+      <div className="loader"></div>
+    </div>
   );
-}
+
+  return (
+    <AuthProvider>
+      <ThemeProvider>
+        <I18nextProvider i18n={i18n}>
+          <Router>
+            <Suspense fallback={<Loading />}>
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                
+                {/* Product Routes */}
+                <Route path="/products/payments" element={<PaymentsPage />} />
+                <Route path="/products/checkout" element={<CheckoutPage />} />
+                <Route path="/products/payment-links" element={<PaymentLinksPage />} />
+                <Route path="/products/terminal" element={<TerminalPage />} />
+                <Route path="/products/invoicing" element={<InvoicingPage />} />
+                <Route path="/products/billing" element={<BillingPage />} />
+                <Route path="/products/tax" element={<TaxPage />} />
+                
+                {/* Solution Routes */}
+                <Route path="/solutions/ecommerce" element={<EcommercePage />} />
+                <Route path="/solutions/saas" element={<SaasPage />} />
+                <Route path="/solutions/marketplaces" element={<MarketplacesPage />} />
+                <Route path="/solutions/enterprise" element={<EnterprisePage />} />
+                
+                {/* Developer Routes */}
+                <Route path="/developers/docs" element={<DocsPage />} />
+                <Route path="/developers/api" element={<ApiPage />} />
+                <Route path="/developers/sdks" element={<SdksPage />} />
+                <Route path="/developers/components" element={<ComponentsPage />} />
+                
+                {/* Resource Routes */}
+                <Route path="/resources/blog" element={<BlogPage />} />
+                <Route path="/resources/customers" element={<CustomersPage />} />
+                <Route path="/resources/guides" element={<GuidesPage />} />
+                <Route path="/support" element={<SupportPage />} />
+                
+                {/* Auth Callback Routes */}
+                <Route path="/auth/microsoft/callback" element={<MicrosoftAuthCallback />} />
+                <Route path="/auth/apple/callback" element={<AppleAuthCallback />} />
+
+                {/* Protected Dashboard Routes */}
+                <Route path="/dashboard" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardOverview />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/payments" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardPayments />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/customers" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardCustomers />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/products" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardProducts />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/subscriptions" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardSubscriptions />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/invoices" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardInvoices />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/balance" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardBalance />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/payouts" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardPayouts />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/accept-payments" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardAcceptPayments />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/orders" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardOrders />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/radar" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardRadar />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/connect" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardConnect />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/reports" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardReports />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/settings" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardSettings />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+                <Route path="/dashboard/developers" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <DashboardDevelopers />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                } />
+              </Routes>
+            </Suspense>
+          </Router>
+        </I18nextProvider>
+      </ThemeProvider>
+    </AuthProvider>
+  );
+};
 
 export default App;

@@ -1,185 +1,108 @@
 /**
  * constants.js
- * 
- * Core constants used throughout the payment system
+ * Payment system constants and configurations
  */
 
-// Payment methods supported by the system
 export const PAYMENT_METHODS = {
-  MOBILE_MONEY: 'MOBILE_MONEY',
   CARD: 'CARD',
+  MOBILE_MONEY: 'MOBILE_MONEY',
   BANK_TRANSFER: 'BANK_TRANSFER',
-  QR_CODE: 'QR_CODE',
   CRYPTO: 'CRYPTO',
-  P2P: 'P2P',
-  CASH: 'CASH',
-  OFFLINE: 'OFFLINE'
+  QR: 'QR'
 };
 
-// Mobile money providers
-export const MOBILE_MONEY_PROVIDERS = {
-  MPESA: 'MPESA',
-  AIRTEL: 'AIRTEL',
-  MTN: 'MTN',
-  ORANGE: 'ORANGE',
-  VODACOM: 'VODACOM',
-  TIGO: 'TIGO'
-};
-
-// Card networks
-export const CARD_NETWORKS = {
-  VISA: 'VISA',
-  MASTERCARD: 'MASTERCARD',
-  AMEX: 'AMEX',
-  DISCOVER: 'DISCOVER',
-  JCB: 'JCB',
-  UNIONPAY: 'UNIONPAY'
-};
-
-// Cryptocurrency types
-export const CRYPTO_TYPES = {
-  BTC: 'BTC',
-  ETH: 'ETH',
-  USDC: 'USDC',
-  USDT: 'USDT',
-  XRP: 'XRP'
-};
-
-// Transaction status codes
 export const PAYMENT_STATUS = {
-  INITIATED: 'INITIATED',
   PENDING: 'PENDING',
-  PROCESSING: 'PROCESSING',
-  COMPLETED: 'COMPLETED',
+  SUCCESS: 'SUCCESS',
   FAILED: 'FAILED',
-  REFUNDED: 'REFUNDED',
   CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED',
   EXPIRED: 'EXPIRED'
 };
 
-// Settlement status codes
-export const SETTLEMENT_STATUS = {
-  PENDING: 'PENDING',
-  PROCESSING: 'PROCESSING',
-  COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED'
+export const CARD_NETWORKS = {
+  VISA: 'visa',
+  MASTERCARD: 'mastercard',
+  AMEX: 'amex',
+  UNIONPAY: 'unionpay',
+  VERVE: 'verve'
 };
 
-// Error codes
+export const MOBILE_MONEY_PROVIDERS = {
+  MPESA: {
+    name: 'M-Pesa',
+    countries: ['KE', 'TZ'],
+    currencies: ['KES', 'TZS'],
+    prefixes: ['254', '255'],
+    apiVersion: '2.0'
+  },
+  AIRTEL: {
+    name: 'Airtel Money',
+    countries: ['KE', 'UG', 'TZ', 'RW'],
+    currencies: ['KES', 'UGX', 'TZS', 'RWF'],
+    prefixes: ['254', '256', '255', '250'],
+    apiVersion: '1.0'
+  },
+  MTN: {
+    name: 'MTN Mobile Money',
+    countries: ['UG', 'RW'],
+    currencies: ['UGX', 'RWF'],
+    prefixes: ['256', '250'],
+    apiVersion: '1.0'
+  }
+};
+
+export const CRYPTO_CURRENCIES = {
+  BTC: {
+    name: 'Bitcoin',
+    network: 'bitcoin',
+    confirmations: 2
+  },
+  ETH: {
+    name: 'Ethereum',
+    network: 'ethereum',
+    confirmations: 12
+  },
+  USDT: {
+    name: 'Tether',
+    network: 'ethereum',
+    contractAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    confirmations: 12
+  }
+};
+
+export const SUPPORTED_CURRENCIES = [
+  // Fiat Currencies
+  'USD', 'EUR', 'GBP',
+  'KES', 'TZS', 'UGX', 'RWF', // East African
+  'NGN', 'GHS', 'ZAR', // Other African
+  
+  // Crypto Currencies
+  'BTC', 'ETH', 'USDT'
+];
+
 export const ERROR_CODES = {
-  // General errors
-  GENERAL_ERROR: 'ERR_GENERAL',
-  VALIDATION_ERROR: 'ERR_VALIDATION',
-  AUTHENTICATION_ERROR: 'ERR_AUTH',
-  AUTHORIZATION_ERROR: 'ERR_AUTHZ',
-  
-  // Transaction errors
-  TRANSACTION_NOT_FOUND: 'ERR_TXN_NOT_FOUND',
-  INSUFFICIENT_FUNDS: 'ERR_INSUFFICIENT_FUNDS',
-  DUPLICATE_TRANSACTION: 'ERR_DUPLICATE_TXN',
-  TRANSACTION_EXPIRED: 'ERR_TXN_EXPIRED',
-  
-  // Payment method errors
-  PAYMENT_METHOD_ERROR: 'ERR_PAYMENT_METHOD',
-  CARD_DECLINED: 'ERR_CARD_DECLINED',
-  INVALID_CARD: 'ERR_INVALID_CARD',
-  MOBILE_MONEY_ERROR: 'ERR_MOBILE_MONEY',
-  BANK_TRANSFER_ERROR: 'ERR_BANK_TRANSFER',
-  CRYPTO_ERROR: 'ERR_CRYPTO',
-  
-  // Identity errors
-  IDENTITY_ERROR: 'ERR_IDENTITY',
-  IDENTITY_NOT_FOUND: 'ERR_IDENTITY_NOT_FOUND',
-  
-  // Network errors
-  NETWORK_ERROR: 'ERR_NETWORK',
-  TIMEOUT_ERROR: 'ERR_TIMEOUT',
-  
-  // Settlement errors
-  SETTLEMENT_ERROR: 'ERR_SETTLEMENT'
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  INSUFFICIENT_FUNDS: 'INSUFFICIENT_FUNDS',
+  PAYMENT_FAILED: 'PAYMENT_FAILED',
+  PROVIDER_ERROR: 'PROVIDER_ERROR',
+  TIMEOUT: 'TIMEOUT',
+  FRAUD_DETECTED: 'FRAUD_DETECTED',
+  INVALID_CARD: 'INVALID_CARD',
+  DECLINED: 'DECLINED'
 };
 
-// Identity types
-export const IDENTITY_TYPES = {
-  PHONE: 'PHONE',
-  EMAIL: 'EMAIL',
-  USERNAME: 'USERNAME',
-  BANK_ACCOUNT: 'BANK_ACCOUNT',
-  CRYPTO_ADDRESS: 'CRYPTO_ADDRESS',
-  NATIONAL_ID: 'NATIONAL_ID'
+export const WEBHOOK_EVENTS = {
+  PAYMENT_INITIATED: 'payment.initiated',
+  PAYMENT_SUCCEEDED: 'payment.succeeded',
+  PAYMENT_FAILED: 'payment.failed',
+  REFUND_INITIATED: 'refund.initiated',
+  REFUND_SUCCEEDED: 'refund.succeeded',
+  DISPUTE_CREATED: 'dispute.created',
+  DISPUTE_UPDATED: 'dispute.updated'
 };
 
-// Supported currencies
-export const CURRENCIES = {
-  // Fiat currencies
-  USD: 'USD',
-  EUR: 'EUR',
-  GBP: 'GBP',
-  KES: 'KES', // Kenyan Shilling
-  NGN: 'NGN', // Nigerian Naira
-  ZAR: 'ZAR', // South African Rand
-  GHS: 'GHS', // Ghanaian Cedi
-  UGX: 'UGX', // Ugandan Shilling
-  TZS: 'TZS', // Tanzanian Shilling
-  RWF: 'RWF', // Rwandan Franc
-  INR: 'INR', // Indian Rupee
-  
-  // Cryptocurrencies
-  BTC: 'BTC',
-  ETH: 'ETH',
-  USDC: 'USDC',
-  USDT: 'USDT'
-};
-
-// Fee types
-export const FEE_TYPES = {
-  PERCENTAGE: 'PERCENTAGE',
-  FIXED: 'FIXED',
-  MIXED: 'MIXED'
-};
-
-// Transaction types
-export const TRANSACTION_TYPES = {
-  PAYMENT: 'PAYMENT',
-  REFUND: 'REFUND',
-  TRANSFER: 'TRANSFER',
-  WITHDRAWAL: 'WITHDRAWAL',
-  DEPOSIT: 'DEPOSIT'
-};
-
-// Routing strategies
-export const ROUTING_STRATEGIES = {
-  CHEAPEST: 'CHEAPEST',
-  FASTEST: 'FASTEST',
-  MOST_RELIABLE: 'MOST_RELIABLE',
-  USER_PREFERRED: 'USER_PREFERRED'
-};
-
-// QR code types
-export const QR_CODE_TYPES = {
-  STATIC: 'STATIC',
-  DYNAMIC: 'DYNAMIC'
-};
-
-// Hardware types
-export const HARDWARE_TYPES = {
-  POS_TERMINAL: 'POS_TERMINAL',
-  CARD_READER: 'CARD_READER',
-  QR_SCANNER: 'QR_SCANNER',
-  BIOMETRIC: 'BIOMETRIC'
-};
-
-// Biometric types
-export const BIOMETRIC_TYPES = {
-  FACE: 'FACE',
-  FINGERPRINT: 'FINGERPRINT',
-  PALM: 'PALM',
-  VOICE: 'VOICE'
-};
-
-// Offline payment types
-export const OFFLINE_PAYMENT_TYPES = {
-  USSD: 'USSD',
-  SMS: 'SMS',
-  OFFLINE_QR: 'OFFLINE_QR'
+export const API_VERSIONS = {
+  CURRENT: 'v1',
+  SUPPORTED: ['v1', 'v2-beta']
 };

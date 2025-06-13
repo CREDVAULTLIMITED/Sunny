@@ -1,14 +1,15 @@
 /**
- * Real Payment Gateway Implementation
- * This is a minimal but functional payment gateway with Stripe integration
+ * Direct Payment Gateway Implementation
+ * Handles direct payment processing with banks
  */
 
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
-const Stripe = require('stripe');
 const { v4: uuidv4 } = require('uuid');
+const DirectCardProcessor = require('./core/processors/DirectCardProcessor');
+const { logger } = require('./services/loggingService');
 
 // Load environment variables
 dotenv.config();
@@ -17,55 +18,65 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Initialize Stripe with your secret key
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_your_stripe_test_key');
+// Initialize payment processor
+const cardProcessor = new DirectCardProcessor();
 
 // Middleware
 app.use(helmet()); // Security headers
 app.use(cors());   // CORS support
 app.use(express.json()); // JSON body parsing
+app.use(express.urlencoded({ extended: true })); // Form data parsing
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date() });
 });
 
-// Process a payment with Stripe
+// Process a card payment
 app.post('/api/payments', async (req, res) => {
   try {
-    const { amount, currency, paymentMethod, card, customer } = req.body;
+    const { amount, currency, card, customer, returnUrl } = req.body;
     
     // Validate required fields
-    if (!amount || !currency) {
+    if (!amount || !currency || !card) {
       return res.status(400).json({ 
         success: false, 
-        error: 'Missing required fields' 
+        error: 'Missing required fields',
+        requiredFields: ['amount', 'currency', 'card']
       });
     }
 
     // Generate transaction ID
     const transactionId = `txn_${uuidv4().replace(/-/g, '')}`;
     
-    // Create a payment method if card details are provided
-    let paymentMethodId = paymentMethod;
+    // Process payment directly with bank
+    const paymentRequest = {
+      amount: parseFloat(amount),
+      currency: currency.toUpperCase(),
+      card,
+      merchantId: process.env.MERCHANT_ID,
+      threeDSecureReturnUrl: returnUrl,
+      metadata: {
+        transactionId,
+        customerName: customer?.name || 'Guest',
+        customerEmail: customer?.email || 'anonymous'
+      }
+    };
     
-    if (!paymentMethodId && card) {
-      const paymentMethodResult = await stripe.paymentMethods.create({
-        type: 'card',
-        card: {
-          number: card.number,
-          exp_month: parseInt(card.expMonth),
-          exp_year: parseInt(card.expYear),
-          cvc: card.cvv
+    const result = await cardProcessor.process(paymentRequest);
+
+    if (result.success) {
+      return res.json({
+        success: true,
+        transactionId: transactionId,
+        status: result.status,
+        authorizationCode: result.authorizationCode,
+        processorResponse: {
+          last4: result.last4,
+          cardNetwork: result.cardNetwork,
+          processorTransactionId: result.transactionId
         }
       });
-      
-      paymentMethodId = paymentMethodResult.id;
-    }
-    
-    // Create a payment intent
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(parseFloat(amount) * 100), // Stripe requires amount in cents
       currency: currency.toLowerCase(),
       payment_method: paymentMethodId,
       confirm: true,

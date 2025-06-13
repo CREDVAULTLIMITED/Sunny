@@ -14,13 +14,13 @@
 
 /* Variants */
 .sunny-button-primary {
-  background: linear-gradient(135deg, #0070f3 0%, #00c6ff 100%);
+  background: linear-gradient(135deg, #4a90e2 0%, #6ba7e8 100%);
   color: white;
 }
 
 .sunny-button-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 112, 243, 0.2);
+  box-shadow: 0 4px 6px rgba(74, 144, 226, 0.2);
 }
 
 .sunny-button-secondary {

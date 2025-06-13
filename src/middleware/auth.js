@@ -4,53 +4,50 @@
  * Middleware for protecting routes and validating JWT tokens
  */
 
-const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
+import jwt from 'jsonwebtoken';
+import rateLimit from 'express-rate-limit';
+import { config } from '../config/config';
+import { logger } from '../services/loggingService';
+
+export const limiter = rateLimit({
+  windowMs: config.security.rateLimitWindowMs,
+  max: config.security.rateLimitMax,
+  message: 'Too many requests from this IP, please try again later.',
+});
 
 /**
  * Middleware to protect routes that require authentication
  */
-exports.protect = async function(req, res, next) {
+export const authenticate = async (req, res, next) => {
   try {
-    let token;
-    
-    // Check if token exists in headers
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      token = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies && req.cookies.token) {
-      // Check if token exists in cookies
-      token = req.cookies.token;
-    }
-    
-    // If no token found, return unauthorized error
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+
     if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: 'Not authorized to access this route'
-      });
+      throw new Error('Authentication required');
     }
-    
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'sunny-jwt-secret');
-    
-    // Find user by id
-    const user = await User.findById(decoded.id);
-    
-    // Check if user exists
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: 'User not found'
-      });
-    }
-    
-    // Add user to request object
-    req.user = user;
+
+    const decoded = jwt.verify(token, config.jwt.secret);
+    req.user = decoded;
+    req.token = token;
+
+    logger.info('User authenticated', {
+      userId: decoded.id,
+      path: req.path,
+      method: req.method,
+    });
+
     next();
   } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: 'Not authorized to access this route'
+    logger.error('Authentication failed', {
+      error: error.message,
+      path: req.path,
+      method: req.method,
+      ip: req.ip,
+    });
+
+    res.status(401).json({
+      error: 'Please authenticate.',
+      details: error.message,
     });
   }
 };
@@ -58,22 +55,23 @@ exports.protect = async function(req, res, next) {
 /**
  * Middleware to restrict access to specific roles
  */
-exports.authorize = (...roles) => {
+export const authorize = (roles = []) => {
   return (req, res, next) => {
     if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: 'Not authorized to access this route'
-      });
+      return res.status(401).json({ error: 'Authentication required' });
     }
-    
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({
-        success: false,
-        message: `User role ${req.user.role} is not authorized to access this route`
+
+    if (roles.length && !roles.includes(req.user.role)) {
+      logger.warn('Unauthorized access attempt', {
+        userId: req.user.id,
+        requiredRoles: roles,
+        userRole: req.user.role,
+        path: req.path,
       });
+
+      return res.status(403).json({ error: 'Insufficient permissions' });
     }
-    
+
     next();
   };
 };

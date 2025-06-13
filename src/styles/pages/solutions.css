@@ -1,0 +1,207 @@
+/* Solutions Pages Shared Styling */
+.integrations-section, .features-section, .mobile-section, .case-studies-section,
+.billing-models-section, .customer-lifecycle-section, .metrics-section {
+  padding: 4rem 0;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--sunny-text-primary);
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--sunny-text-primary);
+}
+
+/* Platform logos section */
+.platform-logos {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.platform-logo {
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  min-width: 150px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.platform-logo:hover {
+  transform: translateY(-5px);
+  border-color: var(--sunny-blue-primary);
+}
+
+/* Features grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--sunny-blue-primary);
+}
+
+.feature-card p {
+  color: var(--sunny-text-secondary);
+}
+
+/* Mobile showcase */
+.mobile-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.mobile-device {
+  height: 500px;
+  border: 1px solid #e2e8f0;
+  border-radius: 2rem;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-screen {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.mobile-checkout-demo {
+  height: 100%;
+  background: linear-gradient(135deg, var(--sunny-blue-light), #f0f9ff);
+}
+
+.mobile-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mobile-features p {
+  color: var(--sunny-text-secondary);
+}
+
+/* Case studies */
+.case-study {
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.case-study:hover {
+  transform: translateY(-5px);
+  border-color: var(--sunny-blue-primary);
+}
+
+.case-study-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.case-study p {
+  color: var(--sunny-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.case-study ul {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+}
+
+.case-study li {
+  margin-bottom: 0.5rem;
+  color: var(--sunny-text-secondary);
+}
+
+/* Lifecycle diagram */
+.lifecycle-diagram {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.lifecycle-stage {
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.lifecycle-stage:hover {
+  transform: translateY(-5px);
+  border-color: var(--sunny-blue-primary);
+}
+
+.lifecycle-stage p {
+  color: var(--sunny-text-secondary);
+}
+
+/* Metrics dashboard */
+.dashboard-preview {
+  max-width: 900px;
+  margin: 0 auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 2rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.metric-card {
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--sunny-blue-primary);
+}
+
+.metric-card p {
+  color: var(--sunny-text-secondary);
+}
+
+@media (max-width: 768px) {
+  .mobile-showcase {
+    grid-template-columns: 1fr;
+  }
+  
+  .mobile-device {
+    height: 400px;
+    margin-bottom: 2rem;
+  }
+}
