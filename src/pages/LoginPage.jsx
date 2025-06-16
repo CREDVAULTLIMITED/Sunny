@@ -6,6 +6,7 @@ import '../styles/components/social-auth.css';
 import authService from '../services/authService';
 import { useAuth } from '../context/AuthContext';
 import AppleSignInScript from '../components/AppleSignInScript';
+import { getAuthConfig, isProviderEnabled } from '../config/auth';
 
 // Social auth icons
 import appleIcon from '../assets/images/social/apple.svg';
@@ -175,31 +176,41 @@ const LoginPage = () => {
         </div>
         
         <div className="social-auth-buttons">
-          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}>
-            <GoogleLogin
-              onSuccess={handleGoogleLogin}
-              onError={() => setError('Google login failed')}
-              type="standard"
-              size="medium"
-              theme="filled_black"
-              shape="pill"
-            />
-          </GoogleOAuthProvider>
+          {isProviderEnabled('google') && (
+            <GoogleOAuthProvider clientId={getAuthConfig('google').clientId}>
+              <GoogleLogin
+                onSuccess={handleGoogleLogin}
+                onError={() => setError('Google login failed')}
+                type="standard"
+                size="medium"
+                theme="filled_black"
+                shape="pill"
+                useOneTap
+                disabled={!process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              />
+            </GoogleOAuthProvider>
+          )}
           
-          <button onClick={handleAppleLogin} className="social-button">
-            <img src={appleIcon} alt="Apple" />
-            Sign in with Apple
-          </button>
+          {isProviderEnabled('apple') && (
+            <button onClick={handleAppleLogin} className="social-button">
+              <img src={appleIcon} alt="Apple" />
+              Sign in with Apple
+            </button>
+          )}
           
-          <button onClick={handleMicrosoftLogin} className="social-button">
-            <img src={microsoftIcon} alt="Microsoft" />
-            Sign in with Microsoft
-          </button>
+          {isProviderEnabled('microsoft') && (
+            <button onClick={handleMicrosoftLogin} className="social-button">
+              <img src={microsoftIcon} alt="Microsoft" />
+              Sign in with Microsoft
+            </button>
+          )}
           
-          <button onClick={handleSlackLogin} className="social-button">
-            <img src={slackIcon} alt="Slack" />
-            Sign in with Slack
-          </button>
+          {isProviderEnabled('slack') && (
+            <button onClick={handleSlackLogin} className="social-button">
+              <img src={slackIcon} alt="Slack" />
+              Sign in with Slack
+            </button>
+          )}
         </div>
         
         <div className="auth-footer">

@@ -29,6 +29,7 @@ const Footer = () => {
                 <li><Link to="/developers/docs">Documentation</Link></li>
                 <li><Link to="/developers/api">API Reference</Link></li>
                 <li><Link to="/developers/sdks">SDKs</Link></li>
+                <li><Link to="/community">Community</Link></li>
                 <li><Link to="/support">Support</Link></li>
               </ul>
             </div>
@@ -38,6 +39,7 @@ const Footer = () => {
                 <li><Link to="/about">About Us</Link></li>
                 <li><Link to="/careers">Careers</Link></li>
                 <li><Link to="/resources/blog">Blog</Link></li>
+                <li><Link to="/ai" className="ai-link">AI</Link></li>
               </ul>
             </div>
           </div>

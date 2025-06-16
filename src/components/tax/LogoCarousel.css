@@ -1,0 +1,146 @@
+.logo-carousel {
+  width: 100%;
+  overflow: hidden;
+  background: #ffffff;
+  padding: 2rem 0;
+  position: relative;
+  --animation-duration: 40s;
+  --animation-timing: linear;
+}
+
+.logo-carousel::before,
+.logo-carousel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  z-index: 2;
+}
+
+.logo-carousel::before {
+  left: 0;
+  background: linear-gradient(to right, #ffffff 0%, transparent 100%);
+}
+
+.logo-carousel::after {
+  right: 0;
+  background: linear-gradient(to left, #ffffff 0%, transparent 100%);
+}
+
+.logo-track {
+  display: flex;
+  animation: scroll var(--animation-duration) var(--animation-timing) infinite;
+  width: max-content;
+  will-change: transform;
+}
+
+.logo-track:hover {
+  animation-play-state: paused;
+}
+
+.logo-slide {
+  flex: 0 0 auto;
+  padding: 2rem 3rem;
+  opacity: 0.5;
+  transition: all 0.5s ease;
+  transform: scale(0.95);
+}
+
+.logo-slide:hover {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.logo-slide img {
+  height: 28px;
+  width: auto;
+  filter: grayscale(100%);
+  transition: all 0.5s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.logo-slide:hover img {
+  filter: grayscale(0%);
+  transform: translateY(-2px);
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Move by half the width since we duplicated the logos */
+    transform: translateX(-50%);
+  }
+}
+
+/* Speed control and responsive behavior */
+@media (prefers-reduced-motion: reduce) {
+  .logo-carousel {
+    --animation-duration: 80s;
+    --animation-timing: linear;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo-slide {
+    padding: 1.5rem 2rem;
+  }
+  
+  .logo-slide img {
+    height: 24px;
+  }
+  
+  .logo-carousel::before,
+  .logo-carousel::after {
+    width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-slide {
+    padding: 1rem 1.5rem;
+  }
+  
+  .logo-slide img {
+    height: 20px;
+  }
+  
+  .logo-carousel::before,
+  .logo-carousel::after {
+    width: 60px;
+  }
+}
+
+/* Loading State */
+.logo-carousel-loading {
+  width: 100%;
+  height: 80px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-progress {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(99, 91, 255, 0.1) 0%,
+    rgba(99, 91, 255, 0.2) 50%,
+    rgba(99, 91, 255, 0.1) 100%
+  );
+  transition: width 0.3s ease;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}

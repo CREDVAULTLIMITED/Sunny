@@ -1,0 +1,21 @@
+{
+  "models": {
+    "helios-code": {
+      "model_id": "sunny-ai/helios-code-1.3b",
+      "description": "Sunny's Helios Code model for code generation",
+      "size": "~2.6GB"
+    },
+    "helios-reason": {
+      "model_id": "sunny-ai/helios-reason-7b",
+      "description": "Sunny's Helios Reason model for advanced reasoning",
+      "size": "~14GB"
+    }
+  },
+  "downloaded": [
+    "helios-code",
+    "helios-reason"
+  ],
+  "status": "ready",
+  "setup_date": "/mnt/storage/Downloads/Sunny-main",
+  "version": "1.0.0"
+}

@@ -18,7 +18,14 @@
 }
 
 .article-content {
-  padding-right: 2rem;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .article-content {
+    padding-right: 2rem;
+    padding-left: 0;
+  }
 }
 
 .article-category {
@@ -33,10 +40,18 @@
 }
 
 .article-image {
-  height: 400px;
+  height: 250px;
   background-size: cover;
   background-position: center;
   border-radius: 0.75rem;
+  margin: 1rem 0;
+}
+
+@media (min-width: 768px) {
+  .article-image {
+    height: 400px;
+    margin: 0;
+  }
 }
 
 .article-meta {

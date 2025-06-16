@@ -7,7 +7,8 @@ const path = require('path');
 const dotenv = require('dotenv');
 
 // Load environment variables
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
+const envFileArg = process.env.LOCAL_PROD_PREVIEW === 'true' ? '.env.local-production' : '.env';
+dotenv.config({ path: path.join(__dirname, '..', envFileArg) });
 
 const REQUIRED_COMMANDS = [
   'docker',
@@ -210,8 +211,12 @@ function deploy() {
   }
 }
 
-// Execute deployment
+// Add CLI argument for local production preview
 if (require.main === module) {
+  const isLocalProdPreview = process.argv.includes('--local-production');
+  if (isLocalProdPreview) {
+    process.env.LOCAL_PROD_PREVIEW = 'true';
+  }
   deploy();
 }
 

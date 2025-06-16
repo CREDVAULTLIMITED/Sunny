@@ -29,13 +29,13 @@ const authService = {
     }
   },
 
-  async login(email, password) {
+  async login(email, password, authMethod = 'email') {
     try {
       // For development, check localStorage for registered users
       const users = JSON.parse(localStorage.getItem('sunny_users') || '[]');
       const user = users.find(u => u.email === email);
       
-      if (!user || user.password !== password) {
+      if (!user || (authMethod === 'email' && user.password !== password)) {
         throw new Error('Invalid email or password');
       }
 
@@ -43,16 +43,18 @@ const authService = {
       const token = createMockJWT(user);
       const refreshToken = 'mock-refresh-token';
       
-      // Store tokens
+      // Store tokens and auth method preference
       sessionStorage.setItem('sunnyAuthToken', token);
       sessionStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('preferredAuthMethod', authMethod);
 
       const { password: _, ...userWithoutPassword } = user;
       
       return {
         success: true,
         token,
-        user: userWithoutPassword
+        user: userWithoutPassword,
+        authMethod
       };
     } catch (error) {
       loggingService.error('Login failed', error);
@@ -60,7 +62,7 @@ const authService = {
     }
   },
 
-  async register(userData) {
+  async register(userData, authMethod = 'email') {
     try {
       // Get existing users
       const users = JSON.parse(localStorage.getItem('sunny_users') || '[]');
@@ -70,19 +72,21 @@ const authService = {
         throw new Error('Email already registered');
       }
 
-      // Create new user
+      // Create new user with auth method
       const newUser = {
         id: 'user_' + Math.random().toString(36).substr(2, 9),
         email: userData.email,
         password: userData.password,
         fullName: userData.fullName,
         country: userData.country,
+        authMethod,
         createdAt: new Date().toISOString()
       };
 
       // Save to localStorage
       users.push(newUser);
       localStorage.setItem('sunny_users', JSON.stringify(users));
+      localStorage.setItem('preferredAuthMethod', authMethod);
 
       // Create tokens
       const token = createMockJWT(newUser);
@@ -97,7 +101,8 @@ const authService = {
       return {
         success: true,
         token,
-        user: userWithoutPassword
+        user: userWithoutPassword,
+        authMethod
       };
     } catch (error) {
       loggingService.error('Registration failed', error);
@@ -132,7 +137,29 @@ const authService = {
       loggingService.error('Logout failed', error);
       throw error;
     }
-  }
+  },
+
+  async handleSocialAuth(provider, userData) {
+    try {
+      // Handle social authentication
+      const users = JSON.parse(localStorage.getItem('sunny_users') || '[]');
+      let user = users.find(u => u.email === userData.email);
+
+      if (!user) {
+        // Register new user with social provider
+        return this.register({
+          ...userData,
+          password: Math.random().toString(36) // Generate random password for social auth users
+        }, provider);
+      } else {
+        // Login existing user
+        return this.login(userData.email, user.password, provider);
+      }
+    } catch (error) {
+      loggingService.error(`${provider} authentication failed`, error);
+      throw error;
+    }
+  },
 };
 
 export default authService;

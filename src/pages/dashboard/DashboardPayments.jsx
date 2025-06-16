@@ -1,27 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { paymentService } from '../../services/paymentService';
+import { analyticsService } from '../../services/analyticsService';
+import { OverviewTrendsChart } from '../../components/dashboard/Charts';
 import '../../styles/pages/dashboard-components.css';
 
 const DashboardPayments = () => {
   const [payments, setPayments] = useState([]);
+  const [metrics, setMetrics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [paymentTypeFilter, setPaymentTypeFilter] = useState('all');
+  const [timeframeFilter, setTimeframeFilter] = useState('30');
+  
   useEffect(() => {
-    async function fetchPayments() {
+    async function fetchData() {
       try {
         setLoading(true);
-        const data = await paymentService.getPayments();
-        setPayments(data);
+        const [paymentsData, metricsData] = await Promise.all([
+          paymentService.getPayments({
+            query: searchQuery,
+            status: statusFilter,
+            paymentType: paymentTypeFilter,
+            timeframe: timeframeFilter
+          }),
+          analyticsService.getPaymentMetrics()
+        ]);
+        
+        setPayments(paymentsData);
+        setMetrics(metricsData);
       } catch (err) {
-        setError('Failed to load payments.');
+        setError('Failed to load payments data.');
+        console.error('Payments loading error:', err);
       } finally {
         setLoading(false);
       }
     }
-    fetchPayments();
-  }, []);
+    fetchData();
+  }, [searchQuery, statusFilter, paymentTypeFilter, timeframeFilter]);
 
   const columns = [
     { 
@@ -30,8 +48,8 @@ const DashboardPayments = () => {
       width: 180,
       renderCell: (params) => (
         <div className="payment-id">
-          <span className="id-prefix">bp_</span>
-          {params.value.substring(3)}
+          <span className="id-prefix">py_</span>
+          {params.value}
         </div>
       )
     },
@@ -60,12 +78,21 @@ const DashboardPayments = () => {
       field: 'paymentMethod',
       headerName: 'Payment Method',
       width: 180,
-      renderCell: (params) => (
-        <div className="payment-method">
-          <span className="payment-icon direct-bank"></span>
-          {params.row.bankName} ****{params.row.accountLast4}
-        </div>
-      )
+      renderCell: (params) => {
+        const methodIcons = {
+          card: '💳',
+          bank_transfer: '🏦',
+          crypto: '₿',
+          wallet: '👝'
+        };
+        
+        return (
+          <div className="payment-method">
+            <span className="payment-icon">{methodIcons[params.row.methodType] || '💰'}</span>
+            {params.value}
+          </div>
+        );
+      }
     },
     {
       field: 'customerName',
@@ -91,7 +118,7 @@ const DashboardPayments = () => {
       headerName: 'Risk Score',
       width: 120,
       renderCell: (params) => (
-        <div className={`risk-score ${getRiskLevel(params.value)}`}>
+        <div className={`risk-score risk-${getRiskLevel(params.value)}`}>
           {params.value}
         </div>
       )
@@ -104,8 +131,20 @@ const DashboardPayments = () => {
     return 'high';
   };
 
-  if (loading) return <div className="dashboard-loading">Loading...</div>;
-  if (error) return <div className="dashboard-error">{error}</div>;
+  if (loading) return (
+    <div className="dashboard-loading">
+      <div className="loader"></div>
+      <p>Loading payments data...</p>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="dashboard-error">
+      <div className="error-icon">⚠️</div>
+      <p>{error}</p>
+      <button onClick={() => window.location.reload()}>Retry</button>
+    </div>
+  );
 
   return (
     <div className="dashboard-payments">
@@ -115,17 +154,21 @@ const DashboardPayments = () => {
           <div className="header-metrics">
             <div className="metric">
               <span className="metric-label">Today's Volume</span>
-              <span className="metric-value">$12,458.90</span>
+              <span className="metric-value">${metrics?.todayVolume?.toLocaleString() || '0'}</span>
             </div>
             <div className="metric">
               <span className="metric-label">Success Rate</span>
-              <span className="metric-value">98.7%</span>
+              <span className="metric-value">{metrics?.successRate?.toFixed(1) || '0'}%</span>
             </div>
           </div>
         </div>
         <div className="header-actions">
-          <button className="btn btn-outline">Export</button>
-          <button className="btn btn-primary">New Payment</button>
+          <button className="btn btn-outline" onClick={() => paymentService.exportPayments(payments)}>
+            Export
+          </button>
+          <button className="btn btn-primary" onClick={() => window.location.href = '/dashboard/accept-payments'}>
+            New Payment
+          </button>
         </div>
       </div>
 
@@ -135,23 +178,40 @@ const DashboardPayments = () => {
             type="text" 
             placeholder="Search payments..." 
             className="search-input"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <select className="filter-select">
+          <select 
+            className="filter-select"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
             <option value="all">All Statuses</option>
             <option value="succeeded">Succeeded</option>
             <option value="pending">Pending</option>
             <option value="failed">Failed</option>
             <option value="refunded">Refunded</option>
           </select>
-          <select className="filter-select">
-            <option value="direct_bank">Bank Payments</option>
+          <select 
+            className="filter-select"
+            value={paymentTypeFilter}
+            onChange={(e) => setPaymentTypeFilter(e.target.value)}
+          >
             <option value="all">All Payment Types</option>
+            <option value="card">Card Payments</option>
+            <option value="bank_transfer">Bank Transfers</option>
+            <option value="crypto">Cryptocurrency</option>
+            <option value="wallet">Digital Wallets</option>
           </select>
-          <select className="filter-select">
+          <select 
+            className="filter-select"
+            value={timeframeFilter}
+            onChange={(e) => setTimeframeFilter(e.target.value)}
+          >
             <option value="30">Last 30 days</option>
             <option value="7">Last 7 days</option>
             <option value="24">Last 24 hours</option>
-            <option value="custom">Custom Range</option>
+            <option value="90">Last 90 days</option>
           </select>
         </div>
       </div>
@@ -165,12 +225,25 @@ const DashboardPayments = () => {
           checkboxSelection
           disableSelectionOnClick
           className="payments-table"
+          loading={loading}
+          components={{
+            NoRowsOverlay: () => (
+              <div className="no-data">
+                <p>No payments found matching your criteria</p>
+              </div>
+            )
+          }}
         />
       </div>
-      <div className="payments-charts">
-        {/* Example: Insert revenue chart here */}
-        <div className="chart-placeholder">[Revenue chart goes here]</div>
-      </div>
+      
+      {metrics?.revenueData && (
+        <div className="payments-charts">
+          <div className="chart-container">
+            <h3>Revenue Trends</h3>
+            <OverviewTrendsChart data={metrics.revenueData} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

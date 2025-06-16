@@ -14,20 +14,23 @@ mkdir -p $MODEL_DIR
 
 # Download models
 MODELS=(
-    "huggingface/deepseek-r1-671b"
-    "huggingface/deepseek-r1-zero-70b"
-    "huggingface/deepseek-r1-zero-1.5b"
+    "deepseek-ai/DeepSeek-R1"
+    "deepseek-ai/DeepSeek-R1-Zero"
+    "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
 )
 
 for MODEL in "${MODELS[@]}"; do
     echo "📥 Downloading model: $MODEL..."
     python3 -c "
+import os
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-print(f'📥 Downloading {MODEL}')
-AutoTokenizer.from_pretrained('$MODEL').save_pretrained('$MODEL_DIR/$MODEL')
-AutoModelForCausalLM.from_pretrained('$MODEL').save_pretrained('$MODEL_DIR/$MODEL')
+model_name = '$MODEL'
+model_dir = os.path.join('$MODEL_DIR', model_name.split('/')[-1])
+print(f'📥 Downloading {model_name}')
+AutoTokenizer.from_pretrained(model_name).save_pretrained(model_dir)
+AutoModelForCausalLM.from_pretrained(model_name).save_pretrained(model_dir)
 "
 
     if [ $? -eq 0 ]; then

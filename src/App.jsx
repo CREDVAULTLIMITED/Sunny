@@ -8,10 +8,13 @@ import i18n from './i18n/config';
 import './App.css';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
-
 // Auth callback components
 const MicrosoftAuthCallback = lazy(() => import('./pages/MicrosoftAuthCallback'));
 const AppleAuthCallback = lazy(() => import('./pages/AppleAuthCallback'));
+const SlackAuthCallback = lazy(() => import('./pages/SlackAuthCallback'));
+
+// Lazy load DeveloperTerminal
+const DeveloperTerminal = lazy(() => import('./components/developer/DeveloperTerminal'));
 
 // Lazy load page components
 const PaymentsPage = lazy(() => import('./pages/products/PaymentsPage'));
@@ -31,6 +34,8 @@ const DocsPage = lazy(() => import('./pages/developers/DocsPage'));
 const ApiPage = lazy(() => import('./pages/developers/ApiPage'));
 const SdksPage = lazy(() => import('./pages/developers/SdksPage'));
 const ComponentsPage = lazy(() => import('./pages/developers/ComponentsPage'));
+const CommunityPage = lazy(() => import('./pages/community/CommunityPage'));
+const MarketplacePage = lazy(() => import('./pages/marketplace/MarketplacePage'));
 
 const BlogPage = lazy(() => import('./pages/resources/BlogPage'));
 const CustomersPage = lazy(() => import('./pages/resources/CustomersPage'));
@@ -43,6 +48,10 @@ const SignupPage = lazy(() => import('./pages/SignupPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
+
+// AI Pages
+const AILandingPage = lazy(() => import('./pages/AILandingPage'));
+const HeliosChatPage = lazy(() => import('./pages/HeliosChatPage'));
 
 // Dashboard Components
 const DashboardLayout = lazy(() => import('./pages/dashboard/DashboardLayout'));
@@ -101,11 +110,16 @@ const App = () => {
                 <Route path="/solutions/marketplaces" element={<MarketplacesPage />} />
                 <Route path="/solutions/enterprise" element={<EnterprisePage />} />
                 
+                {/* Community & Developer Routes */}
+                <Route path="/community" element={<CommunityPage />} />
+                <Route path="/marketplace" element={<MarketplacePage />} />
+                
                 {/* Developer Routes */}
                 <Route path="/developers/docs" element={<DocsPage />} />
                 <Route path="/developers/api" element={<ApiPage />} />
                 <Route path="/developers/sdks" element={<SdksPage />} />
                 <Route path="/developers/components" element={<ComponentsPage />} />
+                <Route path="/developers/terminal" element={<DeveloperTerminal />} />
                 
                 {/* Resource Routes */}
                 <Route path="/resources/blog" element={<BlogPage />} />
@@ -113,9 +127,18 @@ const App = () => {
                 <Route path="/resources/guides" element={<GuidesPage />} />
                 <Route path="/support" element={<SupportPage />} />
                 
+                {/* AI Routes */}
+                <Route path="/ai" element={<AILandingPage />} />
+                <Route path="/ai/chat" element={
+                  <ProtectedRoute>
+                    <HeliosChatPage />
+                  </ProtectedRoute>
+                } />
+                
                 {/* Auth Callback Routes */}
                 <Route path="/auth/microsoft/callback" element={<MicrosoftAuthCallback />} />
                 <Route path="/auth/apple/callback" element={<AppleAuthCallback />} />
+                <Route path="/auth/slack/callback" element={<SlackAuthCallback />} />
 
                 {/* Protected Dashboard Routes */}
                 <Route path="/dashboard" element={

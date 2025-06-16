@@ -64,6 +64,17 @@ const DashboardRadar = () => {
 
   return (
     <div className="dashboard-radar">
+      <div className="welcome-banner">
+        <div className="welcome-content">
+          <h2>Welcome to Sunny Radar</h2>
+          <p>Your intelligent fraud detection and prevention system. Let's get you started with protecting your payments.</p>
+          <div className="welcome-actions">
+            <button className="btn btn-primary">Quick Setup Guide</button>
+            <button className="btn btn-outline">Watch Tutorial</button>
+          </div>
+        </div>
+      </div>
+
       <div className="page-header">
         <div className="header-left">
           <h1>Fraud Detection (Radar)</h1>

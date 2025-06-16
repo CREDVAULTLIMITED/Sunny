@@ -5,45 +5,84 @@
  */
 
 import config from './config';
+import crypto from 'crypto';
+
+if (!process.env.ENCRYPTION_KEY) {
+  throw new Error('ENCRYPTION_KEY environment variable must be set in production');
+}
 
 export const securityConfig = {
   encryption: {
-    algorithm: 'AES-GCM',
+    algorithm: 'AES-256-GCM',
     keyLength: 256,
     ivLength: 16,
-    saltLength: 16,
-    tagLength: 16
+    saltLength: 32,
+    tagLength: 16,
+    keyDerivation: 'PBKDF2',
+    iterations: 100000
   },
   
   session: {
-    name: 'sess_id',
-    secret: crypto.randomBytes(32).toString('hex'),
+    name: 'sid',
+    secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
     rolling: true,
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: config.env === 'production',
+      secure: true, // Always use secure cookies in production
       sameSite: 'strict',
       maxAge: 3600000, // 1 hour
-      domain: config.env === 'production' ? '.yourdomain.com' : undefined,
-    }
+      domain: '.sunnypayments.com',
+      path: '/',
+    },
+    proxy: true // Trust the reverse proxy
+  },
+
+  rateLimit: {
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again later',
+    standardHeaders: true,
+    legacyHeaders: false
+  },
+
+  jwt: {
+    algorithm: 'RS256',
+    expiresIn: '1h',
+    refreshTokenExpiry: '7d',
+    issuer: 'sunnypayments.com',
+    audience: 'sunnypayments.com'
+  },
+
+  tls: {
+    minVersion: 'TLSv1.2',
+    cipherPreferences: [
+      'TLS_AES_256_GCM_SHA384',
+      'TLS_CHACHA20_POLY1305_SHA256',
+      'TLS_AES_128_GCM_SHA256',
+      'ECDHE-RSA-AES256-GCM-SHA384',
+      'ECDHE-RSA-AES128-GCM-SHA256'
+    ]
   },
 
   headers: {
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'"],
         imgSrc: ["'self'", 'data:', 'https:'],
-        connectSrc: ["'self'", 'https://api.yourdomain.com'],
-        fontSrc: ["'self'"],
+        connectSrc: ["'self'", 'https://api.sunnypayments.com'],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com'],
         objectSrc: ["'none'"],
         mediaSrc: ["'none'"],
         frameSrc: ["'none'"],
         formAction: ["'self'"],
+        frameAncestors: ["'none'"],
+        baseUri: ["'self'"],
         upgradeInsecureRequests: [],
+        blockAllMixedContent: true
       }
     },
     strictTransportSecurity: {
@@ -53,46 +92,15 @@ export const securityConfig = {
     }
   },
 
-  rateLimit: {
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
-    standardHeaders: true,
-    legacyHeaders: false,
-    skipSuccessfulRequests: false,
-  },
-
-  auth: {
-    passwordPolicy: {
-      minLength: 12,
-      requireUppercase: true,
-      requireLowercase: true,
-      requireNumbers: true,
-      requireSpecialChars: true,
-      preventPasswordReuse: 5,
-      maxLoginAttempts: 5,
-      lockoutDuration: 30 * 60 * 1000, // 30 minutes
-    },
-    jwt: {
-      accessTokenExpiry: '15m',
-      refreshTokenExpiry: '7d',
-      algorithm: 'HS512',
-      issuer: 'sunny-payments',
-      audience: 'sunny-api',
-    }
-  },
-
-  sanitization: {
-    allowedHtmlTags: [], // Strict no-HTML policy
-    allowedAttributes: {},
-    stripIgnoreTag: true,
-    stripIgnoreTagBody: ['script', 'style'],
-  },
-
-  monitoring: {
-    failedLoginThreshold: 5,
-    bruteForceWindow: 300000, // 5 minutes
+  // Fraud prevention settings
+  fraud: {
+    maxFailedAttempts: 5,
+    blockDuration: 30 * 60 * 1000, // 30 minutes
     suspiciousIpThreshold: 10,
-    alertEmailAddress: 'security@yourdomain.com',
+    velocityCheck: {
+      windowMs: 3600000, // 1 hour
+      maxTransactions: 10
+    }
   }
 };
 

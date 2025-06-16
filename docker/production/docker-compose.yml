@@ -9,8 +9,9 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+    # Use .env.local-production for local preview, .env for real prod
     env_file:
-      - ../../.env
+      - ../../${ENV_FILE:-.env}
     depends_on:
       - mongo
       - redis

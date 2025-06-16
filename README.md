@@ -92,6 +92,31 @@ await modelManager.loadLocalModel('deepseek-coder-33b-base');
    ```
 5. Process a payment (see docs for details)
 
+## 🚀 Local Production Preview
+
+You can run the Sunny Payment Gateway in a real production environment on your local machine for safe preview and testing.
+
+### Steps:
+
+1. **Install dependencies:**
+   ```bash
+   npm install --legacy-peer-deps
+   ```
+
+2. **Run the production build locally:**
+   ```bash
+   ENV_FILE=.env.local-production node scripts/deploy-production.js --local-production
+   ```
+   - This uses `.env.local-production` for all environment variables.
+   - The app will be available at [http://localhost:3000](http://localhost:3000)
+
+3. **Stop the app:**
+   ```bash
+   docker-compose -f docker/production/docker-compose.yml down
+   ```
+
+> You can edit `.env.local-production` to test different settings. For real production, use `.env.production` and your live domain.
+
 ## Contributing
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 

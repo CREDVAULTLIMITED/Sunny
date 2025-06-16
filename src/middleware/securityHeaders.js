@@ -13,14 +13,13 @@ const securityHeaders = (app) => {
         defaultSrc: ["'self'"],
         scriptSrc: [
           "'self'", 
-          "'unsafe-inline'", // Only for critical inline scripts
           "https://js.stripe.com",
           "https://maps.googleapis.com",
-          "https://checkout.paypal.com"
+          "https://checkout.paypal.com",
+          "https://api.sunnypayments.com"
         ],
         styleSrc: [
           "'self'", 
-          "'unsafe-inline'", // Required for styled-components
           "https://fonts.googleapis.com"
         ],
         fontSrc: [
@@ -29,15 +28,15 @@ const securityHeaders = (app) => {
         ],
         imgSrc: [
           "'self'",
-          "data:",
           "https:",
-          "blob:"
+          "data:"
         ],
         connectSrc: [
           "'self'",
           "https://api.stripe.com",
           "https://api.paypal.com",
-          "wss:"
+          "https://api.sunnypayments.com",
+          "wss://ws.sunnypayments.com"
         ],
         frameSrc: [
           "'self'",
@@ -45,7 +44,11 @@ const securityHeaders = (app) => {
           "https://checkout.paypal.com"
         ],
         objectSrc: ["'none'"],
-        upgradeInsecureRequests: []
+        formAction: ["'self'"],
+        frameAncestors: ["'none'"],
+        baseUri: ["'self'"],
+        upgradeInsecureRequests: [],
+        blockAllMixedContent: true
       }
     },
     
@@ -95,11 +98,16 @@ const securityHeaders = (app) => {
     
     // Permissions policy for sensitive features
     res.setHeader('Permissions-Policy', 
-      'geolocation=(), microphone=(), camera=(), payment=(self), usb=()'
+      'geolocation=(), microphone=(), camera=()'
     );
     
     // Expect-CT header for certificate transparency
     res.setHeader('Expect-CT', 'max-age=86400, enforce');
+    
+    // Cross-Origin headers
+    res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+    res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
     
     next();
   });

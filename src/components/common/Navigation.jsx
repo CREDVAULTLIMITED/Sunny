@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   PaymentsIcon,
@@ -8,7 +8,6 @@ import {
   CodeIcon,
   DocsIcon,
   BlogIcon,
-  SupportIcon,
   CreditCardIcon,
   ShoppingCartIcon,
   LinkIcon,
@@ -20,11 +19,6 @@ import {
   LayersIcon,
   BuildingIcon,
   GlobeIcon,
-  BookOpenIcon,
-  PackageIcon,
-  FileCodeIcon,
-  ComponentIcon,
-  TerminalIcon,
   NewspaperIcon,
   UserCheckIcon,
   BookIcon,

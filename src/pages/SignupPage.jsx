@@ -4,7 +4,7 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import '../styles/components/auth.css';
 import '../styles/components/social-auth.css';
 import authService from '../services/authService';
-import { useAuth } from '../context/AuthContext';
+import { useAuth, AUTH_METHODS } from '../context/AuthContext';
 import AppleSignInScript from '../components/AppleSignInScript';
 
 // Logo and social auth icons
@@ -22,7 +22,8 @@ const SignupPage = () => {
     password: '',
     confirmPassword: '',
     country: '',
-    agreeToTerms: false
+    agreeToTerms: false,
+    preferredAuthMethod: AUTH_METHODS.EMAIL
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -170,32 +171,58 @@ const SignupPage = () => {
     }
   };
 
-  const handleSocialAuth = async (provider, response) => {
-    setLoading(true);
-    setError('');
-
+  const handleSocialAuth = async (provider, userData) => {
     try {
-      const result = await authService.handleSocialAuth(provider, response);
-      if (result.success && result.token && result.user) {
-        await login(result.token, result.user);
-        navigate('/dashboard');
-      } else {
-        setError(result.message || 'Authentication failed');
+      setLoading(true);
+      setError('');
+      const result = await authService.handleSocialAuth(provider, userData);
+      
+      if (result.success) {
+        await login(result.token, {
+          ...result.user,
+          initialLogin: new Date().toISOString()
+        });
+        navigate('/dashboard', { replace: true });
       }
-    } catch (err) {
-      if (err.response?.status === 409) {
-        setError('An account with this email already exists');
-      } else {
-        setError('Authentication failed. Please try again.');
-        console.error('Social auth error:', err);
-      }
-    } finally {
+    } catch (error) {
+      setError(error.message || 'Authentication failed');
       setLoading(false);
     }
   };
 
+  const handleGoogleSuccess = async (credentialResponse) => {
+    const { credential } = credentialResponse;
+    // Decode the credential to get user info
+    const decodedToken = JSON.parse(atob(credential.split('.')[1]));
+    await handleSocialAuth(AUTH_METHODS.GOOGLE, {
+      email: decodedToken.email,
+      fullName: decodedToken.name
+    });
+  };
+
+  const handleAppleSuccess = async (response) => {
+    await handleSocialAuth(AUTH_METHODS.APPLE, {
+      email: response.email,
+      fullName: response.fullName
+    });
+  };
+
+  const handleMicrosoftSuccess = async (response) => {
+    await handleSocialAuth(AUTH_METHODS.MICROSOFT, {
+      email: response.email,
+      fullName: response.name
+    });
+  };
+
+  const handleSlackSuccess = async (response) => {
+    await handleSocialAuth(AUTH_METHODS.SLACK, {
+      email: response.email,
+      fullName: response.name
+    });
+  };
+
   const handleGoogleSignup = async (credentialResponse) => {
-    await handleSocialAuth('google', { token: credentialResponse.credential });
+    await handleGoogleSuccess(credentialResponse);
   };
 
   const handleAppleLogin = async (event) => {
@@ -203,7 +230,7 @@ const SignupPage = () => {
     try {
       // @ts-ignore - AppleID is injected by the AppleSignInScript
       const response = await window.AppleID.auth.signIn();
-      await handleSocialAuth('apple', response);
+      await handleAppleSuccess(response);
     } catch (error) {
       setError('Apple sign-in failed. Please try again.');
       console.error('Apple sign-in error:', error);
@@ -348,6 +375,8 @@ const SignupPage = () => {
                 text="signup_with"
                 shape="rectangular"
                 size="large"
+                useOneTap
+                disabled={!process.env.REACT_APP_GOOGLE_CLIENT_ID}
               />
             </div>
           </GoogleOAuthProvider>
