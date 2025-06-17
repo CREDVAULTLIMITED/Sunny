@@ -1,19 +1,19 @@
 {
   "models": {
-    "helios-code": {
-      "model_id": "sunny-ai/helios-code-1.3b",
-      "description": "Sunny's Helios Code model for code generation",
+    "deepseek-coder": {
+      "model_id": "deepseek-ai/deepseek-coder-1.3b-instruct",
+      "description": "DeepSeek Coder for code generation",
       "size": "~2.6GB"
     },
-    "helios-reason": {
-      "model_id": "sunny-ai/helios-reason-7b",
-      "description": "Sunny's Helios Reason model for advanced reasoning",
+    "deepseek-math": {
+      "model_id": "deepseek-ai/deepseek-math-7b-instruct",
+      "description": "DeepSeek Math for reasoning",
       "size": "~14GB"
     }
   },
   "downloaded": [
-    "helios-code",
-    "helios-reason"
+    "deepseek-coder",
+    "deepseek-math"
   ],
   "status": "ready",
   "setup_date": "/mnt/storage/Downloads/Sunny-main",

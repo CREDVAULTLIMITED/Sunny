@@ -1,0 +1,56 @@
+{
+  "security": {
+    "codeProtection": {
+      "obfuscation": {
+        "enabled": true,
+        "excludeFiles": ["README.md", "LICENSE.txt"],
+        "options": {
+          "compact": true,
+          "controlFlowFlattening": true,
+          "deadCodeInjection": true,
+          "debugProtection": true,
+          "disableConsoleOutput": true,
+          "identifierNamesGenerator": "hexadecimal",
+          "rotateStringArray": true,
+          "selfDefending": true,
+          "stringArray": true,
+          "stringArrayEncoding": ["base64", "rc4"],
+          "transformObjectKeys": true,
+          "unicodeEscapeSequence": true
+        }
+      },
+      "accessControl": {
+        "enabled": true,
+        "rules": [
+          {
+            "path": "src/core/**",
+            "allowedRoles": ["ADMIN", "DEVELOPER"],
+            "requireMFA": true
+          },
+          {
+            "path": "src/security/**",
+            "allowedRoles": ["ADMIN", "SECURITY_TEAM"],
+            "requireMFA": true
+          },
+          {
+            "path": "src/payment-gateway/**",
+            "allowedRoles": ["ADMIN", "PAYMENT_TEAM"],
+            "requireMFA": true
+          }
+        ]
+      },
+      "auditLogging": {
+        "enabled": true,
+        "events": [
+          "FILE_READ",
+          "FILE_WRITE",
+          "FILE_DELETE",
+          "CODE_DOWNLOAD",
+          "REPOSITORY_CLONE"
+        ],
+        "logPath": "/var/log/sunny/code-access.log",
+        "retention": "90d"
+      }
+    }
+  }
+}

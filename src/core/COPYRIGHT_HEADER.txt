@@ -1,0 +1,15 @@
+/**
+ * Copyright (c) 2023-2025 CREDVAULT LIMITED. All Rights Reserved.
+ *
+ * This source code is licensed under the CREDVAULT LIMITED PROPRIETARY LICENSE.
+ *
+ * This software and its documentation are proprietary and confidential to 
+ * CREDVAULT LIMITED. Unauthorized copying, distribution, modification,
+ * public display, or public performance of this software is strictly prohibited.
+ *
+ * No part of this software may be reproduced, modified, distributed, or 
+ * transferred in any form or by any means without the prior written permission
+ * of CREDVAULT LIMITED or as expressly permitted by applicable law.
+ *
+ * CREDVAULT LIMITED reserves all rights not expressly granted to licensees.
+ */

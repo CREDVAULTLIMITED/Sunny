@@ -89,6 +89,44 @@ const baseConfig = {
       origin: process.env.CORS_ORIGIN || '*',
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization', 'X-Api-Key']
+    },
+    pciCompliance: {
+      encryption: {
+        algorithm: 'AES-256-GCM',
+        keyRotationDays: 90,
+        minimumKeyLength: 32
+      },
+      network: {
+        requiredSegments: ['dmz', 'app', 'db', 'admin'],
+        firewallRules: {
+          defaultDeny: true,
+          reviewPeriodDays: 90
+        }
+      },
+      database: {
+        encryption: true,
+        auditLogging: true,
+        retentionDays: 365
+      },
+      access: {
+        mfaRequired: true,
+        sessionTimeoutMinutes: 15,
+        maxLoginAttempts: 5,
+        passwordPolicy: {
+          minLength: 12,
+          requireSpecialChars: true,
+          requireNumbers: true,
+          requireUpperCase: true,
+          requireLowerCase: true,
+          expirationDays: 90,
+          historySize: 4
+        }
+      },
+      monitoring: {
+        enabled: true,
+        retentionDays: 365,
+        alertingEnabled: true
+      }
     }
   },
   database: {

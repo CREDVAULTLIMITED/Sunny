@@ -7,96 +7,68 @@ Downloads and configures DeepSeek models for the Helios AI assistant
 import os
 import sys
 import json
+import torch
+import requests
 from pathlib import Path
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from huggingface_hub import hf_hub_download
+from tqdm import tqdm
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+def download_file(url, destination):
+    response = requests.get(url, stream=True)
+    total_size = int(response.headers.get('content-length', 0))
+    
+    with open(destination, 'wb') as file, tqdm(
+        desc=destination.name,
+        total=total_size,
+        unit='iB',
+        unit_scale=True,
+        unit_divisor=1024,
+    ) as pbar:
+        for data in response.iter_content(chunk_size=1024):
+            size = file.write(data)
+            pbar.update(size)
 
 def setup_models():
-    print("🚀 Setting up Helios AI models...")
+    print("🔧 Setting up Helios AI models...")
     
-    # Create models directory
-    models_dir = Path("src/ai/models")
-    models_dir.mkdir(parents=True, exist_ok=True)
+    # Load configuration
+    config_path = Path(__file__).parent.parent / "src" / "ai" / "config" / "model-config.json"
+    with open(config_path) as f:
+        config = json.load(f)
     
-    print(f"📁 Models directory: {models_dir.absolute()}")
+    model_path = Path(os.getenv('MODEL_PATH', config['models']['local']['path']))
+    model_path.mkdir(parents=True, exist_ok=True)
     
-    # Define models to download (smaller, efficient versions)
-    models = {
-        "deepseek-coder": {
-            "model_id": "deepseek-ai/deepseek-coder-1.3b-instruct",
-            "description": "DeepSeek Coder for code generation",
-            "size": "~2.6GB"
-        },
-        "deepseek-math": {
-            "model_id": "deepseek-ai/deepseek-math-7b-instruct", 
-            "description": "DeepSeek Math for reasoning",
-            "size": "~14GB"
-        }
-    }
+    # Setup DeepSeek Coder model
+    print("\n📥 Setting up DeepSeek Coder model...")
+    model_name = "deepseek-ai/deepseek-coder-6.7b-instruct"
+    local_model_path = model_path / "deepseek-coder"
     
-    successfully_downloaded = []
-    
-    for model_name, model_info in models.items():
-        try:
-            print(f"\n📥 Downloading {model_name}...")
-            print(f"   Model: {model_info['model_id']}")
-            print(f"   Size: {model_info['size']}")
-            print(f"   Description: {model_info['description']}")
-            
-            model_path = models_dir / model_name
-            model_path.mkdir(exist_ok=True)
-            
-            # Download tokenizer
-            print("   📝 Downloading tokenizer...")
-            tokenizer = AutoTokenizer.from_pretrained(model_info['model_id'])
-            tokenizer.save_pretrained(model_path)
-            
-            # For smaller models, download the full model
-            if "1.3b" in model_info['model_id']:
-                print("   🧠 Downloading model weights...")
-                model = AutoModelForCausalLM.from_pretrained(
-                    model_info['model_id'],
-                    torch_dtype="auto",
-                    trust_remote_code=True
-                )
-                model.save_pretrained(model_path)
-                print(f"   ✅ {model_name} downloaded successfully!")
-            else:
-                print(f"   ⚠️  Skipping {model_name} download (large model - {model_info['size']})")
-                print(f"   📝 Only tokenizer downloaded for now")
-            
-            successfully_downloaded.append(model_name)
-            
-        except Exception as e:
-            print(f"   ❌ Failed to download {model_name}: {str(e)}")
-            continue
-    
-    # Create model configuration
-    config = {
-        "models": models,
-        "downloaded": successfully_downloaded,
-        "status": "ready" if successfully_downloaded else "failed",
-        "setup_date": str(Path().cwd()),
-        "version": "1.0.0"
-    }
-    
-    config_file = models_dir / "helios_config.json"
-    with open(config_file, 'w') as f:
-        json.dump(config, f, indent=2)
-    
-    print(f"\n✅ Setup complete!")
-    print(f"📊 Successfully downloaded: {len(successfully_downloaded)} models")
-    print(f"📋 Configuration saved to: {config_file}")
-    
-    if successfully_downloaded:
-        print("\n🎉 Next steps:")
-        print("1. Restart your server: npm run start:server")
-        print("2. Test Helios: Visit /ai/chat")
-        print("3. Models are ready for local inference!")
+    if not local_model_path.exists():
+        print(f"Downloading {model_name}...")
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16,
+            device_map="auto"
+        )
+        tokenizer.save_pretrained(local_model_path)
+        model.save_pretrained(local_model_path)
+        print("✅ DeepSeek Coder model downloaded successfully")
     else:
-        print("\n⚠️  No models downloaded. Check your internet connection and try again.")
+        print("✅ DeepSeek Coder model already exists")
     
-    return len(successfully_downloaded) > 0
+    # Create vector store directory
+    vector_store_path = Path(os.getenv('VECTOR_STORE_PATH', config['vectorStore']['path']))
+    vector_store_path.mkdir(parents=True, exist_ok=True)
+    print(f"\n✅ Vector store directory created at {vector_store_path}")
+    
+    # Create learning data directory
+    learning_path = Path(os.getenv('LEARNING_MODEL_PATH', config['learning']['savePath']))
+    learning_path.mkdir(parents=True, exist_ok=True)
+    print(f"✅ Learning data directory created at {learning_path}")
+    
+    print("\n✨ Model setup completed successfully!")
 
 def test_setup():
     """Test if the setup is working"""
@@ -132,8 +104,12 @@ def test_setup():
         return False
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "test":
-        test_setup()
-    else:
-        setup_models()
+    try:
+        if len(sys.argv) > 1 and sys.argv[1] == "test":
+            test_setup()
+        else:
+            setup_models()
+    except Exception as e:
+        print(f"\n❌ Error during model setup: {e}", file=sys.stderr)
+        sys.exit(1)
 

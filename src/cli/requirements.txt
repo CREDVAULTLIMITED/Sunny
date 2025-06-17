@@ -1,0 +1,4 @@
+rich>=10.0.0
+readline>=6.2.4.1
+prompt_toolkit>=3.0.0
+requests>=2.25.1

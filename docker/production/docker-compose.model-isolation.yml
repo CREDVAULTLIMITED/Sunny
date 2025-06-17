@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+  model-proxy:
+    image: nginx:alpine
+    container_name: model-proxy
+    restart: unless-stopped
+    networks:
+      - model-frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./nginx/model-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - model-helios
+      - model-deepseek
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  model-helios:
+    build:
+      context: ../../
+      dockerfile: docker/production/Dockerfile.model
+      args:
+        MODEL_NAME: helios
+    container_name: model-helios
+    restart: unless-stopped
+    networks:
+      - model-backend
+      - model-frontend
+    volumes:
+      - ../../models/helios:/app/models:ro
+      - model-helios-data:/app/data
+    environment:
+      - MODEL_NAME=helios
+      - MAX_MEMORY=4G
+      - CPU_LIMIT=2
+      - ENABLE_GPU=true
+      - ISOLATION_LEVEL=strict
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          memory: 2G
+    security_opt:
+      - no-new-privileges=true
+    read_only: true
+    tmpfs:
+      - /tmp
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  model-deepseek:
+    build:
+      context: ../../
+      dockerfile: docker/production/Dockerfile.model
+      args:
+        MODEL_NAME: deepseek
+    container_name: model-deepseek
+    restart: unless-stopped
+    networks:
+      - model-backend
+      - model-frontend
+    volumes:
+      - ../../models/deepseek:/app/models:ro
+      - model-deepseek-data:/app/data
+    environment:
+      - MODEL_NAME=deepseek
+      - MAX_MEMORY=4G
+      - CPU_LIMIT=2
+      - ENABLE_GPU=true
+      - ISOLATION_LEVEL=strict
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          memory: 2G
+    security_opt:
+      - no-new-privileges=true
+    read_only: true
+    tmpfs:
+      - /tmp
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  model-frontend:
+    name: model-frontend
+    internal: false
+  model-backend:
+    name: model-backend
+    internal: true
+
+volumes:
+  model-helios-data:
+  model-deepseek-data:

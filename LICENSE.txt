@@ -1,0 +1,13 @@
+CREDVAULT LIMITED PROPRIETARY LICENSE
+
+Copyright (c) 2023-2025 CREDVAULT LIMITED. All Rights Reserved.
+
+This software and its documentation are proprietary and confidential to CREDVAULT LIMITED.
+No part of this software may be copied, distributed, licensed, or otherwise made available
+to any third party without the express written permission of CREDVAULT LIMITED.
+
+CREDVAULT LIMITED reserves all rights not expressly granted to licensees.
+
+Unauthorized copying of this software, via any medium, is strictly prohibited.
+
+This software is protected by copyright law and international treaties.

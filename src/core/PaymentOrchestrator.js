@@ -5,9 +5,13 @@
 
 import { validatePaymentMethod } from '../api/validation';
 import { encryptSensitiveData } from '../security/encryption';
-import { detectFraud } from '../security/enhancedFraudDetection';
+import { detectFraud } from '../security/EnhancedFraudDetection';
 import { PAYMENT_METHODS, PAYMENT_STATUS } from './constants';
 import ReceiptService from '../services/ReceiptService';
+import AIPaymentRouter from './ai/AIPaymentRouter';
+import VoicePaymentProcessor from './processors/VoicePaymentProcessor';
+import IoTPaymentProcessor from './processors/IoTPaymentProcessor';
+import BiometricAuthenticator from '../security/BiometricAuthenticator';
 
 class PaymentOrchestrator {
   constructor() {
@@ -16,8 +20,26 @@ class PaymentOrchestrator {
       MOBILE_MONEY: new MobileMoneyProcessor(),
       BANK_TRANSFER: new BankTransferProcessor(),
       CRYPTO: new CryptoPaymentProcessor(),
-      QR: new QRPaymentProcessor()
+      QR: new QRPaymentProcessor(),
+      VOICE: VoicePaymentProcessor,
+      IOT: IoTPaymentProcessor
     };
+    this.initialize();
+  }
+
+  async initialize() {
+    // Initialize AI router
+    await AIPaymentRouter.initialize();
+
+    // Initialize biometric authentication
+    await BiometricAuthenticator.initialize();
+
+    // Initialize all processors
+    await Promise.all(
+      Object.values(this.processors).map(processor => 
+        processor.initialize?.()
+      )
+    );
   }
 
   /**
@@ -28,18 +50,67 @@ class PaymentOrchestrator {
       // 1. Pre-processing checks
       await this.performPreProcessingChecks(paymentRequest);
 
-      // 2. Select appropriate processor
-      const processor = this.getProcessor(paymentRequest.paymentMethod);
-      
-      // 3. Process payment
-      const paymentResult = await processor.process(paymentRequest);
+      // 2. Get optimal route from AI router
+      const route = await AIPaymentRouter.getOptimalRoute(paymentRequest);
 
-      // 4. Post-processing tasks
+      // 3. Handle biometric authentication if required
+      if (paymentRequest.biometricData) {
+        const authResult = await BiometricAuthenticator.verify(
+          paymentRequest.userId,
+          paymentRequest.biometricData
+        );
+        if (!authResult.success) {
+          throw new Error('Biometric authentication failed');
+        }
+        paymentRequest.metadata = {
+          ...paymentRequest.metadata,
+          biometricVerified: true,
+          biometricScore: authResult.score
+        };
+      }
+
+      // 4. Select processor based on AI recommendation
+      const processor = this.getProcessor(route.processor);
+      if (!processor) {
+        throw new Error('No suitable processor found for payment method');
+      }
+
+      // 5. Process payment with fallback support
+      const paymentResult = await this.processWithFallback(processor, paymentRequest, route);
+
+      // 6. Update AI router with result
+      AIPaymentRouter.updateSuccessRate(route.processor, paymentResult.success);
+
+      // 7. Post-processing tasks
       await this.handlePostProcessing(paymentResult);
 
       return paymentResult;
     } catch (error) {
       throw this.handleProcessingError(error);
+    }
+  }
+
+  /**
+   * Process payment with fallback support
+   */
+  async processWithFallback(processor, paymentRequest, route) {
+    try {
+      // Try primary processor
+      const result = await processor.process(paymentRequest);
+      return result;
+    } catch (error) {
+      console.error(`Primary processor ${route.processor} failed:`, error);
+
+      // If we have a backup processor and it's different from the primary
+      if (route.backupProcessor && route.backupProcessor !== route.processor) {
+        console.log(`Trying backup processor: ${route.backupProcessor}`);
+        const backupProcessor = this.getProcessor(route.backupProcessor);
+        if (backupProcessor) {
+          return await backupProcessor.process(paymentRequest);
+        }
+      }
+
+      throw error;
     }
   }
 

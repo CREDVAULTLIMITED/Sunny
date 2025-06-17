@@ -8,7 +8,7 @@
 const localDeepSeekService = require('./src/services/localDeepSeekService');
 
 async function testHeliosModels() {
-    console.log('🧪 Testing Helios local models...\n');
+    console.log('🧪 Testing Helios local models with enhanced capabilities...\n');
     
     try {
         // Initialize the service
@@ -27,10 +27,21 @@ async function testHeliosModels() {
         console.log('Code Response:');
         console.log(codeResponse.substring(0, 200) + '...');
         
-        // Test reasoning
-        console.log('\n4. Testing reasoning capabilities...');
+        // Test reasoning with knowledge
+        console.log('\n4. Testing enhanced reasoning capabilities...');
         const reasoningPrompt = 'What are the benefits of using local AI models for payment processing?';
         const reasoningResponse = await localDeepSeekService.generateResponse(reasoningPrompt, 'reasoning');
+        
+        // Test internet capabilities
+        console.log('\n5. Testing internet search...');
+        const searchQuery = 'latest developments in AI payment processing';
+        const searchResults = await localDeepSeekService.searchInternet(searchQuery);
+        console.log('Internet Search Results:', JSON.stringify(searchResults, null, 2));
+        
+        // Test learning system
+        console.log('\n6. Testing learning capabilities...');
+        const learningAnalysis = await localDeepSeekService.learningManager.analyzeKnowledge('payment processing');
+        console.log('Learning Analysis:', JSON.stringify(learningAnalysis, null, 2));
         console.log('Reasoning Response:');
         console.log(reasoningResponse.substring(0, 200) + '...');
         

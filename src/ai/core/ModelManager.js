@@ -16,16 +16,15 @@ class ModelManager extends EventEmitter {
         this.dataPath = path.join(__dirname, '../training_data');
         this.configPath = path.join(__dirname, '../config');
         
+        this.config = null;
+        this.internetEnabled = false;
+        this.streamingEnabled = false;
         this.models = {
-            base: 'deepseek-ai/deepseek-coder-33b-base',
-            instruct: {
-                small: 'deepseek-ai/deepseek-coder-6.7b-instruct',
-                large: 'deepseek-ai/deepseek-coder-33b-instruct'
-            },
-            custom: null, // Will be set after training
-            active: null
+            reasoning: { primary: null, fallback: null },
+            code: { primary: null, fallback: null }
         };
-        
+        this.vectorStore = null;
+
         this.trainingStatus = {
             isTraining: false,
             progress: 0,
@@ -49,11 +48,14 @@ class ModelManager extends EventEmitter {
             // Check dependencies
             await this.checkDependencies();
             
-            // Load base model
-            await this.loadBaseModel();
+            // Load configuration
+            this.config = require('../config/model-config.json');
             
-            // Setup training environment
-            await this.setupTrainingEnvironment();
+            // Initialize vector store for enhanced memory
+            this.vectorStore = await this.setupVectorStore();
+            
+            // Load models based on config
+            await this.loadModels();
             
             this.initialized = true;
             this.emit('initialized');
@@ -223,7 +225,7 @@ class SunnyAITrainer:
     
     def prepare_training_data(self, data_file):
         """Prepare training data from company-specific code samples"""
-        print(f"📊 Preparing training data from {data_file}")
+        print(f"📊 Preparing training data from ${data_file}")
         
         with open(data_file, 'r') as f:
             raw_data = json.load(f)
@@ -304,7 +306,7 @@ class SunnyAITrainer:
         trainer.save_model();
         self.tokenizer.save_pretrained(output_dir);
         
-        # Save training info
+        // Save training info
         training_info = {
             "base_model": self.base_model,
             "training_completed": str(datetime.now()),
@@ -551,6 +553,102 @@ if __name__ == "__main__":
                 }
             });
         });
+    }
+
+    /**
+     * Setup vector store for enhanced memory and context
+     */
+    async setupVectorStore() {
+        const { HNSWLib } = await import('langchain/vectorstores/hnswlib');
+        const { OpenAIEmbeddings } = await import('langchain/embeddings/openai');
+        
+        return new HNSWLib({
+            space: 'cosine',
+            numDimensions: 1536,
+            embeddings: new OpenAIEmbeddings()
+        });
+    }
+
+    /**
+     * Enable internet access with security controls
+     */
+    async enableInternet(options = {}) {
+        const {
+            allowedDomains = [],
+            maxRequestsPerMinute = 10,
+            maxTokensPerRequest = 1000,
+            requireSigning = true
+        } = options;
+
+        this.internetEnabled = true;
+        this.internetConfig = {
+            allowedDomains,
+            maxRequestsPerMinute,
+            maxTokensPerRequest,
+            requireSigning
+        };
+
+        // Initialize rate limiter
+        this.rateLimiter = new RateLimiter({
+            tokensPerInterval: maxRequestsPerMinute,
+            interval: 60 * 1000
+        });
+
+        return true;
+    }
+
+    /**
+     * Enable streaming responses
+     */
+    enableStreaming(chunkSize = 100) {
+        this.streamingEnabled = true;
+        this.streamConfig = {
+            chunkSize,
+            maxQueueSize: 1000
+        };
+    }
+
+    /**
+     * Generate response with internet access if enabled
+     */
+    async generateResponse(prompt, type = 'reasoning') {
+        // Select appropriate model
+        const model = this.models[type].primary || this.models[type].fallback;
+        if (!model) throw new Error(`No ${type} model available`);
+
+        // Get relevant context from vector store
+        const context = await this.getRelevantContext(prompt);
+
+        // Generate response
+        const response = this.streamingEnabled
+            ? await this.generateStreamingResponse(prompt, model, context)
+            : await this.generateStandardResponse(prompt, model, context);
+
+        // Update vector store with new knowledge
+        await this.updateVectorStore(prompt, response);
+
+        return response;
+    }
+
+    /**
+     * Get relevant context from vector store
+     */
+    async getRelevantContext(query) {
+        if (!this.vectorStore) return '';
+
+        const results = await this.vectorStore.similaritySearch(query, 3);
+        return results.map(doc => doc.pageContent).join('\n\n');
+    }
+
+    /**
+     * Update vector store with new knowledge
+     */
+    async updateVectorStore(query, response) {
+        if (!this.vectorStore) return;
+
+        await this.vectorStore.addDocuments([
+            { pageContent: `Q: ${query}\nA: ${response}` }
+        ]);
     }
 
     /**

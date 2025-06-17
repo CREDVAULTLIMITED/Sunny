@@ -1,0 +1,33 @@
+{
+  "authorizedUsers": {
+    "T756-Tech": {
+      "role": "ADMIN",
+      "fullName": "T756-Tech",
+      "department": "Engineering",
+      "permissions": ["READ", "WRITE", "EXECUTE", "DEPLOY"],
+      "accessLevel": "FULL",
+      "requireMFA": true,
+      "allowedPaths": ["*"],
+      "watermarkId": "T756-CRED-2025"
+    }
+  },
+  "securitySettings": {
+    "mfaRequired": true,
+    "auditLogging": true,
+    "watermarkingEnabled": true,
+    "codeEncryption": true,
+    "restrictedPaths": [
+      "src/core/security/*",
+      "src/payment-gateway/*",
+      "config/security/*",
+      "scripts/security/*"
+    ]
+  },
+  "companyInfo": {
+    "name": "CREDVAULT LIMITED",
+    "copyrightYear": "2023-2025",
+    "legalContact": "legal@credvault.com",
+    "securityContact": "security@credvault.com",
+    "lastUpdated": "2025-06-17"
+  }
+}
