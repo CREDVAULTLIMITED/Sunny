@@ -7,3 +7,24 @@ node_modules/
 *.log
 docker/production/ssl/
 .DS_Store
+
+# Virtual environments
+venv/
+.venv/
+
+# Large files
+*.safetensors
+*.bin
+*.jar
+large-files.txt
+
+# AI model files (already in Hugging Face)
+src/ai/models/*/model.*
+*.so
+*.so.*
+
+# CUDA and GPU libraries
+**/nvidia/*/lib/
+**/torch/lib/
+**/triton/
+**/cusparselt/
