@@ -4,6 +4,8 @@
 .master.key
 .secrets/
 node_modules/
+*.cache/
+**/.cache/
 *.log
 docker/production/ssl/
 .DS_Store
