@@ -1,0 +1,72 @@
+{
+  "common": {
+    "brandName": "Sunny",
+    "signIn": "Iniciar sesión",
+    "getStarted": "Comenzar",
+    "startNow": "Empezar ahora",
+    "copyright": "© 2025 CREDVAULT LIMITED. Todos los derechos reservados.",
+    "features": "Características"
+  },
+  "auth": {
+    "login": {
+      "welcomeBack": "Bienvenido de nuevo",
+      "loginAccount": "Inicie sesión en su cuenta",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "rememberMe": "Recordarme",
+      "loginButton": "Iniciar sesión",
+      "noAccount": "¿No tiene una cuenta?",
+      "createAccount": "Crear cuenta",
+      "secureAccess": "Acceso seguro",
+      "secureAccessDesc": "Acceda de forma segura a sus servicios financieros",
+      "dashboard": "Panel de control",
+      "dashboardDesc": "Gestione sus finanzas con facilidad",
+      "support": "Soporte",
+      "supportDesc": "Asistencia 24/7 para todas sus necesidades",
+      "secureAuth": "Autenticación segura",
+      "fastAccess": "Acceso rápido"
+    }
+  },
+  "homePage": {
+    "hero": {
+      "title1": "Pagos simples",
+      "title2": "para todos",
+      "description": "Soluciones de pago seguras y eficientes para empresas y particulares"
+    },
+    "features": {
+      "title": "La mejor plataforma de pagos",
+      "globalPayments": {
+        "title": "Pagos globales",
+        "description": "Envíe y reciba pagos en todo el mundo"
+      },
+      "cardPayments": {
+        "title": "Pagos con tarjeta",
+        "description": "Procese pagos con tarjeta de forma segura"
+      },
+      "bankTransfers": {
+        "title": "Transferencias bancarias",
+        "description": "Realice transferencias bancarias directas"
+      }
+    },
+    "stats": {
+      "title": "Líder en soluciones de pago",
+      "subtitle": "Confían en nosotros empresas de todo el mundo",
+      "transactions": "Transacciones",
+      "transactions_value": "1M+",
+      "users": "Usuarios",
+      "users_value": "100K+",
+      "countries": "Países",
+      "countries_value": "150+"
+    },
+    "cta": {
+      "title": "¿Listo para simplificar sus pagos?",
+      "subtitle": "Únase a miles de clientes satisfechos"
+    }
+  },
+  "footer": {
+    "about": "Acerca de",
+    "terms": "Términos",
+    "privacy": "Privacidad"
+  }
+}
+

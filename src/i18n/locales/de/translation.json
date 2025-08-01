@@ -1,0 +1,130 @@
+{
+  "common": {
+    "brandName": "Sunny",
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "getStarted": "Loslegen",
+    "startNow": "Jetzt starten",
+    "learnMore": "Mehr erfahren",
+    "about": "Über uns",
+    "features": "Funktionen",
+    "whyChooseUs": "Warum Sunny",
+    "pricing": "Preise",
+    "contact": "Kontakt",
+    "terms": "AGB",
+    "privacy": "Datenschutz",
+    "copyright": "© 2025 CREDVAULT LIMITED. Alle Rechte vorbehalten.",
+    "home": "Startseite",
+    "solutions": "Lösungen",
+    "developers": "Entwickler",
+    "back": "Zurück",
+    "continue": "Weiter",
+    "allRightsReserved": "Alle Rechte vorbehalten",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "loading": "Lädt...",
+    "sending": "Sendet..."
+  },
+  "homePage": {
+    "hero": {
+      "title1": "Die nächste Generation",
+      "title2": "der Zahlungsplattform",
+      "description": "Senden, empfangen und verwalten Sie Zahlungen weltweit mit einer einzigen Integration."
+    },
+    "features": {
+      "title": "Alles, was Sie für Zahlungen brauchen",
+      "subtitle": "Unsere umfassende Zahlungslösung wurde entwickelt, um Unternehmen jeder Größe bei der Annahme von globalen Zahlungen zu unterstützen.",
+      "globalPayments": {
+        "title": "Globale Zahlungen",
+        "description": "Akzeptieren Sie Zahlungen von Kunden weltweit mit einer einzigen Integration."
+      },
+      "cardPayments": {
+        "title": "Kartenzahlungen",
+        "description": "Akzeptieren Sie alle wichtigen Kredit- und Debitkarten sicher."
+      },
+      "mobilePayments": {
+        "title": "Mobile Zahlungen",
+        "description": "Integration mit führenden Mobile-Money-Anbietern in Afrika, Asien und darüber hinaus."
+      }
+    },
+    "stats": {
+      "title": "Vertraut von Unternehmen weltweit",
+      "subtitle": "Schließen Sie sich Tausenden von Unternehmen an, die bereits unsere Plattform nutzen",
+      "transactions": "Transaktionen",
+      "users": "Nutzer",
+      "countries": "Länder"
+    }
+  },
+  "auth": {
+    "login": {
+      "welcomeBack": "Willkommen zurück",
+      "loginAccount": "Melden Sie sich bei Ihrem Konto an",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "forgotPassword": "Passwort vergessen?",
+      "rememberMe": "Angemeldet bleiben",
+      "loginButton": "Anmelden",
+      "noAccount": "Noch kein Konto?",
+      "createAccount": "Konto erstellen"
+    }
+  },
+  "cookies": {
+    "message": "Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern.",
+    "shortMessage": "Diese Website verwendet Cookies.",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen"
+  },
+  "sdkGuides": {
+    "title": "SDK-Implementierungshandbücher",
+    "subtitle": "Integrieren Sie Sunny Payments in Ihre Anwendung mit unseren offiziellen SDKs",
+    "features": {
+      "title": "SDK-Funktionen",
+      "security": {
+        "title": "Unternehmenssicherheit",
+        "description": "Integrierte Sicherheitsfunktionen einschließlich Verschlüsselung und Betrugsprävention"
+      },
+      "global": {
+        "title": "Globaler Support",
+        "description": "Unterstützung für mehrere Währungen und Zahlungsmethoden weltweit"
+      }
+    }
+  },
+  "blog": {
+    "categories": {
+      "all": "Alle",
+      "product": "Produkt",
+      "engineering": "Technik",
+      "company": "Unternehmen",
+      "insights": "Einblicke"
+    },
+    "newsletter": {
+      "title": "Newsletter abonnieren",
+      "subtitle": "Erhalten Sie die neuesten Nachrichten über Zahlungen und Technologie",
+      "placeholder": "Ihre E-Mail",
+      "subscribe": "Abonnieren"
+    }
+  },
+  "careers": {
+    "hero": {
+      "title": "Gestalten Sie mit uns die Zukunft der Zahlungen",
+      "subtitle": "Werden Sie Teil eines globalen Teams, das Zahlungen zugänglicher macht",
+      "viewJobs": "Stellenangebote ansehen",
+      "learnMore": "Mehr erfahren"
+    },
+    "departments": {
+      "all": "Alle Abteilungen",
+      "engineering": "Entwicklung",
+      "product": "Produkt",
+      "design": "Design",
+      "sales": "Vertrieb",
+      "marketing": "Marketing"
+    },
+    "locations": {
+      "all": "Alle Standorte",
+      "nairobi": "Nairobi",
+      "lagos": "Lagos",
+      "london": "London",
+      "remote": "Remote"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+# Sunny Payments - Ruby SDK Setup
+# Generated at {{activatedAt}}
+
+require 'sunny-payments'
+
+# Configuration
+config = {
+  api_key: '{{apiKey}}',
+  account_type: '{{accountType}}',
+  environment: '{{environment}}',
+  merchant_id: '{{merchantId}}'
+}
+
+# Initialize Sunny SDK
+sunny = Sunny::Client.new(config)
+
+# Example usage:
+begin
+  # Create a payment
+  payment = sunny.payments.create(
+    amount: 1000,
+    currency: 'USD',
+    description: 'Test payment'
+  )
+  
+  puts "Payment created: #{payment.id}"
+rescue Sunny::Error => e
+  puts "Error: #{e.message}"
+end

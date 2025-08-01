@@ -1,0 +1,197 @@
+/* Login Page Styling */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--sunny-bg-light, #f8fafc);
+  padding: 2rem;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 2.5rem;
+  border: 1px solid var(--sunny-border-color, #e2e8f0);
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.login-container h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--sunny-text-primary, #1a202c);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.login-container .subtitle {
+  color: var(--sunny-text-secondary, #64748b);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.error-message {
+  background-color: var(--sunny-error-bg, #fee2e2);
+  color: var(--sunny-error-text, #dc2626);
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--sunny-text-primary, #1a202c);
+  font-size: 0.875rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--sunny-border-color, #e2e8f0);
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--sunny-primary, #3b82f6);
+  box-shadow: 0 0 0 3px var(--sunny-primary-light, #bfdbfe);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.remember-me input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--sunny-primary, #3b82f6);
+}
+
+.remember-me label {
+  color: var(--sunny-text-secondary, #64748b);
+  font-size: 0.875rem;
+}
+
+.forgot-password {
+  font-size: 0.875rem;
+  color: var(--sunny-primary, #3b82f6);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  color: var(--sunny-primary-dark, #2563eb);
+  text-decoration: underline;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.875rem;
+  background: var(--sunny-primary, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--sunny-primary-dark, #2563eb);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.btn-primary:disabled {
+  background: var(--sunny-disabled, #94a3b8);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.signup-prompt {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--sunny-text-secondary, #64748b);
+  font-size: 0.875rem;
+}
+
+.signup-prompt a {
+  color: var(--sunny-primary, #3b82f6);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signup-prompt a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .login-page {
+    padding: 1rem;
+  }
+  
+  .login-container {
+    padding: 1.5rem;
+  }
+  
+  .form-options {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .login-page {
+    background-color: var(--sunny-bg-dark, #0f172a);
+  }
+  
+  .login-container {
+    background-color: var(--sunny-surface-dark, #1e293b);
+    border-color: var(--sunny-border-dark, #334155);
+  }
+  
+  .login-container h1 {
+    color: var(--sunny-text-light, #f8fafc);
+  }
+  
+  .subtitle, .remember-me label {
+    color: var(--sunny-text-secondary-dark, #94a3b8);
+  }
+  
+  .form-group input {
+    background-color: var(--sunny-input-dark, #1e293b);
+    border-color: var(--sunny-border-dark, #334155);
+    color: var(--sunny-text-light, #f8fafc);
+  }
+  
+  .form-group input:focus {
+    border-color: var(--sunny-primary, #3b82f6);
+  }
+}

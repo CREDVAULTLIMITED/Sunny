@@ -1,0 +1,34 @@
+<?php
+/**
+ * Sunny Payments - PHP SDK Setup
+ * Generated at {{activatedAt}}
+ */
+
+require_once 'vendor/autoload.php';
+
+use Sunny\Payments\Sunny;
+
+// Configuration
+$config = [
+    'api_key' => '{{apiKey}}',
+    'account_type' => '{{accountType}}',
+    'environment' => '{{environment}}',
+    'merchant_id' => '{{merchantId}}'
+];
+
+// Initialize Sunny SDK
+$sunny = new Sunny($config);
+
+// Example usage:
+try {
+    // Create a payment
+    $payment = $sunny->payments->create([
+        'amount' => 1000,
+        'currency' => 'USD',
+        'description' => 'Test payment'
+    ]);
+    
+    echo "Payment created: " . $payment->id . "\n";
+} catch (\Exception $e) {
+    echo "Error: " . $e->getMessage() . "\n";
+}

@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --sunny-blue: rgb(0, 122, 255);
+  --sunny-blue-dark: rgb(0, 64, 221);
+  --sunny-gray-1: rgb(142, 142, 147);
+  --sunny-gray-2: rgb(174, 174, 178);
+  --sunny-gray-3: rgb(199, 199, 204);
+  --sunny-gray-4: rgb(209, 209, 214);
+  --sunny-gray-5: rgb(229, 229, 234);
+  --sunny-gray-6: rgb(242, 242, 247);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @apply text-gray-900 bg-white dark:bg-gray-900 dark:text-white;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+:focus-visible {
+  @apply outline-none ring-2 ring-sunny-blue ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+}
+
+@layer components {
+  .glass-effect {
+    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg backdrop-saturate-150;
+  }
+
+  .transition-apple {
+    @apply transition-all duration-300 ease-apple;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-all duration-300 ease-apple;
+  }
+
+  .btn-primary {
+    @apply bg-sunny-blue text-white hover:bg-sunny-blue-dark shadow-sm hover:shadow-md 
+           hover:-translate-y-0.5 active:translate-y-0 transform-gpu;
+  }
+
+  .btn-secondary {
+    @apply bg-white/80 backdrop-blur-xl backdrop-saturate-150
+           text-gray-900 dark:text-white
+           border border-gray-200/50 dark:border-white/10
+           hover:bg-white/90 dark:bg-white/10 dark:hover:bg-white/20
+           shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 transform-gpu;
+  }
+}
+
+/* Custom shadow classes */
+.shadow-soft {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.shadow-medium {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+}
+

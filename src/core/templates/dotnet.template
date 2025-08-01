@@ -1,0 +1,53 @@
+using System;
+using System.Threading.Tasks;
+using Sunny.Payments;
+
+/**
+ * Sunny Payments - .NET SDK Setup
+ * Generated at {{activatedAt}}
+ */
+
+namespace YourApplication
+{
+    public class SunnySetup
+    {
+        private static readonly SunnyClient _sunny;
+
+        static SunnySetup()
+        {
+            // Configuration
+            var config = new SunnyConfig
+            {
+                ApiKey = "{{apiKey}}",
+                AccountType = "{{accountType}}",
+                Environment = "{{environment}}",
+                MerchantId = "{{merchantId}}"
+            };
+
+            // Initialize Sunny SDK
+            _sunny = new SunnyClient(config);
+        }
+
+        public static async Task Example()
+        {
+            try
+            {
+                // Create a payment
+                var payment = await _sunny.Payments.CreateAsync(new PaymentRequest
+                {
+                    Amount = 1000,
+                    Currency = "USD",
+                    Description = "Test payment"
+                });
+
+                Console.WriteLine($"Payment created: {payment.Id}");
+            }
+            catch (SunnyException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+        public static SunnyClient GetInstance() => _sunny;
+    }
+}

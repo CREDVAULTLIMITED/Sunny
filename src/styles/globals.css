@@ -1,0 +1,157 @@
+/* Base styles and Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import theme variables */
+@import '../ui/styles/theme.css';
+
+/* Global styles */
+:root {
+  color-scheme: light;
+  --font-family-sf: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, sans-serif;
+  --blur-background: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --blur-background: rgba(0, 0, 0, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Base styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family-sf);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-surface-background);
+  color: var(--color-text-primary);
+  letter-spacing: -0.011em;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-sf);
+  letter-spacing: -0.021em;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.028em;
+}
+
+/* Glass effect styles */
+.glass {
+  background: var(--blur-background);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Component styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.011em;
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary {
+  background-color: var(--color-primary-500);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transform: translateY(0);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-600);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--color-neutral-900);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] .btn-secondary {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Form elements */
+.input {
+  border-radius: 0.75rem;
+  border: 1px solid var(--glass-border);
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 125, 250, 0.15);
+  border-color: var(--color-primary-500);
+}
+
+/* Card styles */
+.card {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background: var(--blur-background);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glass-shadow), 0 8px 32px rgba(0, 0, 0, 0.1);
+}

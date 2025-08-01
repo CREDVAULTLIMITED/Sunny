@@ -1,0 +1,29 @@
+groups:
+- name: sunny-payments
+  rules:
+  - alert: HighErrorRate
+    expr: rate(http_request_duration_ms_count{code=~"5.."}[5m]) > 0.1
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: High HTTP error rate
+      description: Error rate is {{ $value }} for the last 5 minutes
+
+  - alert: SlowPaymentProcessing
+    expr: rate(payment_processing_duration_ms_sum[5m]) / rate(payment_processing_duration_ms_count[5m]) > 2000
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: Slow payment processing
+      description: Average payment processing time is {{ $value }}ms
+
+  - alert: HighMemoryUsage
+    expr: process_resident_memory_bytes > 1.5e9
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: High memory usage
+      description: Memory usage is {{ $value | humanize }}

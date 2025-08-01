@@ -1,0 +1,183 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-processing
+  namespace: sunny
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: core-processing
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: core-processing
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: core-processing
+        image: ${REGISTRY}/sunny-core-processing:${TAG}
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: RUST_LOG
+          value: "info"
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: sunny-config
+              key: environment
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: sunny-secrets
+              key: database-url
+        - name: HSM_PROVIDER
+          valueFrom:
+            configMapKeyRef:
+              name: sunny-config
+              key: hsm-provider
+        - name: HSM_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: sunny-secrets
+              key: hsm-endpoint
+        - name: HSM_USER
+          valueFrom:
+            secretKeyRef:
+              name: sunny-secrets
+              key: hsm-user
+        - name: HSM_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sunny-secrets
+              key: hsm-password
+        - name: ENCRYPTION_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: sunny-secrets
+              key: encryption-key-id
+        - name: SIGNING_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: sunny-secrets
+              key: signing-key-id
+        resources:
+          limits:
+            cpu: "1"
+            memory: "2Gi"
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: config
+          mountPath: /etc/sunny
+          readOnly: true
+      volumes:
+      - name: tmp
+        emptyDir: {}
+      - name: config
+        configMap:
+          name: sunny-core-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-processing
+  namespace: sunny
+spec:
+  selector:
+    app: core-processing
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+  - name: metrics
+    port: 9090
+    targetPort: metrics
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: core-processing
+  namespace: sunny
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: core-processing
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 60
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: core-processing
+  namespace: sunny
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: core-processing

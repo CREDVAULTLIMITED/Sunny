@@ -1,0 +1,126 @@
+/* CustomersPage specific styling */
+.resources-hero {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  padding: 6rem 0;
+  color: white;
+  text-align: center;
+}
+
+.customer-stories-section {
+  margin: 4rem 0;
+}
+
+.customer-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.customer-content {
+  padding-right: 2rem;
+}
+
+.customer-logo {
+  width: 120px;
+  height: 40px;
+  background-color: #f1f5f9;
+  margin-bottom: 1.5rem;
+}
+
+.customer-quote {
+  font-size: 1.25rem;
+  font-style: italic;
+  color: #475569;
+  margin: 1.5rem 0;
+  line-height: 1.6;
+}
+
+.customer-meta {
+  margin-bottom: 2rem;
+}
+
+.customer-name {
+  font-weight: 600;
+  display: block;
+}
+
+.customer-title {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.customer-results {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.result-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+.result-label {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.customer-image {
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.75rem;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 2rem;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.stats-section {
+  background: #f8fafc;
+  padding: 5rem 0;
+  margin-top: 5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.stat-card {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #3b82f6;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: #64748b;
+}

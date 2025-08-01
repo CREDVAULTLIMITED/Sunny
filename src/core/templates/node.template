@@ -1,0 +1,35 @@
+/**
+ * Sunny Payments - Node.js SDK Setup
+ * Generated at {{activatedAt}}
+ */
+
+const { Sunny } = require('@sunny/payments');
+
+// Configuration
+const config = {
+  apiKey: '{{apiKey}}',
+  accountType: '{{accountType}}',
+  environment: '{{environment}}',
+  merchantId: '{{merchantId}}'
+};
+
+// Initialize Sunny SDK
+const sunny = new Sunny(config);
+
+// Example usage:
+async function example() {
+  try {
+    // Create a payment
+    const payment = await sunny.payments.create({
+      amount: 1000,
+      currency: 'USD',
+      description: 'Test payment'
+    });
+    
+    console.log('Payment created:', payment.id);
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+}
+
+module.exports = sunny;

@@ -1,0 +1,350 @@
+{
+  "common": {
+    "brandName": "Sunny",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "getStarted": "Get Started",
+    "startNow": "Start Now",
+    "learnMore": "Learn More",
+    "about": "About",
+    "features": "Features",
+    "whyChooseUs": "Why Choose Us",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "copyright": "© 2025 CREDVAULT LIMITED. All rights reserved.",
+    "home": "Home",
+    "solutions": "Solutions",
+    "developers": "Developers",
+    "back": "Back",
+    "continue": "Continue",
+    "allRightsReserved": "All rights reserved",
+    "previous": "Previous",
+    "next": "Next",
+    "loading": "Loading...",
+    "sending": "Sending..."
+  },
+  "homePage": {
+    "hero": {
+      "title1": "Next Generation",
+      "title2": "Payment Platform",
+      "description": "Send, receive, and manage payments seamlessly across global markets with a single integration."
+    },
+    "features": {
+      "title": "Everything you need to handle payments",
+      "subtitle": "Our comprehensive suite of payment solutions is designed to help businesses of all sizes accept payments globally.",
+      "globalPayments": {
+        "title": "Global Payments",
+        "description": "Accept payments from customers around the world with a single integration."
+      },
+      "cardPayments": {
+        "title": "Card Payments",
+        "description": "Accept all major credit and debit cards securely."
+      },
+      "mobilePayments": {
+        "title": "Mobile Payments",
+        "description": "Integrate with popular mobile money providers across Africa, Asia, and beyond to reach billions of customers."
+      },
+      "cryptoPayments": {
+        "title": "Crypto Payments",
+        "description": "Accept cryptocurrency payments with instant conversion to fiat currencies and same-day settlements."
+      },
+      "bankTransfers": {
+        "title": "Bank Transfers",
+        "description": "Direct bank transfers with instant notifications."
+      }
+    },
+    "stats": {
+      "title": "Trusted by businesses worldwide",
+      "subtitle": "Join thousands of businesses already using our platform",
+      "transactions": "Transactions",
+      "users": "Users",
+      "countries": "Countries",
+      "uptime": "Uptime",
+      "transactions_value": "100K+",
+      "countries_value": "10+"
+    },
+    "solutions": {
+      "title": "Solutions for Every Business",
+      "subtitle": "Whether you're a startup or an enterprise, our payment solutions can be tailored to meet your specific needs.",
+      "ecommerce": {
+        "title": "E-commerce",
+        "description": "Optimize your online store with our seamless checkout experiences, fraud protection, and global payment methods."
+      },
+      "marketplaces": {
+        "title": "Marketplaces",
+        "description": "Manage complex payment flows between buyers and sellers with our powerful marketplace solutions."
+      },
+      "saas": {
+        "title": "SaaS",
+        "description": "Streamline recurring billing with flexible subscription management tools and global payment processing."
+      }
+    },
+    "testimonial": {
+      "quote": "Sunny Payments has transformed our global expansion. Their flexible payment options and robust API have increased our conversion rates by 35% across new markets."
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "subtitle": "Create your account today."
+    }
+  },
+  "auth": {
+    "login": {
+      "welcomeBack": "Welcome back",
+      "loginAccount": "Log in to your account",
+      "email": "Email address",
+      "password": "Password",
+      "forgotPassword": "Forgot password?",
+      "rememberMe": "Remember me",
+      "signIn": "Sign in",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "orContinueWith": "Or continue with",
+      "loginSuccess": "Login successful",
+      "loginFailed": "Login failed",
+      "unexpectedError": "An unexpected error occurred",
+      "hidePassword": "Hide password",
+      "showPassword": "Show password",
+      "feature1": "Secure payments",
+      "feature2": "Global access"
+    },
+    "socialLogin": {
+      "google": "Continue with Google",
+      "github": "Continue with GitHub",
+      "apple": "Continue with Apple",
+      "failed": "Failed to login with"
+    },
+    "signup": {
+      "title": "Create your account",
+      "subtitle": "Join thousands of users managing payments globally",
+      "stepIndicator": "Step {{currentStep}} of {{totalSteps}}",
+      "step1": {
+        "title": "Basic Information"
+      },
+      "step2": {
+        "title": "Account Type",
+        "description": "Choose the type of account you want to create"
+      },
+      "step3": {
+        "individualTitle": "Personal Details",
+        "individualDescription": "Tell us a bit about yourself",
+        "businessTitle": "Business Details",
+        "businessDescription": "Tell us about your business"
+      },
+      "step4": {
+        "title": "Business Verification",
+        "description": "Upload documents to verify your business"
+      },
+      "step5": {
+        "title": "Security Setup",
+        "description": "Set up additional security for your account"
+      },
+      "complete": "Complete Registration",
+      "verificationSent": "Verification email sent",
+      "registrationSuccess": "Registration successful",
+      "registrationFailed": "Registration failed"
+    },
+    "mfa": {
+      "enterCode": "Enter verification code",
+      "verificationCode": "6-digit code",
+      "codeHelp": "Enter the 6-digit code from your authenticator app",
+      "verify": "Verify",
+      "invalidCode": "Invalid verification code",
+      "verificationSuccess": "Verification successful",
+      "verificationFailed": "Verification failed",
+      "unexpectedError": "An unexpected error occurred",
+      "setup": "Set up two-factor authentication",
+      "instructions": "Scan the QR code with your authenticator app",
+      "qrCodePlaceholder": "QR Code will appear here",
+      "secret": "Secret key",
+      "generateQR": "Generate QR Code",
+      "recoveryCodes": "Recovery Codes",
+      "recoveryCodesDescription": "Save these recovery codes in a safe place. You can use them to access your account if you lose your authenticator device.",
+      "recoveryCodesWarning": "These codes will only be shown once. Make sure to save them.",
+      "generateRecoveryCodes": "Generate Recovery Codes"
+    },
+    "validation": {
+      "emailRequired": "Email is required",
+      "invalidEmail": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordNotStrong": "Password is not strong enough",
+      "confirmPasswordRequired": "Please confirm your password",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "nameRequired": "Name is required",
+      "nameTooShort": "Name must be at least 2 characters",
+      "phoneRequired": "Phone number is required",
+      "invalidPhone": "Please enter a valid phone number",
+      "businessNameRequired": "Business name is required",
+      "businessNameTooShort": "Business name must be at least 2 characters",
+      "taxIdRequired": "Tax ID is required",
+      "mfaCodeRequired": "Verification code is required",
+      "invalidMfaCode": "Please enter a valid 6-digit code",
+      "accountTypeRequired": "Please select an account type",
+      "documentsRequired": "Please upload at least one document",
+      "downloadRecoveryCodes": "Please download your recovery codes",
+      "acceptTerms": "Please accept the terms of service",
+      "acceptPrivacy": "Please accept the privacy policy"
+    },
+    "label": {
+      "email": "Email address",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phoneNumber": "Phone number",
+      "country": "Country",
+      "address": "Address",
+      "city": "City",
+      "state": "State/Province",
+      "zipCode": "ZIP/Postal code",
+      "businessName": "Business name",
+      "businessType": "Business type",
+      "businessEmail": "Business email",
+      "businessPhone": "Business phone",
+      "businessAddress": "Business address",
+      "businessCity": "Business city",
+      "businessState": "Business state/province",
+      "businessZipCode": "Business ZIP/postal code",
+      "businessCountry": "Business country",
+      "taxId": "Tax ID / VAT number",
+      "businessWebsite": "Business website",
+      "documentType": "Document type",
+      "uploadDocuments": "Upload verification documents",
+      "uploadAFile": "Upload a file",
+      "orDragAndDrop": "or drag and drop",
+      "uploadedDocuments": "Uploaded documents",
+      "enableMFA": "Enable two-factor authentication (recommended)",
+      "mfaCode": "Verification code",
+      "downloadedRecoveryCodes": "I have saved these recovery codes",
+      "acceptTerms": "I agree to the Terms of Service",
+      "acceptPrivacy": "I agree to the Privacy Policy",
+      "acceptMarketing": "I want to receive updates about products and services"
+    },
+    "placeholder": {
+      "email": "your.email@example.com",
+      "password": "Enter your password",
+      "confirmPassword": "Confirm your password",
+      "firstName": "John",
+      "lastName": "Doe",
+      "phoneNumber": "+1 (555) 123-4567",
+      "address": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "businessName": "Acme Corporation",
+      "selectBusinessType": "Select business type",
+      "businessEmail": "contact@example.com",
+      "businessPhone": "+1 (555) 987-6543",
+      "businessAddress": "456 Business Ave",
+      "businessCity": "San Francisco",
+      "businessState": "CA",
+      "businessZipCode": "94103",
+      "selectCountry": "Select country",
+      "taxId": "123456789",
+      "businessWebsite": "https://www.example.com",
+      "selectDocumentType": "Select document type"
+    },
+    "accountType": {
+      "individual": "Individual",
+      "individualDescription": "Personal account for your own payments",
+      "business": "Business",
+      "businessDescription": "Business account for company payments"
+    },
+    "passwordStrength": {
+      "weak": "Weak",
+      "medium": "Medium",
+      "strong": "Strong",
+      "veryStrong": "Very strong",
+      "undefined": "Undefined",
+      "message": {
+        "weak": "Weak password",
+        "medium": "Medium strength password",
+        "strong": "Strong password",
+        "veryStrong": "Very strong password"
+      }
+    },
+    "status": {
+      "uploaded": "Uploaded",
+      "uploadError": "Upload failed"
+    },
+    "action": {
+      "upload": "Upload",
+      "remove": "Remove",
+      "resendVerificationEmail": "Resend verification email"
+    },
+    "verification": {
+      "title": "Verify your email",
+      "message": "We've sent a verification email to {{email}}. Please check your inbox and click the verification link.",
+      "success": "Email verified successfully",
+      "failed": "Email verification failed",
+      "unexpectedError": "An unexpected error occurred",
+      "newEmailSent": "New verification email sent",
+      "requestFailed": "Failed to send verification email",
+      "verifiedTitle": "Email verified!",
+      "verifiedMessage": "Your email has been verified. You will be redirected to the dashboard."
+    },
+    "error": {
+      "securityError": "Security error. Please try again.",
+      "unexpectedError": "An unexpected error occurred. Please try again."
+    },
+    "alreadyHaveAccount": "Already have an account?",
+    "loginNow": "Log in"
+  },
+  "footer": {
+    "about": "About",
+    "terms": "Terms",
+    "privacy": "Privacy"
+  },
+  "product": "Product",
+  "features": "Features",
+  "pricing": "Pricing",
+  "integrations": "Integrations",
+  "enterprise": "Enterprise",
+  "developers": "Developers",
+  "documentation": "Documentation",
+  "apiReference": "API Reference",
+  "sdkGuides": "SDK Guides",
+  "systemStatus": "System Status",
+  "company": "Company",
+  "aboutUs": "About Us",
+  "customers": "Customers",
+  "careers": "Careers",
+  "blog": "Blog",
+  "footerTagline": "Empowering businesses worldwide with seamless payment solutions",
+  "privacy": "Privacy",
+  "terms": "Terms",
+  "allRightsReserved": "All rights reserved",
+  "about": {
+    "title": "About Sunny",
+    "subtitle": "Building the future of payments in Africa",
+    "mission": {
+      "title": "Our Mission",
+      "description": "Empowering businesses across Africa with seamless payment solutions."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "Creating a unified payment ecosystem that connects Africa to the global economy."
+    },
+    "values": {
+      "title": "Our Values",
+      "innovation": {
+        "title": "Innovation",
+        "description": "We constantly push boundaries to create cutting-edge payment solutions."
+      },
+      "integrity": {
+        "title": "Integrity",
+        "description": "We maintain the highest standards of security and transparency."
+      },
+      "inclusion": {
+        "title": "Inclusion",
+        "description": "We make financial services accessible to everyone."
+      },
+      "impact": {
+        "title": "Impact",
+        "description": "We drive positive change in African commerce and technology."
+      }
+    }
+  }
+}

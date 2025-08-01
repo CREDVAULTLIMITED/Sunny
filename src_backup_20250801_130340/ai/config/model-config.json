@@ -1,0 +1,80 @@
+{
+  "models": {
+    "reasoning": {
+      "primary": {
+        "name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "description": "High-performance reasoning model with 32B parameters",
+        "contextLength": 32768,
+        "type": "reasoning",
+        "temperature": 0.6,
+        "topP": 0.95
+      },
+      "fallback": {
+        "name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+        "description": "Efficient reasoning model for resource-constrained environments",
+        "contextLength": 32768,
+        "type": "reasoning",
+        "temperature": 0.6,
+        "topP": 0.95
+      }
+    },
+    "code": {
+      "primary": {
+        "name": "deepseek-ai/deepseek-coder-6.7b-instruct",
+        "description": "Code generation model with 6.7B parameters",
+        "type": "code",
+        "temperature": 0.2,
+        "topP": 0.95
+      },
+      "fallback": {
+        "name": "deepseek-ai/deepseek-coder-1.3b-instruct",
+        "description": "Lightweight code generation model",
+        "type": "code",
+        "temperature": 0.2,
+        "topP": 0.95
+      }
+    },
+    "embedding": {
+      "name": "text-embedding-ada-002",
+      "provider": "openai",
+      "dimensions": 1536,
+      "maximumLength": 8191
+    },
+    "local": {
+      "name": "deepseek-coder-6.7b-instruct",
+      "path": "/home/sam/Downloads/Sunny-main/src/ai/models/deepseek-coder",
+      "type": "local",
+      "contextLength": 8192,
+      "temperature": 0.7
+    }
+  },
+  "vectorStore": {
+    "type": "hnswlib",
+    "path": "/home/sam/Downloads/Sunny-main/src/data/vector_store",
+    "dimensions": 1536,
+    "maxElements": 100000,
+    "efConstruction": 400,
+    "M": 64
+  },
+  "learning": {
+    "enabled": true,
+    "savePath": "/home/sam/Downloads/Sunny-main/src/data/learning",
+    "maxBufferSize": 5000,
+    "saveInterval": 300000,
+    "minRelevanceScore": 0.7
+  },
+  "security": {
+    "maxRequestsPerMinute": 30,
+    "maxTokensPerRequest": 2000,
+    "allowedDomains": [
+      "wikipedia.org",
+      "github.com",
+      "stackoverflow.com",
+      "docs.python.org",
+      "developer.mozilla.org"
+    ],
+    "sslVerify": true,
+    "maxRequestSize": 5242880,
+    "requestTimeout": 30000
+  }
+}

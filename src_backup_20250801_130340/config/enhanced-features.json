@@ -1,0 +1,32 @@
+{
+  "learning": {
+    "enabled": true,
+    "maxBufferSize": 1000,
+    "saveInterval": 300000,
+    "vectorStore": {
+      "dimensions": 1536,
+      "similarity": "cosine",
+      "maxResults": 3
+    }
+  },
+  "internet": {
+    "enabled": true,
+    "allowedDomains": [
+      "wikipedia.org",
+      "github.com",
+      "stackoverflow.com",
+      "docs.python.org",
+      "developer.mozilla.org"
+    ],
+    "maxRequestsPerMinute": 30,
+    "maxResponseSize": 5242880,
+    "timeout": 10000,
+    "requireSigning": true
+  },
+  "security": {
+    "validateInputs": true,
+    "sanitizeResponses": true,
+    "maxTokensPerRequest": 2000,
+    "maxSequenceLength": 32768
+  }
+}

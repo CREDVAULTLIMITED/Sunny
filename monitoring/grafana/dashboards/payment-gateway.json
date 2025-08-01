@@ -1,0 +1,32 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Sunny Payments Dashboard",
+    "tags": ["payments", "production"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "title": "HTTP Request Duration",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(http_request_duration_ms_sum[5m]) / rate(http_request_duration_ms_count[5m])",
+            "legendFormat": "{{method}} {{route}}"
+          }
+        ]
+      },
+      {
+        "title": "Payment Processing Duration",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(payment_processing_duration_ms_sum[5m]) / rate(payment_processing_duration_ms_count[5m])",
+            "legendFormat": "{{payment_method}}"
+          }
+        ]
+      }
+    ]
+  }
+}

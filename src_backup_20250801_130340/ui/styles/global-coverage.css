@@ -1,0 +1,178 @@
+/* Global Coverage Section Styles */
+
+.global-coverage {
+  padding: 80px 0;
+  background: linear-gradient(to bottom, #f9f9f9, #ffffff);
+}
+
+.global-coverage .section-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.global-coverage .section-title h2 {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.global-coverage .section-title p {
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.global-scale-description {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.global-coverage-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+/* Stats Styles */
+.global-stats {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.global-stats .stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.global-stats .stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.2;
+}
+
+.global-stats .stat-label {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 5px;
+  max-width: 300px;
+  line-height: 1.4;
+}
+
+.additional-stats {
+  margin-top: 20px;
+}
+
+.stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.stat-row .stat-item {
+  margin-right: 30px;
+}
+
+.stat-row .stat-number {
+  font-size: 1.8rem;
+}
+
+.stat-row .stat-label {
+  font-size: 0.9rem;
+}
+
+/* Payment Fabric Visualization Styles */
+.payment-fabric-container {
+  flex: 1;
+  min-width: 300px;
+}
+
+.payment-fabric-container h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.payment-fabric-container p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.unified-payment-fabric {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.fabric-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.legend-americas { background-color: #FF6B6B; }
+.legend-europe { background-color: #48DBB4; }
+.legend-asia { background-color: #4D96FF; }
+.legend-africa { background-color: #FFCE54; }
+.legend-oceania { background-color: #AC92EC; }
+
+.legend-label {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .global-coverage-content {
+    flex-direction: column;
+  }
+  
+  .global-stats,
+  .payment-fabric-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .global-coverage {
+    padding: 60px 0;
+  }
+  
+  .global-coverage .section-title h2 {
+    font-size: 2rem;
+  }
+  
+  .global-stats .stat-number {
+    font-size: 2rem;
+  }
+  
+  .stat-row {
+    justify-content: center;
+  }
+}

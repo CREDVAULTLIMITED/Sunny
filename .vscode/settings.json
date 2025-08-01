@@ -1,0 +1,25 @@
+{
+    "codium.codeCompletion.enable": true,
+    "CodeGPT.apiKey": "CodeGPT Plus Beta",
+    "git.ignoreLimitWarning": true,
+    "cSpell.words": [
+        "bitcoinjs",
+        "chartjs",
+        "CREDVAULT",
+        "geoip",
+        "hdkey",
+        "hdwallet",
+        "headlessui",
+        "hnswlib",
+        "keytar",
+        "langchain",
+        "languagedetector",
+        "MBUGUA",
+        "msal",
+        "ollama",
+        "qrcode",
+        "Teamlead",
+        "tfjs",
+        "xenova"
+    ]
+}

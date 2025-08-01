@@ -1,0 +1,65 @@
+groups:
+- name: uptime
+  rules:
+  - alert: ServiceDown
+    expr: up == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Service {{ $labels.job }} is down"
+      description: "Service {{ $labels.job }} has been down for more than 1 minute"
+
+  - alert: HighLatency
+    expr: http_request_duration_seconds{quantile="0.9"} > 2
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High latency on {{ $labels.route }}"
+      description: "90th percentile latency is above 2 seconds for {{ $labels.route }}"
+
+  - alert: HighErrorRate
+    expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High error rate on {{ $labels.service }}"
+      description: "Error rate is above 5% for {{ $labels.service }}"
+
+  - alert: DatabaseConnectionIssues
+    expr: mongodb_connections{state="available"} < 10
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Low available MongoDB connections"
+      description: "MongoDB has less than 10 available connections"
+
+  - alert: PaymentProcessingErrors
+    expr: rate(payment_processing_errors_total[5m]) > 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Payment processing errors detected"
+      description: "Payment processing errors have occurred in the last 5 minutes"
+
+  - alert: SSLCertificateExpiry
+    expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 30
+    for: 1h
+    labels:
+      severity: warning
+    annotations:
+      summary: "SSL Certificate expiring soon"
+      description: "SSL Certificate will expire in less than 30 days"
+
+  - alert: DiskSpaceLow
+    expr: node_filesystem_avail_bytes / node_filesystem_size_bytes * 100 < 10
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Low disk space on {{ $labels.device }}"
+      description: "Disk space usage is above 90% on {{ $labels.device }}"
