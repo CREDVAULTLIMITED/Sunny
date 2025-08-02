@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="public/assets/logos/sunny-logo.svg" alt="Sunny Payment Gateway Logo" width="400"/>
+</div>
+
 # Sunny Payment Gateway
 A comprehensive, global payment processing solution by CREDVAULT LIMITED designed to meet all modern payment needs with enterprise-grade security and scalability.
 
