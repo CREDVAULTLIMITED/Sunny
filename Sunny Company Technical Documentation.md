@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/assets/logos/sunny-logo.svg" alt="Sunny Payment Gateway Logo" width="400"/>
+  <img src="public/images/sunny-logo.svg" alt="Sunny Payment Gateway Logo" width="400"/>
 </div>
 
 # Sunny Payment Gateway Technical Documentation
