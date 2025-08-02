@@ -108,6 +108,9 @@ class IsolatedModelManager:
                 raise ValueError("Invalid parameters")
 
             # Generate in isolated thread
+            if self.model is None:
+                raise ValueError("Model not initialized. Please ensure model is loaded properly.")
+                
             with torch.no_grad():
                 output = self.model.generate(
                     input_text,

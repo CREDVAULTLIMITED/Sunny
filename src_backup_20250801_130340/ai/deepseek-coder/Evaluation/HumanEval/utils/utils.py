@@ -51,9 +51,11 @@ def get_function_name(question: str, lang: str):
     func_prefix = "\n".join(func_lines[:-1])
     return func_name, func_prefix
 
-def extract_generation_code(example: str, lang_code: str, verbose: bool=False):
+def extract_generation_code(example: dict, lang_code: str, verbose: bool=False):
     task_id = example['task_id']
-    output = example.get('output', example.get("gpt_completion"))
+    output = example.get('output', example.get("gpt_completion", ""))
+    if not isinstance(output, str):
+        output = ""
     question = example["prompt"].strip()
     setting = languge_settings[lang_code]
     lang = setting['full_name']
@@ -104,10 +106,12 @@ def extract_generation_code(example: str, lang_code: str, verbose: bool=False):
     
     return example
 
+from typing import Optional
+
 def cleanup_code(
     code: str,
-    language_type: str = None,
-    dataset: str = None,
+    language_type: Optional[str] = None,
+    dataset: Optional[str] = None,
     issft: bool = False,
     stop_words = []
 ):
@@ -115,12 +119,12 @@ def cleanup_code(
     Cleans up the generated code.
     """
 
-    if language_type.lower() == "python":
+    if language_type and language_type.lower() == "python":
         if issft:
             code = _clean_python_code_for_sft(code)
         stop_words = ["\ndef", "\nclass", "\nif", "\n#", "\nprint"]
         code = _truncate_code_at_stopwords(code, stop_words)
-    elif language_type.lower() == "ts":
+    elif language_type and language_type.lower() == "ts":
         code = _truncate_code_at_stopwords(code, stop_words + ["\nexport", "\nimport", "\nexport default", "\nimport default", "\nconsole.log"])
     else:
         code = _truncate_code_at_stopwords(code, stop_words)
