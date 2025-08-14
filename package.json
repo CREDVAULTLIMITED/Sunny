@@ -85,6 +85,7 @@
     "express-rate-limit": "^7.5.0",
     "express-validator": "^7.2.1",
     "figlet": "^1.5.2",
+    "framer-motion": "^12.23.12",
     "geoip-lite": "^1.4.10",
     "hdkey": "^2.1.0",
     "helmet": "^8.1.0",
