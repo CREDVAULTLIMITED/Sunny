@@ -52,6 +52,11 @@ const nextConfig = {
     '@sunny/utils',
     '@sunny/kenya-tax',
   ],
+  
+  // CSS configuration for proper Tailwind v4 support
+  experimental: {
+    cssChunking: 'strict',
+  },
 };
 
 module.exports = nextConfig;

@@ -1,0 +1,21 @@
+{
+  "pages": {
+    "/page": [
+      "static/chunks/packages_ui_src_globals_9c5e1cee.css",
+      "static/chunks/0a46a_next_dist_2a439c91._.js",
+      "static/chunks/apps_institutions-portal_src_app_layout_tsx_b9da8c7f._.js",
+      "static/chunks/0a46a_next_dist_client_components_builtin_global-error_5736625d.js",
+      "static/chunks/0a46a_next_dist_a2c081f3._.js",
+      "static/chunks/apps_institutions-portal_src_app_page_tsx_5736625d._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_b8d2975a._.js",
+      "static/chunks/0a46a_next_dist_compiled_react-dom_6e2f11e4._.js",
+      "static/chunks/0a46a_next_dist_compiled_next-devtools_index_42c0a5eb.js",
+      "static/chunks/0a46a_next_dist_compiled_769b99e2._.js",
+      "static/chunks/0a46a_next_dist_client_9997581d._.js",
+      "static/chunks/0a46a_next_dist_16fd90dd._.js",
+      "static/chunks/61dca_@swc_helpers_cjs_72a991a3._.js",
+      "static/chunks/apps_institutions-portal_e69f0d32._.js",
+      "static/chunks/apps_institutions-portal_9310a126._.js"
+    ]
+  }
+}

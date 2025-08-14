@@ -12,8 +12,7 @@ __turbopack_context__.s({
     "setHooks": ()=>setHooks,
     "subscribeToUpdate": ()=>subscribeToUpdate
 });
-function connect(param) {
-    let { addMessageListener, sendMessage, onUpdateError = console.error } = param;
+function connect({ addMessageListener, sendMessage, onUpdateError = console.error }) {
     addMessageListener((msg)=>{
         switch(msg.type){
             case 'turbopack-connected':
@@ -42,8 +41,7 @@ function connect(param) {
         throw new Error('A separate HMR handler was already registered');
     }
     globalThis.TURBOPACK_CHUNK_UPDATE_LISTENERS = {
-        push: (param)=>{
-            let [chunkPath, callback] = param;
+        push: ([chunkPath, callback])=>{
             subscribeToChunkUpdate(chunkPath, sendMessage, callback);
         }
     };
@@ -224,10 +222,8 @@ function mergeEcmascriptChunkUpdates(updateA, updateB) {
     if (updateA.type === 'deleted' && updateB.type === 'added') {
         const added = [];
         const deleted = [];
-        var _updateA_modules;
-        const deletedModules = new Set((_updateA_modules = updateA.modules) !== null && _updateA_modules !== void 0 ? _updateA_modules : []);
-        var _updateB_modules;
-        const addedModules = new Set((_updateB_modules = updateB.modules) !== null && _updateB_modules !== void 0 ? _updateB_modules : []);
+        const deletedModules = new Set(updateA.modules ?? []);
+        const addedModules = new Set(updateB.modules ?? []);
         for (const moduleId of addedModules){
             if (!deletedModules.has(moduleId)) {
                 added.push(moduleId);
@@ -248,15 +244,13 @@ function mergeEcmascriptChunkUpdates(updateA, updateB) {
         };
     }
     if (updateA.type === 'partial' && updateB.type === 'partial') {
-        var _updateA_added, _updateB_added;
         const added = new Set([
-            ...(_updateA_added = updateA.added) !== null && _updateA_added !== void 0 ? _updateA_added : [],
-            ...(_updateB_added = updateB.added) !== null && _updateB_added !== void 0 ? _updateB_added : []
+            ...updateA.added ?? [],
+            ...updateB.added ?? []
         ]);
-        var _updateA_deleted, _updateB_deleted;
         const deleted = new Set([
-            ...(_updateA_deleted = updateA.deleted) !== null && _updateA_deleted !== void 0 ? _updateA_deleted : [],
-            ...(_updateB_deleted = updateB.deleted) !== null && _updateB_deleted !== void 0 ? _updateB_deleted : []
+            ...updateA.deleted ?? [],
+            ...updateB.deleted ?? []
         ]);
         if (updateB.added != null) {
             for (const moduleId of updateB.added){
@@ -279,13 +273,11 @@ function mergeEcmascriptChunkUpdates(updateA, updateB) {
         };
     }
     if (updateA.type === 'added' && updateB.type === 'partial') {
-        var _updateA_modules1, _updateB_added1;
         const modules = new Set([
-            ...(_updateA_modules1 = updateA.modules) !== null && _updateA_modules1 !== void 0 ? _updateA_modules1 : [],
-            ...(_updateB_added1 = updateB.added) !== null && _updateB_added1 !== void 0 ? _updateB_added1 : []
+            ...updateA.modules ?? [],
+            ...updateB.added ?? []
         ]);
-        var _updateB_deleted1;
-        for (const moduleId of (_updateB_deleted1 = updateB.deleted) !== null && _updateB_deleted1 !== void 0 ? _updateB_deleted1 : []){
+        for (const moduleId of updateB.deleted ?? []){
             modules.delete(moduleId);
         }
         return {
@@ -296,10 +288,9 @@ function mergeEcmascriptChunkUpdates(updateA, updateB) {
         };
     }
     if (updateA.type === 'partial' && updateB.type === 'deleted') {
-        var _updateB_modules1;
         // We could eagerly return `updateB` here, but this would potentially be
         // incorrect if `updateA` has added modules.
-        const modules = new Set((_updateB_modules1 = updateB.modules) !== null && _updateB_modules1 !== void 0 ? _updateB_modules1 : []);
+        const modules = new Set(updateB.modules ?? []);
         if (updateA.added != null) {
             for (const moduleId of updateA.added){
                 modules.delete(moduleId);
@@ -316,7 +307,7 @@ function mergeEcmascriptChunkUpdates(updateA, updateB) {
     return undefined;
 }
 function invariant(_, message) {
-    throw new Error("Invariant: ".concat(message));
+    throw new Error(`Invariant: ${message}`);
 }
 const CRITICAL = [
     'bug',
@@ -474,7 +465,7 @@ function triggerUpdate(msg) {
 
 var { m: module } = __turbopack_context__;
 {
-__turbopack_context__.r("[next]/entry/page-loader.ts { PAGE => \"[project]/node_modules/.pnpm/next@15.4.6_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/error.js [client] (ecmascript)\" } [client] (ecmascript)");
+__turbopack_context__.r("[next]/entry/page-loader.ts { PAGE => \"[project]/node_modules/.pnpm/next@15.4.6_@babel+core@7.28.0_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/error.js [client] (ecmascript)\" } [client] (ecmascript)");
 }}),
 }]);
 

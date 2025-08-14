@@ -1,1 +1,11 @@
-{"version":4,"routes":{"/team/samuel-mbugua":{},"/team/alex-mutonga":{},"/team/alan":{}},"dynamicRoutes":{"/team/[id]":{"fallback":null}},"notFoundRoutes":[],"preview":{"previewModeId":"1395e65875cb0717cd0f7e01e20d5065","previewModeSigningKey":"e2149d2d259afde449ed7e0f3b94fd903eff1d7e3dd7eb9b8ffd3008a2b2c2db","previewModeEncryptionKey":"57b757cf36da58f8f0511af33e1af8acb092c434ded8d5556872e9303d42bbde"}}
+{
+  "version": 4,
+  "routes": {},
+  "dynamicRoutes": {},
+  "notFoundRoutes": [],
+  "preview": {
+    "previewModeId": "e5dfbb007cf691a018304f84d165274f",
+    "previewModeSigningKey": "73174e665aa9d3eb15f1178dc0b9574b55a7cebb8b5ff7daa34f1308862c466a",
+    "previewModeEncryptionKey": "c1a044ab7e955413b5b3f6a6dfdea45809b319e4879ea7e668866b97f300d814"
+  }
+}

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import '@sunny/ui/globals.css';
 import { ThemeProvider } from '@/lib/contexts/theme-context';
 import ConditionalLayout from '@/components/layout/ConditionalLayout';
 

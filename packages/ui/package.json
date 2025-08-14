@@ -5,7 +5,9 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -13,13 +15,19 @@
       "module": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./styles": "./dist/styles.css"
+    "./globals.css": {
+      "default": "./src/globals.css"
+    },
+    "./styles": {
+      "default": "./src/globals.css"
+    }
   },
   "files": [
-    "dist/**"
+    "dist/**",
+    "src/globals.css"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --external react",
+    "build": "tsup src/index.ts --format esm,cjs --dts --external react && copy src\\globals.css dist\\globals.css",
     "dev": "tsup src/index.ts --format esm,cjs --dts --external react --watch",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
@@ -38,12 +46,13 @@
     "lucide-react": "^0.539.0",
     "react-hook-form": "^7.62.0",
     "tailwind-merge": "^3.3.1",
+    "tw-animate-css": "^1.3.6",
     "zod": "^4.0.17"
   },
   "peerDependencies": {
+    "next": "^15.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "^15.0.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@sunny/eslint-config": "workspace:*",

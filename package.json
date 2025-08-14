@@ -28,7 +28,20 @@
     "dev:server": "nodemon server.js",
     "start:dev": "concurrently \"npm run start:server\" \"npm run start\"",
     "cli": "node src/cli/index.js",
-    "start:helios": "node scripts/start-helios.js"
+    "start:helios": "node scripts/start-helios.js",
+    "dev:marketing": "pnpm --filter @sunny/marketing run dev",
+    "dev:institutions": "pnpm --filter @sunny/institutions-portal run dev",
+    "dev:business": "pnpm --filter @sunny/business-dashboard run dev",
+    "dev:user": "pnpm --filter @sunny/user-dashboard run dev",
+    "dev:admin": "pnpm --filter @sunny/admin-dashboard run dev",
+    "dev:developer": "pnpm --filter @sunny/developer-portal run dev",
+    "build:marketing": "pnpm --filter @sunny/marketing run build",
+    "build:institutions": "pnpm --filter @sunny/institutions-portal run build",
+    "build:business": "pnpm --filter @sunny/business-dashboard run build",
+    "build:user": "pnpm --filter @sunny/user-dashboard run build",
+    "build:admin": "pnpm --filter @sunny/admin-dashboard run build",
+    "build:developer": "pnpm --filter @sunny/developer-portal run build",
+    "build:packages": "pnpm -r --filter='@sunny/*' run build"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.3.0",
@@ -45,7 +58,6 @@
     "@react-google-maps/api": "^2.20.6",
     "@react-oauth/google": "^0.12.1",
     "@tanstack/react-query": "^5.77.0",
-    "@tensorflow/tfjs-node": "^4.22.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -76,7 +88,6 @@
     "geoip-lite": "^1.4.10",
     "hdkey": "^2.1.0",
     "helmet": "^8.1.0",
-    "hnswlib-node": "^3.0.0",
     "i18next": "^23.7.11",
     "i18next-browser-languagedetector": "^7.2.0",
     "i18next-http-backend": "^2.4.2",
@@ -117,8 +128,10 @@
     "socket.io-client": "^4.8.1",
     "stripe": "^12.18.0",
     "supertest": "^7.1.1",
+    "tw-animate-css": "^1.3.6",
     "uuid": "^9.0.1",
     "validator": "^13.15.15",
+    "vectordb": "^0.4.0",
     "web-vitals": "^2.1.4",
     "web3": "^4.16.0",
     "winston": "^3.17.0",
@@ -172,7 +185,11 @@
     "tailwindcss": "^4.1.8",
     "webpack": "^5.99.9"
   },
-<<<<<<< HEAD
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -206,14 +223,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/CreditBoost360/Sunny.git"
-=======
-  "packageManager": "pnpm@9.15.0",
-  "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=8.0.0"
-  },
-  "dependencies": {
-    "@radix-ui/react-icons": "^1.3.2"
->>>>>>> 1d3a2a2d5 (Finalize on auth pages)
   }
 }
