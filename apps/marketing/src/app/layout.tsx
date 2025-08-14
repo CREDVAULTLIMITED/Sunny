@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/lib/contexts/theme-context';
-import Layout from '@/components/layout/Layout';
+import ConditionalLayout from '@/components/layout/ConditionalLayout';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -56,9 +56,9 @@ export default function RootLayout({
           storageKey="sunny-theme"
           disableTransitionOnChange={false}
         >
-          <Layout>
+          <ConditionalLayout>
             {children}
-          </Layout>
+          </ConditionalLayout>
         </ThemeProvider>
       </body>
     </html>

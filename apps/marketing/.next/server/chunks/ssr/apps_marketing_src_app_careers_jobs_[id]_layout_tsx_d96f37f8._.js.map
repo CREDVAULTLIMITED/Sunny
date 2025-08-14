@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["file:///C:/projects/Cred%20Vault/Sunny/apps/marketing/src/app/careers/jobs/%5Bid%5D/layout.tsx"],"sourcesContent":["import type { Metadata } from 'next';\r\n\r\nexport const metadata: Metadata = {\r\n  title: 'Job Details - Sunny Payments Careers',\r\n  description: 'Learn more about this career opportunity at Sunny Payments and apply to join our mission.',\r\n};\r\n\r\nexport default function JobLayout({\r\n  children,\r\n}: {\r\n  children: React.ReactNode;\r\n}) {\r\n  return <>{children}</>;\r\n}\r\n"],"names":[],"mappings":";;;;;;AAEO,MAAM,WAAqB;IAChC,OAAO;IACP,aAAa;AACf;AAEe,SAAS,UAAU,EAChC,QAAQ,EAGT;IACC,qBAAO;kBAAG;;AACZ","debugId":null}}]
-}

@@ -1,14 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
   BuildingOfficeIcon,
   AcademicCapIcon,
   TrophyIcon,
-  UserGroupIcon
+  UserGroupIcon,
+  ArrowRightIcon
 } from '@heroicons/react/24/outline';
+import { teamMembers, advisors } from '@/data/team';
 
 export function LeadershipTeam() {
   const containerVariants = {
@@ -24,89 +27,16 @@ export function LeadershipTeam() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    }
+    visible: { opacity: 1, y: 0 }
   };
 
   const cardVariants = {
     hidden: { opacity: 0, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    },
-    hover: {
-      scale: 1.05,
-      y: -5,
-      transition: {
-        duration: 0.2,
-        ease: "easeOut"
-      }
-    }
+    visible: { opacity: 1, scale: 1 },
+    hover: { scale: 1.05, y: -5 }
   };
 
-  const leadership = [
-    {
-      name: 'Samuel Mbugua',
-      role: 'Chairperson, CTO & CFO',
-      bio: 'Visionary leader serving as Chairperson overseeing strategic decision-making, business development, and investor relations. Also serves as CTO managing technological innovation and CFO handling financial planning.',
-      image: '/images/team/samuel-mbugua.jpg',
-      education: 'Computer Science & Finance',
-      previousRoles: ['Fintech Leadership', 'Technology Innovation', 'Financial Management'],
-      achievements: ['Strategic Vision Leadership', 'Multi-role Executive Experience', 'Fintech Expertise'],
-      expertise: ['Strategic Leadership', 'Technology Innovation', 'Financial Management', 'Business Development', 'Investor Relations']
-    },
-    {
-      name: 'Alex Mutonga',
-      role: 'Head of Operations & Compliance',
-      bio: 'Systems Architectural Engineer and Head of Operations responsible for implementation of internal processes, legal/regulatory compliance, and operational support. Chief Engineer at Tufund Africa and Quick Quick Cash.',
-      image: '/images/team/alex.jpg',
-      education: 'Computer Science, Business Strategist',
-      previousRoles: ['Chief Engineer @ Tufund Africa', 'Chief Engineer @ Quick Quick Cash', 'Systems Architect'],
-      achievements: ['Multi-industry Engineering Leadership', 'Compliance Expertise', 'Systems Architecture'],
-      expertise: ['Operations Management', 'Regulatory Compliance', 'Systems Architecture', 'Process Implementation', 'Multi-industry Experience']
-    },
-    {
-      name: 'Alan',
-      role: 'Systems Security Engineer',
-      bio: 'Systems Security Engineer focused on building robust security infrastructure for the payment platform. Specializes in cybersecurity and secure systems design.',
-      image: '/images/team/alan.jpg',
-      education: 'Cybersecurity & Systems Engineering',
-      previousRoles: ['Security Engineering', 'Systems Security', 'Infrastructure Security'],
-      achievements: ['Security Systems Design', 'Infrastructure Protection', 'Security Engineering'],
-      expertise: ['Systems Security', 'Cybersecurity', 'Infrastructure Security', 'Secure Systems Design', 'Risk Management']
-    }
-  ];
 
-  const advisors = [
-    {
-      name: 'Industry Expert',
-      role: 'Technical Advisor',
-      company: 'Fintech Industry',
-      expertise: 'Payment Systems Architecture'
-    },
-    {
-      name: 'Regulatory Expert',
-      role: 'Compliance Advisor',
-      company: 'Financial Services',
-      expertise: 'Global Regulatory Compliance'
-    },
-    {
-      name: 'Business Mentor',
-      role: 'Strategic Advisor',
-      company: 'Startup Ecosystem',
-      expertise: 'Business Development & Growth'
-    }
-  ];
 
   return (
     <section className="py-20 bg-gray-50 dark:bg-gray-800">
@@ -137,17 +67,18 @@ export function LeadershipTeam() {
 
           {/* Leadership Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-            {leadership.map((leader, index) => (
+            {teamMembers.map((leader, index) => (
               <motion.div
-                key={index}
+                key={leader.id}
                 variants={cardVariants}
                 whileHover="hover"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className="p-6 h-full bg-white dark:bg-gray-900 hover:shadow-xl transition-all duration-300">
+                <Link href={`/team/${leader.id}`}>
+                  <Card className="p-6 h-full bg-white dark:bg-gray-900 hover:shadow-xl transition-all duration-300 cursor-pointer group">
                   <div className="space-y-4">
                     {/* Profile Image */}
                     <div className="relative">
@@ -223,7 +154,7 @@ export function LeadershipTeam() {
 
                     {/* Expertise Tags */}
                     <div className="flex flex-wrap gap-2">
-                      {leader.expertise.map((skill, skillIndex) => (
+                      {leader.expertise.slice(0, 3).map((skill, skillIndex) => (
                         <motion.span
                           key={skillIndex}
                           className="px-2 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-400 text-xs rounded-full"
@@ -233,9 +164,23 @@ export function LeadershipTeam() {
                           {skill}
                         </motion.span>
                       ))}
+                      {leader.expertise.length > 3 && (
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full">
+                          +{leader.expertise.length - 3} more
+                        </span>
+                      )}
+                    </div>
+
+                    {/* View More Button */}
+                    <div className="pt-2 border-t border-gray-100 dark:border-gray-700">
+                      <div className="flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
+                        <span className="text-sm font-medium">View Full Profile</span>
+                        <ArrowRightIcon className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                      </div>
                     </div>
                   </div>
-                </Card>
+                  </Card>
+                </Link>
               </motion.div>
             ))}
           </div>

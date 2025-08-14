@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["file:///C:/projects/Cred%20Vault/Sunny/apps/marketing/src/app/solutions/ecommerce/layout.tsx"],"sourcesContent":["import { ReactNode } from 'react';\r\n\r\ninterface EcommerceSolutionsLayoutProps {\r\n  children: ReactNode;\r\n}\r\n\r\nexport default function EcommerceSolutionsLayout({ children }: EcommerceSolutionsLayoutProps) {\r\n  return (\r\n    <div className=\"ecommerce-solutions-layout\">\r\n      {children}\r\n    </div>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;;AAMe,SAAS,yBAAyB,EAAE,QAAQ,EAAiC;IAC1F,qBACE,6WAAC;QAAI,WAAU;kBACZ;;;;;;AAGP","debugId":null}}]
-}

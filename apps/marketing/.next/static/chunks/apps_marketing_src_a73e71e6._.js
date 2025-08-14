@@ -1678,7 +1678,7 @@ function LeadershipTeam() {
                                 children: "Leadership Team"
                             }, void 0, false, {
                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                lineNumber: 123,
+                                lineNumber: 126,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1691,13 +1691,13 @@ function LeadershipTeam() {
                                         children: "Leaders"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                        lineNumber: 128,
+                                        lineNumber: 131,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                lineNumber: 126,
+                                lineNumber: 129,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1705,13 +1705,13 @@ function LeadershipTeam() {
                                 children: "Founding team with diverse expertise in fintech, technology, operations, and security, united by a shared vision to democratize global payments"
                             }, void 0, false, {
                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                lineNumber: 132,
+                                lineNumber: 135,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                        lineNumber: 122,
+                        lineNumber: 125,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1748,17 +1748,17 @@ function LeadershipTeam() {
                                                         children: leader.name.split(' ').map((n)=>n[0]).join('')
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 159,
+                                                        lineNumber: 162,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 154,
+                                                    lineNumber: 157,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                lineNumber: 153,
+                                                lineNumber: 156,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1769,7 +1769,7 @@ function LeadershipTeam() {
                                                         children: leader.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 167,
+                                                        lineNumber: 170,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1777,7 +1777,7 @@ function LeadershipTeam() {
                                                         children: leader.role
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 170,
+                                                        lineNumber: 173,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1785,13 +1785,13 @@ function LeadershipTeam() {
                                                         children: leader.bio
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 173,
+                                                        lineNumber: 176,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                lineNumber: 166,
+                                                lineNumber: 169,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$framer$2d$motion$40$12$2e$23$2e$12_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -1807,7 +1807,7 @@ function LeadershipTeam() {
                                                         className: "w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 184,
+                                                        lineNumber: 187,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1815,13 +1815,13 @@ function LeadershipTeam() {
                                                         children: leader.education
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 185,
+                                                        lineNumber: 188,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                lineNumber: 179,
+                                                lineNumber: 182,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1833,7 +1833,7 @@ function LeadershipTeam() {
                                                                 className: "w-4 h-4 text-purple-600 dark:text-purple-400"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                                lineNumber: 193,
+                                                                lineNumber: 196,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1841,13 +1841,13 @@ function LeadershipTeam() {
                                                                 children: "Previous Roles"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                                lineNumber: 194,
+                                                                lineNumber: 197,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 192,
+                                                        lineNumber: 195,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1860,18 +1860,18 @@ function LeadershipTeam() {
                                                                 ]
                                                             }, roleIndex, true, {
                                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                                lineNumber: 200,
+                                                                lineNumber: 203,
                                                                 columnNumber: 27
                                                             }, this))
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 198,
+                                                        lineNumber: 201,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                lineNumber: 191,
+                                                lineNumber: 194,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1883,7 +1883,7 @@ function LeadershipTeam() {
                                                                 className: "w-4 h-4 text-orange-600 dark:text-orange-400"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                                lineNumber: 210,
+                                                                lineNumber: 213,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1891,13 +1891,13 @@ function LeadershipTeam() {
                                                                 children: "Key Achievements"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                                lineNumber: 211,
+                                                                lineNumber: 214,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 209,
+                                                        lineNumber: 212,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1910,18 +1910,18 @@ function LeadershipTeam() {
                                                                 ]
                                                             }, achIndex, true, {
                                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                                lineNumber: 217,
+                                                                lineNumber: 220,
                                                                 columnNumber: 27
                                                             }, this))
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 215,
+                                                        lineNumber: 218,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                lineNumber: 208,
+                                                lineNumber: 211,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1937,33 +1937,33 @@ function LeadershipTeam() {
                                                         children: skill
                                                     }, skillIndex, false, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 227,
+                                                        lineNumber: 230,
                                                         columnNumber: 25
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                lineNumber: 225,
+                                                lineNumber: 228,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                        lineNumber: 151,
+                                        lineNumber: 154,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                    lineNumber: 150,
+                                    lineNumber: 153,
                                     columnNumber: 17
                                 }, this)
                             }, index, false, {
                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                lineNumber: 141,
+                                lineNumber: 144,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                        lineNumber: 139,
+                        lineNumber: 142,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$framer$2d$motion$40$12$2e$23$2e$12_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -1977,7 +1977,7 @@ function LeadershipTeam() {
                                         children: "Advisory Board"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                        lineNumber: 246,
+                                        lineNumber: 249,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1985,13 +1985,13 @@ function LeadershipTeam() {
                                         children: "World-class advisors who guide our strategic vision and growth"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                        lineNumber: 249,
+                                        lineNumber: 252,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                lineNumber: 245,
+                                lineNumber: 248,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2031,12 +2031,12 @@ function LeadershipTeam() {
                                                         children: advisor.name.split(' ').map((n)=>n[0]).join('')
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                        lineNumber: 270,
+                                                        lineNumber: 273,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 265,
+                                                    lineNumber: 268,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
@@ -2044,7 +2044,7 @@ function LeadershipTeam() {
                                                     children: advisor.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 275,
+                                                    lineNumber: 278,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2052,7 +2052,7 @@ function LeadershipTeam() {
                                                     children: advisor.company
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 279,
+                                                    lineNumber: 282,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2060,29 +2060,29 @@ function LeadershipTeam() {
                                                     children: advisor.expertise
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 283,
+                                                    lineNumber: 286,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                            lineNumber: 264,
+                                            lineNumber: 267,
                                             columnNumber: 19
                                         }, this)
                                     }, index, false, {
                                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                        lineNumber: 256,
+                                        lineNumber: 259,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                lineNumber: 254,
+                                lineNumber: 257,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                        lineNumber: 244,
+                        lineNumber: 247,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$framer$2d$motion$40$12$2e$23$2e$12_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -2096,7 +2096,7 @@ function LeadershipTeam() {
                                     children: "Our Growing Team"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                    lineNumber: 298,
+                                    lineNumber: 301,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2114,7 +2114,7 @@ function LeadershipTeam() {
                                                     className: "w-8 h-8 mx-auto mb-2 opacity-90"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 307,
+                                                    lineNumber: 310,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2122,7 +2122,7 @@ function LeadershipTeam() {
                                                     children: "3"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 308,
+                                                    lineNumber: 311,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2130,13 +2130,13 @@ function LeadershipTeam() {
                                                     children: "Founding Members"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 309,
+                                                    lineNumber: 312,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                            lineNumber: 303,
+                                            lineNumber: 306,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$framer$2d$motion$40$12$2e$23$2e$12_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -2151,7 +2151,7 @@ function LeadershipTeam() {
                                                     className: "w-8 h-8 mx-auto mb-2 opacity-90"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 316,
+                                                    lineNumber: 319,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2159,7 +2159,7 @@ function LeadershipTeam() {
                                                     children: "3"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 317,
+                                                    lineNumber: 320,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2167,13 +2167,13 @@ function LeadershipTeam() {
                                                     children: "Core Disciplines"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 318,
+                                                    lineNumber: 321,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                            lineNumber: 312,
+                                            lineNumber: 315,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$framer$2d$motion$40$12$2e$23$2e$12_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -2188,7 +2188,7 @@ function LeadershipTeam() {
                                                     className: "w-8 h-8 mx-auto mb-2 opacity-90"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 325,
+                                                    lineNumber: 328,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2196,7 +2196,7 @@ function LeadershipTeam() {
                                                     children: "Multi"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 326,
+                                                    lineNumber: 329,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2204,13 +2204,13 @@ function LeadershipTeam() {
                                                     children: "Industry Experience"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 327,
+                                                    lineNumber: 330,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                            lineNumber: 321,
+                                            lineNumber: 324,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$framer$2d$motion$40$12$2e$23$2e$12_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -2225,7 +2225,7 @@ function LeadershipTeam() {
                                                     className: "w-8 h-8 mx-auto mb-2 opacity-90"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 334,
+                                                    lineNumber: 337,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2233,7 +2233,7 @@ function LeadershipTeam() {
                                                     children: "2025"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 335,
+                                                    lineNumber: 338,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2241,46 +2241,46 @@ function LeadershipTeam() {
                                                     children: "Launch Ready"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                                    lineNumber: 336,
+                                                    lineNumber: 339,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                            lineNumber: 330,
+                                            lineNumber: 333,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                                    lineNumber: 302,
+                                    lineNumber: 305,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                            lineNumber: 297,
+                            lineNumber: 300,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                        lineNumber: 293,
+                        lineNumber: 296,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-                lineNumber: 114,
+                lineNumber: 117,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-            lineNumber: 113,
+            lineNumber: 116,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/apps/marketing/src/components/about/LeadershipTeam.tsx",
-        lineNumber: 112,
+        lineNumber: 115,
         columnNumber: 5
     }, this);
 }

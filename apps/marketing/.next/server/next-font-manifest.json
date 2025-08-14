@@ -1,12 +1,18 @@
 {
   "app": {
+    "[project]/apps/marketing/src/app/(auth)/sign-in/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/marketing/src/app/(auth)/sign-up/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/marketing/src/app/about/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
     "[project]/apps/marketing/src/app/page": [
       "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
     ],
-    "[project]/apps/marketing/src/app/sign-in/page": [
-      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
-    ],
-    "[project]/apps/marketing/src/app/sign-up/page": [
+    "[project]/apps/marketing/src/app/team/[id]/page": [
       "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
     ]
   },
