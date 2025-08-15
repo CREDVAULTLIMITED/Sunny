@@ -130,13 +130,13 @@ const __TURBOPACK__default__export__ = (0, __TURBOPACK__imported__module__$5b$pr
 }, "[project]/apps/institutions-portal/src/components/sections/InstitutionalFeatures.tsx", "default");
 }),
 "[project]/apps/institutions-portal/src/components/sections/InstitutionalFeatures.tsx [app-rsc] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
 
-var { m: module, e: exports } = __turbopack_context__;
-{
-const e = new Error("Could not parse module '[project]/apps/institutions-portal/src/components/sections/InstitutionalFeatures.tsx'\n\nExpected '</', got ')'");
-e.code = 'MODULE_UNPARSABLE';
-throw e;
-}}),
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$institutions$2d$portal$2f$src$2f$components$2f$sections$2f$InstitutionalFeatures$2e$tsx__$5b$app$2d$rsc$5d$__$28$client__reference__proxy$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i("[project]/apps/institutions-portal/src/components/sections/InstitutionalFeatures.tsx [app-rsc] (client reference proxy) <module evaluation>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$institutions$2d$portal$2f$src$2f$components$2f$sections$2f$InstitutionalFeatures$2e$tsx__$5b$app$2d$rsc$5d$__$28$client__reference__proxy$29$__ = __turbopack_context__.i("[project]/apps/institutions-portal/src/components/sections/InstitutionalFeatures.tsx [app-rsc] (client reference proxy)");
+;
+__turbopack_context__.n(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$institutions$2d$portal$2f$src$2f$components$2f$sections$2f$InstitutionalFeatures$2e$tsx__$5b$app$2d$rsc$5d$__$28$client__reference__proxy$29$__);
+}),
 "[project]/apps/institutions-portal/src/components/sections/InstitutionTypes.tsx [app-rsc] (client reference proxy) <module evaluation>": ((__turbopack_context__) => {
 "use strict";
 
@@ -162,13 +162,13 @@ const __TURBOPACK__default__export__ = (0, __TURBOPACK__imported__module__$5b$pr
 }, "[project]/apps/institutions-portal/src/components/sections/InstitutionTypes.tsx", "default");
 }),
 "[project]/apps/institutions-portal/src/components/sections/InstitutionTypes.tsx [app-rsc] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
 
-var { m: module, e: exports } = __turbopack_context__;
-{
-const e = new Error("Could not parse module '[project]/apps/institutions-portal/src/components/sections/InstitutionTypes.tsx'\n\nExpected '</', got 'jsx text (\r\n\r\n        )'");
-e.code = 'MODULE_UNPARSABLE';
-throw e;
-}}),
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$institutions$2d$portal$2f$src$2f$components$2f$sections$2f$InstitutionTypes$2e$tsx__$5b$app$2d$rsc$5d$__$28$client__reference__proxy$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i("[project]/apps/institutions-portal/src/components/sections/InstitutionTypes.tsx [app-rsc] (client reference proxy) <module evaluation>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$institutions$2d$portal$2f$src$2f$components$2f$sections$2f$InstitutionTypes$2e$tsx__$5b$app$2d$rsc$5d$__$28$client__reference__proxy$29$__ = __turbopack_context__.i("[project]/apps/institutions-portal/src/components/sections/InstitutionTypes.tsx [app-rsc] (client reference proxy)");
+;
+__turbopack_context__.n(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$institutions$2d$portal$2f$src$2f$components$2f$sections$2f$InstitutionTypes$2e$tsx__$5b$app$2d$rsc$5d$__$28$client__reference__proxy$29$__);
+}),
 "[project]/apps/institutions-portal/src/app/page.tsx [app-rsc] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 

@@ -116,7 +116,7 @@ export default function InstitutionalFeatures() {
   };
 
   return (
-    <section className="py-16 md:py-20 bg-white">
+    <section className="py-16 md:py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div 
@@ -127,7 +127,7 @@ export default function InstitutionalFeatures() {
           viewport={{ once: true }}
         >
           <motion.p 
-            className="text-sm font-semibold uppercase tracking-wide text-slate-600 mb-4"
+            className="text-sm font-semibold uppercase tracking-wide text-green-600 dark:text-green-400 mb-4"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -136,7 +136,7 @@ export default function InstitutionalFeatures() {
             🚀 Platform Features
           </motion.p>
           <motion.h2 
-            className="text-3xl md:text-4xl font-bold text-gray-900 mb-6"
+            className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -145,7 +145,7 @@ export default function InstitutionalFeatures() {
             Everything Your Institution Needs
           </motion.h2>
           <motion.p 
-            className="text-lg text-gray-600 max-w-3xl mx-auto"
+            className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -168,7 +168,7 @@ export default function InstitutionalFeatures() {
           {features.map((feature, index) => (
             <motion.div
               key={feature.id}
-              className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-slate-300 transition-all duration-300 cursor-pointer relative group overflow-hidden"
+              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 cursor-pointer relative group overflow-hidden"
               variants={itemVariants}
               whileHover={{ 
                 y: -8,
@@ -179,34 +179,34 @@ export default function InstitutionalFeatures() {
             >
               {/* Badge */}
               {feature.badge && (
-                <div className="absolute -top-2 -right-2 px-2 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-semibold">
+                <div className="absolute -top-2 -right-2 px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">
                   {feature.badge}
                 </div>
               )}
 
               {/* Icon */}
-              <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-slate-200 transition-colors duration-200">
-                <div className="text-slate-600">
+              <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mb-4 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors duration-200">
+                <div className="text-gray-600 dark:text-gray-300">
                   {feature.icon}
                 </div>
               </div>
 
               {/* Content */}
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 mb-4 leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                 {feature.description}
               </p>
 
               {/* Stats */}
               {feature.stats && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-gray-900">
+                    <span className="text-2xl font-bold text-gray-900 dark:text-white">
                       {feature.stats.value}
                     </span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
                       {feature.stats.label}
                     </span>
                   </div>
@@ -215,17 +215,17 @@ export default function InstitutionalFeatures() {
 
               {/* Hover Arrow */}
               <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* CTA */}
         <div className="text-center mt-12">
-          <button className="inline-flex items-center px-6 py-3 bg-slate-700 hover:bg-slate-800 text-white font-semibold rounded-lg shadow-sm transition-all duration-200">
+          <button className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-lg shadow-sm transition-all duration-200">
             Explore All Features
             <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

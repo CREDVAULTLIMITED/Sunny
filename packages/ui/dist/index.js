@@ -32,10 +32,25 @@ var index_exports = {};
 __export(index_exports, {
   AuthLayout: () => AuthLayout,
   AuthPageLayout: () => AuthPageLayout,
+  Button: () => Button,
+  DashboardLayout: () => DashboardLayout,
+  FeatureGrid: () => FeatureGrid,
+  HeroSection: () => HeroSection,
   SignInForm: () => SignInForm,
   SignUpForm: () => SignUpForm,
   SimpleSignInForm: () => SimpleSignInForm,
-  SocialAuthButtons: () => SocialAuthButtons
+  SocialAuthButtons: () => SocialAuthButtons,
+  StatsSection: () => StatsSection,
+  ThemeProvider: () => ThemeProvider,
+  buttonVariants: () => buttonVariants,
+  darkTheme: () => darkTheme,
+  lightTheme: () => lightTheme,
+  themes: () => themes,
+  useDashboardColors: () => useDashboardColors,
+  useIsDarkMode: () => useIsDarkMode,
+  useSafeTheme: () => useSafeTheme,
+  useTheme: () => useTheme,
+  useThemeColors: () => useThemeColors
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -1814,12 +1829,853 @@ function SocialAuthButtons({
     ] }) })
   ] });
 }
+
+// src/button.tsx
+var React5 = __toESM(require("react"));
+var import_react_slot = require("@radix-ui/react-slot");
+var import_class_variance_authority = require("class-variance-authority");
+var import_clsx = require("clsx");
+var import_jsx_runtime7 = require("react/jsx-runtime");
+var buttonVariants = (0, import_class_variance_authority.cva)(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+        destructive: "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        outline: "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+        secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-input/30",
+        link: "text-primary underline-offset-4 hover:underline"
+      },
+      size: {
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-8",
+        icon: "h-9 w-9"
+      }
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default"
+    }
+  }
+);
+var Button = React5.forwardRef(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? import_react_slot.Slot : "button";
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+      Comp,
+      {
+        className: (0, import_clsx.clsx)(buttonVariants({ variant, size, className })),
+        ref,
+        ...props
+      }
+    );
+  }
+);
+Button.displayName = "Button";
+
+// src/layout/DashboardLayout.tsx
+var import_jsx_runtime8 = require("react/jsx-runtime");
+var DashboardLayout = ({
+  children,
+  variant,
+  showHeader = true,
+  showFooter = true,
+  showSidebar = false,
+  sidebarCollapsed = false,
+  className = ""
+}) => {
+  const getVariantStyles = () => {
+    switch (variant) {
+      case "user":
+        return "bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-blue-900";
+      case "business":
+        return "bg-gradient-to-br from-emerald-50 to-green-50 dark:from-gray-900 dark:to-emerald-900";
+      case "institution":
+        return "bg-gradient-to-br from-slate-50 to-gray-50 dark:from-gray-900 dark:to-slate-900";
+      case "admin":
+        return "bg-gradient-to-br from-red-50 to-rose-50 dark:from-gray-900 dark:to-red-900";
+      case "developer":
+        return "bg-gradient-to-br from-purple-50 to-violet-50 dark:from-gray-900 dark:to-purple-900";
+      default:
+        return "bg-gray-50 dark:bg-gray-900";
+    }
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: `min-h-screen ${getVariantStyles()} ${className}`, children });
+};
+
+// src/sections/HeroSection.tsx
+var import_jsx_runtime9 = require("react/jsx-runtime");
+var HeroSection = ({
+  variant,
+  title,
+  subtitle,
+  description,
+  primaryAction,
+  secondaryAction,
+  backgroundImage,
+  showStats = false,
+  stats = [],
+  className = ""
+}) => {
+  const getVariantColors = () => {
+    switch (variant) {
+      case "user":
+        return {
+          gradient: "from-blue-600 via-purple-600 to-indigo-600",
+          accent: "text-blue-400",
+          button: "bg-blue-600 hover:bg-blue-700"
+        };
+      case "business":
+        return {
+          gradient: "from-emerald-600 via-green-600 to-teal-600",
+          accent: "text-emerald-400",
+          button: "bg-emerald-600 hover:bg-emerald-700"
+        };
+      case "institution":
+        return {
+          gradient: "from-slate-700 via-gray-700 to-zinc-700",
+          accent: "text-slate-400",
+          button: "bg-slate-700 hover:bg-slate-800"
+        };
+      case "admin":
+        return {
+          gradient: "from-red-600 via-rose-600 to-pink-600",
+          accent: "text-red-400",
+          button: "bg-red-600 hover:bg-red-700"
+        };
+      case "developer":
+        return {
+          gradient: "from-purple-600 via-violet-600 to-indigo-600",
+          accent: "text-purple-400",
+          button: "bg-purple-600 hover:bg-purple-700"
+        };
+      default:
+        return {
+          gradient: "from-gray-600 via-slate-600 to-zinc-600",
+          accent: "text-gray-400",
+          button: "bg-gray-600 hover:bg-gray-700"
+        };
+    }
+  };
+  const colors = getVariantColors();
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("section", { className: `relative overflow-hidden ${className}`, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "absolute inset-0", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: `absolute inset-0 bg-gradient-to-br ${colors.gradient} mix-blend-multiply` }),
+      backgroundImage && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+        "img",
+        {
+          className: "w-full h-full object-cover",
+          src: backgroundImage,
+          alt: "Background"
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "pt-16 pb-20 md:pt-20 md:pb-28", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "text-center", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: `text-sm font-semibold uppercase tracking-wide ${colors.accent} mb-4`, children: subtitle }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h1", { className: "text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight", children: title }),
+      description && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: "text-lg md:text-xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed", children: description }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex flex-col sm:flex-row gap-4 justify-center mb-12", children: [
+        primaryAction && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+          Button,
+          {
+            className: `${colors.button} text-white px-8 py-3 text-lg font-semibold shadow-lg`,
+            onClick: primaryAction.onClick,
+            children: primaryAction.text
+          }
+        ),
+        secondaryAction && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+          Button,
+          {
+            variant: "outline",
+            className: "border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 text-lg font-semibold",
+            onClick: secondaryAction.onClick,
+            children: secondaryAction.text
+          }
+        )
+      ] }),
+      showStats && stats.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto", children: stats.map((stat, index) => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "text-center", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "text-3xl md:text-4xl font-bold text-white mb-2", children: stat.value }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "text-lg font-medium text-gray-200 mb-1", children: stat.label }),
+        stat.description && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "text-sm text-gray-300", children: stat.description })
+      ] }, index)) })
+    ] }) }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "absolute bottom-0 left-0 right-0", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("svg", { className: "w-full h-20 text-white", viewBox: "0 0 1200 120", preserveAspectRatio: "none", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+      "path",
+      {
+        d: "M0,60 C150,120 350,0 600,60 C850,120 1050,0 1200,60 L1200,120 L0,120 Z",
+        fill: "currentColor"
+      }
+    ) }) })
+  ] });
+};
+
+// src/sections/FeatureGrid.tsx
+var import_jsx_runtime10 = require("react/jsx-runtime");
+var FeatureGrid = ({
+  variant,
+  title,
+  subtitle,
+  features,
+  columns = 3,
+  showBorder = true,
+  showHover = true,
+  className = ""
+}) => {
+  const getVariantColors = () => {
+    switch (variant) {
+      case "user":
+        return {
+          background: "bg-blue-50 dark:bg-blue-900/10",
+          iconBg: "bg-blue-100 dark:bg-blue-900/20",
+          iconColor: "text-blue-600 dark:text-blue-400",
+          hoverBg: "hover:bg-blue-50 dark:hover:bg-blue-900/20",
+          border: "border-blue-200 dark:border-blue-800"
+        };
+      case "business":
+        return {
+          background: "bg-emerald-50 dark:bg-emerald-900/10",
+          iconBg: "bg-emerald-100 dark:bg-emerald-900/20",
+          iconColor: "text-emerald-600 dark:text-emerald-400",
+          hoverBg: "hover:bg-emerald-50 dark:hover:bg-emerald-900/20",
+          border: "border-emerald-200 dark:border-emerald-800"
+        };
+      case "institution":
+        return {
+          background: "bg-slate-50 dark:bg-slate-900/10",
+          iconBg: "bg-slate-100 dark:bg-slate-900/20",
+          iconColor: "text-slate-600 dark:text-slate-400",
+          hoverBg: "hover:bg-slate-50 dark:hover:bg-slate-900/20",
+          border: "border-slate-200 dark:border-slate-800"
+        };
+      case "admin":
+        return {
+          background: "bg-red-50 dark:bg-red-900/10",
+          iconBg: "bg-red-100 dark:bg-red-900/20",
+          iconColor: "text-red-600 dark:text-red-400",
+          hoverBg: "hover:bg-red-50 dark:hover:bg-red-900/20",
+          border: "border-red-200 dark:border-red-800"
+        };
+      case "developer":
+        return {
+          background: "bg-purple-50 dark:bg-purple-900/10",
+          iconBg: "bg-purple-100 dark:bg-purple-900/20",
+          iconColor: "text-purple-600 dark:text-purple-400",
+          hoverBg: "hover:bg-purple-50 dark:hover:bg-purple-900/20",
+          border: "border-purple-200 dark:border-purple-800"
+        };
+      default:
+        return {
+          background: "bg-gray-50 dark:bg-gray-900/10",
+          iconBg: "bg-gray-100 dark:bg-gray-900/20",
+          iconColor: "text-gray-600 dark:text-gray-400",
+          hoverBg: "hover:bg-gray-50 dark:hover:bg-gray-900/20",
+          border: "border-gray-200 dark:border-gray-800"
+        };
+    }
+  };
+  const colors = getVariantColors();
+  const getGridCols = () => {
+    switch (columns) {
+      case 2:
+        return "grid-cols-1 md:grid-cols-2";
+      case 3:
+        return "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+      case 4:
+        return "grid-cols-1 md:grid-cols-2 lg:grid-cols-4";
+      default:
+        return "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+    }
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("section", { className: `py-16 md:py-20 ${className}`, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", children: [
+    (title || subtitle) && /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "text-center mb-12", children: [
+      subtitle && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { className: `text-sm font-semibold uppercase tracking-wide ${colors.iconColor} mb-4`, children: subtitle }),
+      title && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("h2", { className: "text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6", children: title })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: `grid ${getGridCols()} gap-8`, children: features.map((feature) => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
+      "div",
+      {
+        className: `
+                bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm
+                ${showBorder ? `border ${colors.border}` : ""}
+                ${showHover ? `${colors.hoverBg} transition-all duration-200 cursor-pointer` : ""}
+                relative group
+              `,
+        children: [
+          feature.badge && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: `
+                  absolute -top-2 -right-2 px-2 py-1 rounded-full text-xs font-semibold
+                  ${colors.background} ${colors.iconColor}
+                `, children: feature.badge }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: `
+                w-12 h-12 ${colors.iconBg} rounded-lg flex items-center justify-center mb-4
+                group-hover:scale-110 transition-transform duration-200
+              `, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: colors.iconColor, children: feature.icon }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("h3", { className: "text-lg font-semibold text-gray-900 dark:text-white mb-2", children: feature.title }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { className: "text-gray-600 dark:text-gray-300 mb-4 leading-relaxed", children: feature.description }),
+          feature.stats && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "mt-4 pt-4 border-t border-gray-200 dark:border-gray-700", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "flex items-center justify-between", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "text-2xl font-bold text-gray-900 dark:text-white", children: feature.stats.value }),
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "text-sm text-gray-500 dark:text-gray-400", children: feature.stats.label })
+          ] }) }),
+          feature.link && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("svg", { className: `w-5 h-5 ${colors.iconColor}`, fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M17 8l4 4m0 0l-4 4m4-4H3" }) }) })
+        ]
+      },
+      feature.id
+    )) })
+  ] }) });
+};
+
+// src/sections/StatsSection.tsx
+var import_jsx_runtime11 = require("react/jsx-runtime");
+var StatsSection = ({
+  variant,
+  title,
+  subtitle,
+  stats,
+  layout = "horizontal",
+  showTrends = true,
+  showIcons = false,
+  backgroundVariant = "light",
+  className = ""
+}) => {
+  const getVariantColors = () => {
+    switch (variant) {
+      case "user":
+        return {
+          accent: "text-blue-600 dark:text-blue-400",
+          background: "bg-blue-50 dark:bg-blue-900/10",
+          gradient: "from-blue-600 to-purple-600",
+          trend: {
+            up: "text-green-600 bg-green-100 dark:bg-green-900/20",
+            down: "text-red-600 bg-red-100 dark:bg-red-900/20",
+            neutral: "text-gray-600 bg-gray-100 dark:bg-gray-700"
+          }
+        };
+      case "business":
+        return {
+          accent: "text-emerald-600 dark:text-emerald-400",
+          background: "bg-emerald-50 dark:bg-emerald-900/10",
+          gradient: "from-emerald-600 to-green-600",
+          trend: {
+            up: "text-green-600 bg-green-100 dark:bg-green-900/20",
+            down: "text-red-600 bg-red-100 dark:bg-red-900/20",
+            neutral: "text-gray-600 bg-gray-100 dark:bg-gray-700"
+          }
+        };
+      case "institution":
+        return {
+          accent: "text-slate-600 dark:text-slate-400",
+          background: "bg-slate-50 dark:bg-slate-900/10",
+          gradient: "from-slate-700 to-gray-700",
+          trend: {
+            up: "text-green-600 bg-green-100 dark:bg-green-900/20",
+            down: "text-red-600 bg-red-100 dark:bg-red-900/20",
+            neutral: "text-gray-600 bg-gray-100 dark:bg-gray-700"
+          }
+        };
+      case "admin":
+        return {
+          accent: "text-red-600 dark:text-red-400",
+          background: "bg-red-50 dark:bg-red-900/10",
+          gradient: "from-red-600 to-rose-600",
+          trend: {
+            up: "text-green-600 bg-green-100 dark:bg-green-900/20",
+            down: "text-red-600 bg-red-100 dark:bg-red-900/20",
+            neutral: "text-gray-600 bg-gray-100 dark:bg-gray-700"
+          }
+        };
+      case "developer":
+        return {
+          accent: "text-purple-600 dark:text-purple-400",
+          background: "bg-purple-50 dark:bg-purple-900/10",
+          gradient: "from-purple-600 to-violet-600",
+          trend: {
+            up: "text-green-600 bg-green-100 dark:bg-green-900/20",
+            down: "text-red-600 bg-red-100 dark:bg-red-900/20",
+            neutral: "text-gray-600 bg-gray-100 dark:bg-gray-700"
+          }
+        };
+      default:
+        return {
+          accent: "text-gray-600 dark:text-gray-400",
+          background: "bg-gray-50 dark:bg-gray-900/10",
+          gradient: "from-gray-600 to-slate-600",
+          trend: {
+            up: "text-green-600 bg-green-100 dark:bg-green-900/20",
+            down: "text-red-600 bg-red-100 dark:bg-red-900/20",
+            neutral: "text-gray-600 bg-gray-100 dark:bg-gray-700"
+          }
+        };
+    }
+  };
+  const colors = getVariantColors();
+  const getBackgroundClass = () => {
+    switch (backgroundVariant) {
+      case "dark":
+        return "bg-gray-900 text-white";
+      case "gradient":
+        return `bg-gradient-to-r ${colors.gradient} text-white`;
+      default:
+        return colors.background;
+    }
+  };
+  const getLayoutClass = () => {
+    if (layout === "grid") {
+      return stats.length <= 2 ? "grid grid-cols-1 md:grid-cols-2 gap-8" : stats.length <= 4 ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8";
+    }
+    return `flex flex-col md:flex-row justify-between items-center gap-8 divide-y md:divide-y-0 md:divide-x ${backgroundVariant === "gradient" ? "divide-white/20" : "divide-gray-200 dark:divide-gray-700"}`;
+  };
+  const getTrendIcon = (direction) => {
+    switch (direction) {
+      case "up":
+        return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("svg", { className: "w-4 h-4", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M7 17l9.2-9.2M17 17V7m0 0H7" }) });
+      case "down":
+        return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("svg", { className: "w-4 h-4", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M17 7l-9.2 9.2M7 7v10m0 0h10" }) });
+      default:
+        return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("svg", { className: "w-4 h-4", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M8 12h8" }) });
+    }
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("section", { className: `py-16 md:py-20 ${getBackgroundClass()} ${className}`, children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", children: [
+    (title || subtitle) && /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "text-center mb-12", children: [
+      subtitle && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("p", { className: `text-sm font-semibold uppercase tracking-wide mb-4 ${backgroundVariant === "gradient" ? "text-white/80" : colors.accent}`, children: subtitle }),
+      title && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("h2", { className: `text-3xl md:text-4xl font-bold mb-6 ${backgroundVariant === "gradient" ? "text-white" : "text-gray-900 dark:text-white"}`, children: title })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: getLayoutClass(), children: stats.map((stat, index) => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
+      "div",
+      {
+        className: `
+                text-center ${layout === "horizontal" ? "flex-1 pt-8 md:pt-0 first:pt-0" : ""}
+                ${layout === "horizontal" && index > 0 ? "md:pl-8" : ""}
+              `,
+        children: [
+          showIcons && stat.icon && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: `
+                  w-12 h-12 mx-auto mb-4 rounded-lg flex items-center justify-center
+                  ${backgroundVariant === "gradient" ? "bg-white/20" : colors.background}
+                  ${backgroundVariant === "gradient" ? "text-white" : colors.accent}
+                `, children: stat.icon }),
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: `text-3xl md:text-4xl font-bold mb-2 ${backgroundVariant === "gradient" ? "text-white" : "text-gray-900 dark:text-white"}`, children: stat.value }),
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: `text-lg font-medium mb-1 ${backgroundVariant === "gradient" ? "text-white/90" : "text-gray-700 dark:text-gray-300"}`, children: stat.label }),
+          stat.description && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: `text-sm ${backgroundVariant === "gradient" ? "text-white/70" : "text-gray-500 dark:text-gray-400"}`, children: stat.description }),
+          showTrends && stat.trend && /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: `
+                  inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium mt-2
+                  ${colors.trend[stat.trend.direction]}
+                `, children: [
+            getTrendIcon(stat.trend.direction),
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("span", { children: [
+              stat.trend.value > 0 ? "+" : "",
+              stat.trend.value,
+              "%"
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { children: stat.trend.label })
+          ] })
+        ]
+      },
+      stat.id
+    )) })
+  ] }) });
+};
+
+// src/theme/theme-config.ts
+var lightTheme = {
+  name: "light",
+  colors: {
+    background: {
+      primary: "#ffffff",
+      secondary: "#f8fafc",
+      tertiary: "#f1f5f9",
+      elevated: "#ffffff",
+      card: "#ffffff",
+      surface: "#f8fafc"
+    },
+    text: {
+      primary: "#0f172a",
+      secondary: "#475569",
+      tertiary: "#64748b",
+      inverse: "#ffffff",
+      muted: "#94a3b8"
+    },
+    border: {
+      primary: "#e2e8f0",
+      secondary: "#cbd5e1",
+      accent: "#22c55e",
+      muted: "#f1f5f9"
+    },
+    brand: {
+      primary: "#22c55e",
+      // Green-500
+      secondary: "#10b981",
+      // Emerald-500
+      accent: "#059669",
+      // Emerald-600
+      light: "#dcfce7",
+      // Green-100
+      dark: "#166534"
+      // Green-800
+    },
+    status: {
+      success: "#22c55e",
+      warning: "#f59e0b",
+      error: "#ef4444",
+      info: "#3b82f6"
+    },
+    dashboard: {
+      marketing: "#22c55e",
+      // Green for marketing
+      user: "#3b82f6",
+      // Blue for user
+      business: "#10b981",
+      // Emerald for business
+      institution: "#64748b",
+      // Slate for institution
+      admin: "#ef4444",
+      // Red for admin
+      developer: "#8b5cf6"
+      // Purple for developer
+    }
+  },
+  shadows: {
+    xs: "0 1px 1px 0 rgb(0 0 0 / 0.05)",
+    sm: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+    md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+    lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+    xl: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+    "2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+    inner: "inset 0 2px 4px 0 rgb(0 0 0 / 0.06)"
+  },
+  gradients: {
+    primary: "linear-gradient(135deg, #22c55e 0%, #10b981 100%)",
+    secondary: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)",
+    accent: "linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)",
+    dashboard: {
+      marketing: "linear-gradient(135deg, #22c55e 0%, #10b981 100%)",
+      user: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+      business: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+      institution: "linear-gradient(135deg, #64748b 0%, #475569 100%)",
+      admin: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+      developer: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)"
+    }
+  },
+  animations: {
+    duration: {
+      fast: "150ms",
+      normal: "300ms",
+      slow: "500ms"
+    },
+    easing: {
+      default: "cubic-bezier(0.4, 0, 0.2, 1)",
+      bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+      smooth: "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    }
+  }
+};
+var darkTheme = {
+  name: "dark",
+  colors: {
+    background: {
+      primary: "#0f172a",
+      secondary: "#1e293b",
+      tertiary: "#334155",
+      elevated: "#1e293b",
+      card: "#1e293b",
+      surface: "#0f172a"
+    },
+    text: {
+      primary: "#f8fafc",
+      secondary: "#cbd5e1",
+      tertiary: "#94a3b8",
+      inverse: "#0f172a",
+      muted: "#64748b"
+    },
+    border: {
+      primary: "#334155",
+      secondary: "#475569",
+      accent: "#22c55e",
+      muted: "#1e293b"
+    },
+    brand: {
+      primary: "#22c55e",
+      // Keep brand colors consistent
+      secondary: "#10b981",
+      accent: "#059669",
+      light: "#166534",
+      // Darker for dark theme
+      dark: "#dcfce7"
+      // Lighter for dark theme
+    },
+    status: {
+      success: "#22c55e",
+      warning: "#f59e0b",
+      error: "#ef4444",
+      info: "#3b82f6"
+    },
+    dashboard: {
+      marketing: "#22c55e",
+      // Green for marketing
+      user: "#3b82f6",
+      // Blue for user
+      business: "#10b981",
+      // Emerald for business
+      institution: "#94a3b8",
+      // Lighter slate for dark theme
+      admin: "#ef4444",
+      // Red for admin
+      developer: "#8b5cf6"
+      // Purple for developer
+    }
+  },
+  shadows: {
+    xs: "0 1px 1px 0 rgb(0 0 0 / 0.2)",
+    sm: "0 1px 2px 0 rgb(0 0 0 / 0.2)",
+    md: "0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)",
+    lg: "0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2)",
+    xl: "0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.2)",
+    "2xl": "0 25px 50px -12px rgb(0 0 0 / 0.4)",
+    inner: "inset 0 2px 4px 0 rgb(0 0 0 / 0.12)"
+  },
+  gradients: {
+    primary: "linear-gradient(135deg, #22c55e 0%, #10b981 100%)",
+    secondary: "linear-gradient(135deg, #1e293b 0%, #334155 100%)",
+    accent: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+    dashboard: {
+      marketing: "linear-gradient(135deg, #22c55e 0%, #10b981 100%)",
+      user: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+      business: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+      institution: "linear-gradient(135deg, #64748b 0%, #475569 100%)",
+      admin: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+      developer: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)"
+    }
+  },
+  animations: {
+    duration: {
+      fast: "150ms",
+      normal: "300ms",
+      slow: "500ms"
+    },
+    easing: {
+      default: "cubic-bezier(0.4, 0, 0.2, 1)",
+      bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+      smooth: "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    }
+  }
+};
+var themes = {
+  light: lightTheme,
+  dark: darkTheme
+};
+
+// src/theme/theme-context.tsx
+var import_react5 = require("react");
+var import_jsx_runtime12 = require("react/jsx-runtime");
+var ThemeContext = (0, import_react5.createContext)(void 0);
+function ThemeProvider({
+  children,
+  defaultTheme = "system",
+  dashboardVariant = "marketing",
+  storageKey = "sunny-theme",
+  attribute = "class",
+  enableSystem = true,
+  disableTransitionOnChange = false
+}) {
+  const [theme, setThemeState] = (0, import_react5.useState)(defaultTheme);
+  const [currentDashboardVariant, setCurrentDashboardVariant] = (0, import_react5.useState)(dashboardVariant);
+  const [actualTheme, setActualTheme] = (0, import_react5.useState)("light");
+  const [mounted, setMounted] = (0, import_react5.useState)(false);
+  const getSystemTheme = (0, import_react5.useCallback)(() => {
+    if (typeof window === "undefined") return "light";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }, []);
+  const resolveTheme = (0, import_react5.useCallback)((currentTheme) => {
+    if (currentTheme === "system") {
+      return getSystemTheme();
+    }
+    return currentTheme;
+  }, [getSystemTheme]);
+  const applyTheme = (0, import_react5.useCallback)((newTheme) => {
+    if (typeof window === "undefined") return;
+    const root = window.document.documentElement;
+    if (disableTransitionOnChange) {
+      const css = document.createElement("style");
+      css.appendChild(
+        document.createTextNode(
+          `*,*::before,*::after{-webkit-transition:none!important;-moz-transition:none!important;-o-transition:none!important;-ms-transition:none!important;transition:none!important}`
+        )
+      );
+      document.head.appendChild(css);
+      setTimeout(() => {
+        document.head.removeChild(css);
+      }, 1);
+    }
+    root.classList.remove("light", "dark");
+    if (attribute === "class") {
+      root.classList.add(newTheme);
+    } else {
+      root.setAttribute(attribute, newTheme);
+    }
+    const themeConfig2 = themes[newTheme];
+    const style = root.style;
+    style.setProperty("--color-background-primary", themeConfig2.colors.background.primary);
+    style.setProperty("--color-background-secondary", themeConfig2.colors.background.secondary);
+    style.setProperty("--color-background-tertiary", themeConfig2.colors.background.tertiary);
+    style.setProperty("--color-background-elevated", themeConfig2.colors.background.elevated);
+    style.setProperty("--color-background-card", themeConfig2.colors.background.card);
+    style.setProperty("--color-background-surface", themeConfig2.colors.background.surface);
+    style.setProperty("--color-text-primary", themeConfig2.colors.text.primary);
+    style.setProperty("--color-text-secondary", themeConfig2.colors.text.secondary);
+    style.setProperty("--color-text-tertiary", themeConfig2.colors.text.tertiary);
+    style.setProperty("--color-text-inverse", themeConfig2.colors.text.inverse);
+    style.setProperty("--color-text-muted", themeConfig2.colors.text.muted);
+    style.setProperty("--color-border-primary", themeConfig2.colors.border.primary);
+    style.setProperty("--color-border-secondary", themeConfig2.colors.border.secondary);
+    style.setProperty("--color-border-accent", themeConfig2.colors.border.accent);
+    style.setProperty("--color-border-muted", themeConfig2.colors.border.muted);
+    style.setProperty("--color-brand-primary", themeConfig2.colors.brand.primary);
+    style.setProperty("--color-brand-secondary", themeConfig2.colors.brand.secondary);
+    style.setProperty("--color-brand-accent", themeConfig2.colors.brand.accent);
+    style.setProperty("--color-brand-light", themeConfig2.colors.brand.light);
+    style.setProperty("--color-brand-dark", themeConfig2.colors.brand.dark);
+    style.setProperty("--color-status-success", themeConfig2.colors.status.success);
+    style.setProperty("--color-status-warning", themeConfig2.colors.status.warning);
+    style.setProperty("--color-status-error", themeConfig2.colors.status.error);
+    style.setProperty("--color-status-info", themeConfig2.colors.status.info);
+    style.setProperty("--color-dashboard-current", themeConfig2.colors.dashboard[currentDashboardVariant]);
+    style.setProperty("--gradient-dashboard-current", themeConfig2.gradients.dashboard[currentDashboardVariant]);
+    style.setProperty("--gradient-primary", themeConfig2.gradients.primary);
+    style.setProperty("--gradient-secondary", themeConfig2.gradients.secondary);
+    style.setProperty("--gradient-accent", themeConfig2.gradients.accent);
+    style.setProperty("--shadow-xs", themeConfig2.shadows.xs);
+    style.setProperty("--shadow-sm", themeConfig2.shadows.sm);
+    style.setProperty("--shadow-md", themeConfig2.shadows.md);
+    style.setProperty("--shadow-lg", themeConfig2.shadows.lg);
+    style.setProperty("--shadow-xl", themeConfig2.shadows.xl);
+    style.setProperty("--shadow-2xl", themeConfig2.shadows["2xl"]);
+    style.setProperty("--shadow-inner", themeConfig2.shadows.inner);
+    style.setProperty("--duration-fast", themeConfig2.animations.duration.fast);
+    style.setProperty("--duration-normal", themeConfig2.animations.duration.normal);
+    style.setProperty("--duration-slow", themeConfig2.animations.duration.slow);
+    style.setProperty("--easing-default", themeConfig2.animations.easing.default);
+    style.setProperty("--easing-bounce", themeConfig2.animations.easing.bounce);
+    style.setProperty("--easing-smooth", themeConfig2.animations.easing.smooth);
+    root.classList.remove("dashboard-marketing", "dashboard-user", "dashboard-business", "dashboard-institution", "dashboard-admin", "dashboard-developer");
+    root.classList.add(`dashboard-${currentDashboardVariant}`);
+  }, [attribute, disableTransitionOnChange, currentDashboardVariant]);
+  const setTheme = (0, import_react5.useCallback)((newTheme) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(storageKey, newTheme);
+    }
+    setThemeState(newTheme);
+  }, [storageKey]);
+  const setDashboardVariant = (0, import_react5.useCallback)((variant) => {
+    setCurrentDashboardVariant(variant);
+  }, []);
+  const toggleTheme = (0, import_react5.useCallback)(() => {
+    setTheme(actualTheme === "light" ? "dark" : "light");
+  }, [actualTheme, setTheme]);
+  (0, import_react5.useEffect)(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const savedTheme = localStorage.getItem(storageKey);
+      if (savedTheme && ["light", "dark", "system"].includes(savedTheme)) {
+        setThemeState(savedTheme);
+      } else if (enableSystem) {
+        setThemeState("system");
+      } else {
+        setThemeState("light");
+      }
+    } catch (error) {
+      console.error("Error reading theme from localStorage:", error);
+      setThemeState(defaultTheme);
+    }
+    setMounted(true);
+  }, [defaultTheme, enableSystem, storageKey]);
+  (0, import_react5.useEffect)(() => {
+    if (!mounted) return;
+    const newActualTheme = resolveTheme(theme);
+    setActualTheme(newActualTheme);
+    applyTheme(newActualTheme);
+  }, [theme, mounted, resolveTheme, applyTheme]);
+  (0, import_react5.useEffect)(() => {
+    if (!mounted) return;
+    applyTheme(actualTheme);
+  }, [currentDashboardVariant, mounted, actualTheme, applyTheme]);
+  (0, import_react5.useEffect)(() => {
+    if (!mounted || !enableSystem || theme !== "system") return;
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = () => {
+      const newActualTheme = getSystemTheme();
+      setActualTheme(newActualTheme);
+      applyTheme(newActualTheme);
+    };
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
+    } else {
+      mediaQuery.addListener(handleChange);
+      return () => mediaQuery.removeListener(handleChange);
+    }
+  }, [mounted, enableSystem, theme, getSystemTheme, applyTheme]);
+  const themeConfig = themes[actualTheme];
+  const contextValue = {
+    theme,
+    actualTheme,
+    dashboardVariant: currentDashboardVariant,
+    setTheme,
+    setDashboardVariant,
+    toggleTheme,
+    themeConfig
+  };
+  if (!mounted) {
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_jsx_runtime12.Fragment, { children });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(ThemeContext.Provider, { value: contextValue, children });
+}
+function useTheme() {
+  const context = (0, import_react5.useContext)(ThemeContext);
+  if (context === void 0) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
+}
+function useSafeTheme() {
+  const context = (0, import_react5.useContext)(ThemeContext);
+  return context || null;
+}
+function useThemeColors() {
+  const { themeConfig } = useTheme();
+  return themeConfig.colors;
+}
+function useIsDarkMode() {
+  const { actualTheme } = useTheme();
+  return actualTheme === "dark";
+}
+function useDashboardColors() {
+  const { themeConfig, dashboardVariant } = useTheme();
+  return {
+    primary: themeConfig.colors.dashboard[dashboardVariant],
+    gradient: themeConfig.gradients.dashboard[dashboardVariant]
+  };
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   AuthLayout,
   AuthPageLayout,
+  Button,
+  DashboardLayout,
+  FeatureGrid,
+  HeroSection,
   SignInForm,
   SignUpForm,
   SimpleSignInForm,
-  SocialAuthButtons
+  SocialAuthButtons,
+  StatsSection,
+  ThemeProvider,
+  buttonVariants,
+  darkTheme,
+  lightTheme,
+  themes,
+  useDashboardColors,
+  useIsDarkMode,
+  useSafeTheme,
+  useTheme,
+  useThemeColors
 });

@@ -1,6 +1,10 @@
 {
   "pages": {},
-  "app": {},
-  "appUsingSizeAdjust": false,
+  "app": {
+    "[project]/apps/institutions-portal/src/app/_not-found/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
   "pagesUsingSizeAdjust": false
 }

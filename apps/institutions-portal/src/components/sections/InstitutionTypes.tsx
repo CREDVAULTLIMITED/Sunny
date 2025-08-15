@@ -179,7 +179,7 @@ export default function InstitutionTypes() {
   };
 
   return (
-    <section className="py-16 md:py-20 bg-slate-50">
+    <section className="py-16 md:py-20 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div 
@@ -189,18 +189,18 @@ export default function InstitutionTypes() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <p className="text-sm font-semibold uppercase tracking-wide text-slate-600 mb-4">
+          <p className="text-sm font-semibold uppercase tracking-wide text-green-600 dark:text-green-400 mb-4">
             🏛️ Institution Types
           </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
             Solutions for Every Financial Institution
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Whether you're a traditional bank, a cooperative, or a modern fintech startup, 
             we have specialized solutions tailored to your institution's unique needs and 
             regulatory requirements.
           </p>
-        </div>
+        </motion.div>
 
         {/* Institution Types Grid */}
         <motion.div 
@@ -216,7 +216,7 @@ export default function InstitutionTypes() {
             return (
               <motion.div
                 key={type.id}
-                className={`bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-lg transition-all duration-200 cursor-pointer relative group ${colors.bg}`}
+                className={`bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-200 cursor-pointer relative group ${colors.bg}`}
                 variants={itemVariants}
                 whileHover={{ 
                   y: -5,
@@ -240,10 +240,10 @@ export default function InstitutionTypes() {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
                   {type.title}
                 </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                   {type.description}
                 </p>
 
@@ -254,34 +254,34 @@ export default function InstitutionTypes() {
                       <svg className={`w-4 h-4 mr-2 ${colors.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="text-gray-700">{feature}</span>
+                      <span className="text-gray-700 dark:text-gray-300">{feature}</span>
                     </div>
                   ))}
                 </div>
 
                 {/* Learn More Link */}
-                <div className="flex items-center text-sm font-medium text-slate-600 group-hover:text-slate-800 transition-colors duration-200">
+                <div className="flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors duration-200">
                   <span>Learn more</span>
                   <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </motion.div>
 
         {/* Bottom CTA */}
         <div className="text-center mt-12">
-          <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
               Don't see your institution type?
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
               We work with all types of financial institutions. Contact our team to discuss 
               your specific requirements and how we can tailor our solutions for you.
             </p>
-            <button className="inline-flex items-center px-6 py-3 bg-slate-700 hover:bg-slate-800 text-white font-semibold rounded-lg shadow-sm transition-all duration-200">
+            <button className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-lg shadow-sm transition-all duration-200">
               Contact Our Team
               <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />

@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '@sunny/ui/globals.css';
+import { ClientThemeProvider } from '../components/providers/ThemeProvider';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
     images: ['/og-image-institutions.png'],
   },
   viewport: 'width=device-width, initial-scale=1',
-  themeColor: '#64748b',
+  themeColor: '#22c55e',
 };
 
 export default function RootLayout({
@@ -48,7 +49,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
       <body className={`${inter.className} h-full antialiased`}>
-        {children}
+        <ClientThemeProvider
+          defaultTheme="system"
+          enableSystem
+          attribute="class"
+          storageKey="sunny-institution-theme"
+          disableTransitionOnChange={false}
+        >
+          {children}
+        </ClientThemeProvider>
       </body>
     </html>
   );

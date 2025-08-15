@@ -1,8 +1,9 @@
 {
   "pages": {
     "/_not-found/page": [
-      "static/chunks/packages_ui_src_globals_9c5e1cee.css",
-      "static/chunks/0a46a_next_dist_2a439c91._.js",
+      "static/chunks/[root-of-the-server]__fcd891f5._.css",
+      "static/chunks/0a46a_next_dist_585101ca._.js",
+      "static/chunks/apps_institutions-portal_src_components_providers_ThemeProvider_tsx_e1ec114a._.js",
       "static/chunks/apps_institutions-portal_src_app_layout_tsx_b9da8c7f._.js",
       "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_b8d2975a._.js",
       "static/chunks/0a46a_next_dist_compiled_react-dom_6e2f11e4._.js",

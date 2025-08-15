@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../providers/ThemeProvider';
 
 // Navigation items for institutional portal
 const navigationItems = [
@@ -84,6 +85,7 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
                 <button
                   onClick={onClose}
                   className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+                  aria-label="Close menu"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -181,6 +183,7 @@ export default function InstitutionalHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const { theme, actualTheme, toggleTheme } = useTheme();
 
   // Handle scroll effect
   useEffect(() => {
@@ -212,22 +215,45 @@ export default function InstitutionalHeader() {
               whileHover={{ scale: 1.02 }}
               transition={{ type: 'spring', stiffness: 400 }}
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-slate-600 to-slate-800 rounded-xl flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
+              <div className="relative">
+                {/* Logo background with gradient - matching marketing site */}
+                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-green-500 via-green-600 to-emerald-600 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
+                  {/* Animated rays */}
+                  <motion.div
+                    className="absolute inset-0 rounded-xl"
+                    initial={{ opacity: 0 }}
+                    whileHover={{ 
+                      opacity: 1,
+                      boxShadow: '0 0 20px rgba(34, 197, 94, 0.4)'
+                    }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  {/* S letter with modern typography */}
+                  <span className="text-white font-bold text-lg lg:text-xl relative z-10 font-mono">
+                    S
+                  </span>
+                </div>
+                
+                {/* Pulse effect */}
+                <motion.div
+                  className="absolute inset-0 rounded-xl bg-green-400"
+                  initial={{ scale: 1, opacity: 0 }}
+                  animate={{ scale: [1, 1.2, 1], opacity: [0, 0.3, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                />
               </div>
-              <div>
-                <h1 className={`text-xl font-bold transition-colors ${
-                  isScrolled ? 'text-gray-900 dark:text-white' : 'text-white'
+              
+              <div className="flex flex-col">
+                <span className={`text-xl lg:text-2xl font-bold tracking-tight transition-colors ${
+                  isScrolled ? 'text-gray-900 dark:text-white' : 'text-gray-900 dark:text-white'
                 }`}>
-                  Sunny<span className="text-slate-500">Institutions</span>
-                </h1>
-                <p className={`text-xs transition-colors ${
-                  isScrolled ? 'text-gray-500 dark:text-gray-400' : 'text-slate-300'
+                  Sunny
+                </span>
+                <span className={`text-xs lg:text-sm font-medium -mt-1 transition-colors ${
+                  isScrolled ? 'text-gray-500 dark:text-gray-400' : 'text-gray-600 dark:text-gray-400'
                 }`}>
-                  Financial Infrastructure
-                </p>
+                  Institutions
+                </span>
               </div>
             </motion.div>
 
@@ -242,11 +268,11 @@ export default function InstitutionalHeader() {
                 >
                   <motion.a
                     href={item.href}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center ${
-                      isScrolled 
-                        ? 'text-gray-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-slate-800' 
-                        : 'text-white hover:bg-white/10'
-                    }`}
+                                          className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center ${
+                        isScrolled 
+                          ? 'text-gray-700 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 dark:hover:text-green-400' 
+                          : 'text-gray-700 dark:text-gray-300 hover:bg-green-50/80 hover:text-green-600'
+                      }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -282,8 +308,8 @@ export default function InstitutionalHeader() {
                 <motion.button
                   className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                     isScrolled 
-                      ? 'text-gray-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-slate-800' 
-                      : 'text-white hover:bg-white/10'
+                      ? 'text-gray-700 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 dark:hover:text-green-400' 
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-green-50/80 hover:text-green-600'
                   }`}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -291,8 +317,8 @@ export default function InstitutionalHeader() {
                   Sign In
                 </motion.button>
                 <motion.button
-                  className="px-4 py-2 bg-slate-700 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors shadow-lg"
-                  whileHover={{ scale: 1.02, boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.3)' }}
+                  className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white text-sm font-medium rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg"
+                  whileHover={{ scale: 1.02, boxShadow: '0 10px 15px -3px rgb(34 197 94 / 0.3)' }}
                   whileTap={{ scale: 0.98 }}
                 >
                   Get Started
@@ -301,17 +327,25 @@ export default function InstitutionalHeader() {
 
               {/* Theme Toggle */}
               <motion.button
+                onClick={toggleTheme}
                 className={`p-2 rounded-lg transition-colors ${
                   isScrolled 
-                    ? 'text-gray-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-slate-800' 
-                    : 'text-white hover:bg-white/10'
+                    ? 'text-gray-700 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 dark:hover:text-green-400' 
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-green-50/80 hover:text-green-600'
                 }`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                aria-label="Toggle theme"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
+                {actualTheme === 'dark' ? (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                )}
               </motion.button>
 
               {/* Mobile Menu Button */}

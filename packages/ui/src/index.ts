@@ -12,4 +12,8 @@ export * from './sections/HeroSection';
 export * from './sections/FeatureGrid';
 export * from './sections/StatsSection';
 
+// Theme system
+export * from './theme/theme-config';
+export * from './theme/theme-context';
+
 // Add other exports here as components are created

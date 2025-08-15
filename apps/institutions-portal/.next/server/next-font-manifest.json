@@ -1,6 +1,18 @@
 {
   "app": {
+    "[project]/apps/institutions-portal/src/app/_not-found/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
     "[project]/apps/institutions-portal/src/app/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/institutions-portal/src/app/solutions/banks/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/institutions-portal/src/app/solutions/microfinance/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/institutions-portal/src/app/solutions/saccos/page": [
       "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
     ]
   },
