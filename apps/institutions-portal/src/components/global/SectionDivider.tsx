@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 interface SectionDividerProps {
   variant?: 'wave' | 'dots' | 'zigzag' | 'gradient';
-  color?: 'green' | 'blue' | 'purple' | 'orange' | 'pink';
+  color?: 'green' | 'blue' | 'purple' | 'orange' | 'pink' | 'teal';
   className?: string;
 }
 
@@ -19,7 +19,8 @@ export default function SectionDivider({
     blue: 'from-blue-400 via-cyan-500 to-blue-600',
     purple: 'from-purple-400 via-violet-500 to-purple-600',
     orange: 'from-orange-400 via-red-500 to-pink-500',
-    pink: 'from-pink-400 via-rose-500 to-pink-600'
+    pink: 'from-pink-400 via-rose-500 to-pink-600',
+    teal: 'from-teal-400 via-cyan-500 to-teal-600'
   };
 
   if (variant === 'wave') {

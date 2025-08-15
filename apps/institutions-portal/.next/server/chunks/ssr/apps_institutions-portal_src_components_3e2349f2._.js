@@ -1666,7 +1666,8 @@ function SectionDivider({ variant = 'wave', color = 'green', className = '' }) {
         blue: 'from-blue-400 via-cyan-500 to-blue-600',
         purple: 'from-purple-400 via-violet-500 to-purple-600',
         orange: 'from-orange-400 via-red-500 to-pink-500',
-        pink: 'from-pink-400 via-rose-500 to-pink-600'
+        pink: 'from-pink-400 via-rose-500 to-pink-600',
+        teal: 'from-teal-400 via-cyan-500 to-teal-600'
     };
     if (variant === 'wave') {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$4$2e$6_$40$babel$2b$core$40$7$2e$28$2e$0_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1688,12 +1689,12 @@ function SectionDivider({ variant = 'wave', color = 'green', className = '' }) {
                 className: `h-full bg-gradient-to-r ${colorClasses[color]} opacity-20 rounded-full origin-left`
             }, void 0, false, {
                 fileName: "[project]/apps/institutions-portal/src/components/global/SectionDivider.tsx",
-                lineNumber: 28,
+                lineNumber: 29,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/apps/institutions-portal/src/components/global/SectionDivider.tsx",
-            lineNumber: 27,
+            lineNumber: 28,
             columnNumber: 7
         }, this);
     }
@@ -1718,17 +1719,17 @@ function SectionDivider({ variant = 'wave', color = 'green', className = '' }) {
                         className: `w-3 h-3 rounded-full bg-gradient-to-r ${colorClasses[color]} opacity-60`
                     }, i, false, {
                         fileName: "[project]/apps/institutions-portal/src/components/global/SectionDivider.tsx",
-                        lineNumber: 44,
+                        lineNumber: 45,
                         columnNumber: 13
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/apps/institutions-portal/src/components/global/SectionDivider.tsx",
-                lineNumber: 42,
+                lineNumber: 43,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/apps/institutions-portal/src/components/global/SectionDivider.tsx",
-            lineNumber: 41,
+            lineNumber: 42,
             columnNumber: 7
         }, this);
     }
@@ -1752,12 +1753,12 @@ function SectionDivider({ variant = 'wave', color = 'green', className = '' }) {
                 className: `h-full bg-gradient-to-r ${colorClasses[color]} opacity-30 origin-left`
             }, void 0, false, {
                 fileName: "[project]/apps/institutions-portal/src/components/global/SectionDivider.tsx",
-                lineNumber: 60,
+                lineNumber: 61,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/apps/institutions-portal/src/components/global/SectionDivider.tsx",
-            lineNumber: 59,
+            lineNumber: 60,
             columnNumber: 7
         }, this);
     }
@@ -1782,17 +1783,17 @@ function SectionDivider({ variant = 'wave', color = 'green', className = '' }) {
                     className: `w-2 h-2 rounded-full bg-gradient-to-r ${colorClasses[color]} opacity-50`
                 }, i, false, {
                     fileName: "[project]/apps/institutions-portal/src/components/global/SectionDivider.tsx",
-                    lineNumber: 76,
+                    lineNumber: 77,
                     columnNumber: 11
                 }, this))
         }, void 0, false, {
             fileName: "[project]/apps/institutions-portal/src/components/global/SectionDivider.tsx",
-            lineNumber: 74,
+            lineNumber: 75,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/apps/institutions-portal/src/components/global/SectionDivider.tsx",
-        lineNumber: 73,
+        lineNumber: 74,
         columnNumber: 5
     }, this);
 }

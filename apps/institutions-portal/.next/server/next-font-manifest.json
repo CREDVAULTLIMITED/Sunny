@@ -9,7 +9,16 @@
     "[project]/apps/institutions-portal/src/app/solutions/banks/page": [
       "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
     ],
+    "[project]/apps/institutions-portal/src/app/solutions/fintech/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
     "[project]/apps/institutions-portal/src/app/solutions/microfinance/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/institutions-portal/src/app/solutions/processors/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/institutions-portal/src/app/solutions/remittance/page": [
       "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
     ],
     "[project]/apps/institutions-portal/src/app/solutions/saccos/page": [
