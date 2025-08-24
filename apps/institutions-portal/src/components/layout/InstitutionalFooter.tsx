@@ -29,7 +29,7 @@ const footerSections = [
   {
     title: 'Resources',
     links: [
-      { name: 'Documentation', href: '/docs' },
+      { name: 'Documentation', href: '/resources/docs' },
       { name: 'API Reference', href: '/api-docs' },
       { name: 'Case Studies', href: '/case-studies' },
       { name: 'Webinars', href: '/webinars' },

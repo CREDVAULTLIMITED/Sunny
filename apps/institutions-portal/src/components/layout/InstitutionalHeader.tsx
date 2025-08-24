@@ -34,18 +34,15 @@ const navigationItems = [
     name: 'Resources',
     href: '/resources',
     dropdown: [
-      { name: 'Documentation', href: '/docs', icon: '📚' },
-      { name: 'API Reference', href: '/api-docs', icon: '🔧' },
-      { name: 'Case Studies', href: '/case-studies', icon: '📈' },
-      { name: 'Webinars', href: '/webinars', icon: '🎥' },
-      { name: 'Regulatory Updates', href: '/regulatory', icon: '📋' },
-      { name: 'Download Center', href: '/downloads', icon: '⬇️' },
+      { name: 'Documentation', href: '/resources/docs', icon: '📚' },
+      { name: 'API Reference', href: '/resources/api-docs', icon: '🔧' },
+              { name: 'Case Studies', href: '/resources/case-studies', icon: '📈' },
+      { name: 'Webinars', href: '/resources/webinars', icon: '🎥' },
+      { name: 'Regulatory Updates', href: '/resources/regulatory', icon: '📋' },
+      { name: 'Download Center', href: '/resources/downloads', icon: '⬇️' },
     ]
   },
-  {
-    name: 'Pricing',
-    href: '/pricing'
-  },
+
   {
     name: 'Support',
     href: '/support',

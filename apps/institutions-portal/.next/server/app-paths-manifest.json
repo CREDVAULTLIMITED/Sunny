@@ -1,10 +1,7 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/page": "app/page.js",
-  "/solutions/banks/page": "app/solutions/banks/page.js",
-  "/solutions/fintech/page": "app/solutions/fintech/page.js",
-  "/solutions/microfinance/page": "app/solutions/microfinance/page.js",
-  "/solutions/processors/page": "app/solutions/processors/page.js",
-  "/solutions/remittance/page": "app/solutions/remittance/page.js",
-  "/solutions/saccos/page": "app/solutions/saccos/page.js"
+  "/resources/docs/getting-started/institution-setup/page": "app/resources/docs/getting-started/institution-setup/page.js",
+  "/resources/docs/getting-started/page": "app/resources/docs/getting-started/page.js",
+  "/resources/docs/getting-started/registration/page": "app/resources/docs/getting-started/registration/page.js",
+  "/resources/docs/page": "app/resources/docs/page.js"
 }
