@@ -1,0 +1,47 @@
+package com.sunny.payments;
+
+/**
+ * Sunny Payments - Java SDK Setup
+ * Generated at {{activatedAt}}
+ */
+
+import com.sunny.payments.Sunny;
+import com.sunny.payments.model.Payment;
+import com.sunny.payments.exception.SunnyException;
+
+public class SunnySetup {
+    private static final Sunny sunny;
+
+    static {
+        // Configuration
+        SunnyConfig config = new SunnyConfig.Builder()
+            .apiKey("{{apiKey}}")
+            .accountType("{{accountType}}")
+            .environment("{{environment}}")
+            .merchantId("{{merchantId}}")
+            .build();
+
+        // Initialize Sunny SDK
+        sunny = new Sunny(config);
+    }
+
+    public static void main(String[] args) {
+        // Example usage:
+        try {
+            // Create a payment
+            Payment payment = sunny.payments().create(new PaymentRequest()
+                .setAmount(1000L)
+                .setCurrency("USD")
+                .setDescription("Test payment")
+            );
+            
+            System.out.println("Payment created: " + payment.getId());
+        } catch (SunnyException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
+    public static Sunny getInstance() {
+        return sunny;
+    }
+}

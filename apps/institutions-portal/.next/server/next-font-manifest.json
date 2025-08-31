@@ -1,0 +1,22 @@
+{
+  "app": {
+    "[project]/apps/institutions-portal/src/app/_not-found/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/institutions-portal/src/app/resources/docs/getting-started/institution-setup/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/institutions-portal/src/app/resources/docs/getting-started/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/institutions-portal/src/app/resources/docs/getting-started/registration/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ],
+    "[project]/apps/institutions-portal/src/app/resources/docs/page": [
+      "static/media/06ba6ef833b337bc-s.p.0faac26c.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

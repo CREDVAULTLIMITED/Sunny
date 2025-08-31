@@ -1,0 +1,32 @@
+/* Enterprise Page specific styling */
+.enterprise-solutions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.enterprise-solution {
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.enterprise-solution:hover {
+  transform: translateY(-5px);
+  border-color: #3b82f6;
+}
+
+.security-features {
+  background: #f8fafc;
+  padding: 3rem;
+  border-radius: 1rem;
+  margin: 3rem 0;
+}
+
+.security-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}

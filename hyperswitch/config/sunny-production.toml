@@ -1,0 +1,412 @@
+# Hyperswitch Configuration for Sunny Payment Gateway
+# Optimized for CREDVAULT LIMITED operations and global payment processing
+
+[server]
+port = 8080
+host = "0.0.0.0"
+request_body_limit = 65536  # Increased for Sunny's larger payloads
+
+[log.console]
+enabled = true
+level = "INFO"
+log_format = "json"
+
+[log.file]
+enabled = true
+path = "logs"
+level = "INFO"
+
+[log.telemetry]
+traces_enabled = true
+metrics_enabled = true
+use_xray_generator = false
+bg_metrics_collection_interval_in_secs = 30  # Sunny optimized metrics collection
+
+[master_database]
+username = "${SUNNY_DB_USER}"
+password = "${SUNNY_DB_PASSWORD}"
+host = "${SUNNY_DB_HOST}"
+port = 5432
+dbname = "sunny_hyperswitch"
+pool_size = 20  # Optimized for Sunny's scale
+connection_timeout = 30
+min_idle = 5
+
+[replica_database]
+username = "${SUNNY_DB_USER}"
+password = "${SUNNY_DB_PASSWORD}"
+host = "${SUNNY_DB_REPLICA_HOST}"
+port = 5432
+dbname = "sunny_hyperswitch"
+pool_size = 15
+connection_timeout = 30
+
+[redis]
+host = "${SUNNY_REDIS_HOST}"
+port = 6379
+pool_size = 20
+reconnect_max_attempts = 10
+reconnect_delay = 2
+default_ttl = 900        # 15 minutes for Sunny's session management
+default_hash_ttl = 3600  # 1 hour for payment data
+use_legacy_version = false
+stream_read_count = 5
+auto_pipeline = true
+disable_auto_backpressure = false
+max_in_flight_commands = 10000
+default_command_timeout = 60
+unresponsive_timeout = 30
+max_feed_count = 500
+
+[secrets]
+admin_api_key = "${SUNNY_ADMIN_API_KEY}"
+master_enc_key = "${SUNNY_MASTER_ENC_KEY}"
+jwt_secret = "${SUNNY_JWT_SECRET}"
+
+[user]
+password_validity_in_days = 90
+two_factor_auth_expiry_in_secs = 300
+totp_issuer_name = "Sunny Internal Operations"
+base_url = "${SUNNY_HYPERSWITCH_BASE_URL}"
+force_two_factor_auth = true
+force_cookies = false
+
+[locker]
+host = "${SUNNY_VAULT_HOST}"
+host_rs = "${SUNNY_VAULT_HOST}"
+mock_locker = false
+basilisk_host = ""
+locker_enabled = true
+ttl_for_storage_in_secs = 31536000  # 1 year for Sunny's compliance requirements
+
+# African Mobile Money Optimization
+[connectors.sunny_mobile_money]
+base_url = "${SUNNY_MOBILE_MONEY_GATEWAY}"
+supported_countries = "KE,UG,TZ,RW,GH,NG,ZA,CI,SN,ML,BF,NE,TG,BJ"
+supported_currencies = "KES,UGX,TZS,RWF,GHS,NGN,ZAR,XOF"
+
+# Cryptocurrency Gateway Configuration
+[connectors.sunny_crypto]
+base_url = "${SUNNY_CRYPTO_GATEWAY}"
+supported_networks = "BTC,ETH,USDT,USDC,BNB,ADA,SOL,DOT,AVAX,MATIC"
+confirmation_blocks = { BTC = 3, ETH = 12, USDT = 12, USDC = 12 }
+
+# Enhanced Security for Sunny
+[security]
+fraud_check_enabled = true
+velocity_check_enabled = true
+geo_blocking_enabled = false  # Sunny serves globally
+max_payment_amount = 1000000  # $1M limit
+daily_transaction_limit = 10000000  # $10M daily limit
+
+# Sunny-specific routing rules
+[routing]
+default_fallback_connector = "stripe"
+african_mobile_money_primary = "sunny_mobile_money"
+crypto_primary = "sunny_crypto"
+card_primary_africa = "paystack"
+card_primary_global = "stripe"
+
+# Revenue optimization for Sunny
+[revenue_recovery]
+monitoring_threshold_in_seconds = 30  # Faster monitoring for Sunny
+retry_algorithm_type = "intelligent"   # AI-powered retries
+redis_ttl_in_seconds = 7200           # 2 hours for retry data
+
+# Enhanced monitoring for Sunny operations
+[analytics]
+source = "sqlx"
+forex_enabled = true  # Sunny needs multi-currency support
+
+[analytics.sqlx]
+username = "${SUNNY_ANALYTICS_DB_USER}"
+password = "${SUNNY_ANALYTICS_DB_PASSWORD}"
+host = "${SUNNY_ANALYTICS_DB_HOST}"
+port = 5432
+dbname = "sunny_analytics"
+pool_size = 10
+connection_timeout = 10
+queue_strategy = "Fifo"
+
+# Webhook configuration for Sunny's real-time notifications
+[webhooks]
+outgoing_enabled = true
+redis_lock_expiry_seconds = 300
+max_retries = 5
+retry_delay_seconds = 30
+
+# Platform configuration for Sunny's multi-tenant architecture
+[platform]
+enabled = true
+allow_connected_merchants = true
+
+# Theme configuration for Sunny branding in internal tools
+[theme.email_config]
+entity_name = "Sunny Payment Operations"
+entity_logo_url = "https://sunnypayments.com/assets/logo.png"
+foreground_color = "#1a1a1a"
+primary_color = "#ff6b35"  # Sunny orange
+background_color = "#ffffff"
+
+# API rate limiting for Sunny's scale
+[cors]
+max_age = 86400  # 24 hours
+allowed_methods = "GET,POST,PUT,DELETE,OPTIONS,PATCH"
+wildcard_origin = false  # Security: specific origins only
+
+# Fraud detection optimized for global markets
+[frm]
+enabled = true
+
+# Event streaming for Sunny's real-time operations
+[events]
+source = "kafka"
+
+[events.kafka]
+brokers = ["${SUNNY_KAFKA_BROKERS}"]
+fraud_check_analytics_topic = "sunny-fraud-check-events"
+intent_analytics_topic = "sunny-payment-intent-events"
+attempt_analytics_topic = "sunny-payment-attempt-events"
+refund_analytics_topic = "sunny-refund-events"
+api_logs_topic = "sunny-api-log-events"
+connector_logs_topic = "sunny-connector-events"
+outgoing_webhook_logs_topic = "sunny-webhook-events"
+dispute_analytics_topic = "sunny-dispute-events"
+audit_events_topic = "sunny-audit-events"
+payout_analytics_topic = "sunny-payout-events"
+consolidated_events_topic = "sunny-consolidated-events"
+
+# Scheduler for Sunny's automated operations
+[scheduler]
+stream = "SUNNY_SCHEDULER_STREAM"
+
+[scheduler.consumer]
+disabled = false
+consumer_group = "SUNNY_SCHEDULER_GROUP"
+
+[scheduler.server]
+port = 3001
+host = "127.0.0.1"
+workers = 4  # Optimized for Sunny's workload
+
+# Key management for Sunny's security requirements
+[key_manager]
+enabled = true
+
+[jwekey]
+vault_encryption_key = "${SUNNY_VAULT_ENCRYPTION_KEY}"
+rust_locker_encryption_key = "${SUNNY_LOCKER_ENCRYPTION_KEY}"
+vault_private_key = "${SUNNY_VAULT_PRIVATE_KEY}"
+tunnel_private_key = "${SUNNY_TUNNEL_PRIVATE_KEY}"
+
+# Multi-tenancy configuration for Sunny's customer segments
+[multitenancy]
+enabled = true
+global_tenant = { tenant_id = "sunny_global", schema = "public", redis_key_prefix = "sunny", clickhouse_database = "sunny_analytics" }
+
+[multitenancy.tenants.business]
+base_url = "https://business.sunnypayments.com"
+schema = "business"
+accounts_schema = "business_accounts"
+redis_key_prefix = "sunny_business"
+clickhouse_database = "sunny_business_analytics"
+
+[multitenancy.tenants.individual]
+base_url = "https://app.sunnypayments.com"
+schema = "individual"
+accounts_schema = "individual_accounts"
+redis_key_prefix = "sunny_individual"
+clickhouse_database = "sunny_individual_analytics"
+
+[multitenancy.tenants.institutional]
+base_url = "https://institutions.sunnypayments.com"
+schema = "institutional"
+accounts_schema = "institutional_accounts"
+redis_key_prefix = "sunny_institutional"
+clickhouse_database = "sunny_institutional_analytics"
+
+# Payment link configuration for Sunny's checkout
+[payment_link]
+sdk_url = "${SUNNY_SDK_URL}"
+
+# Lock settings for high-concurrency operations
+[lock_settings]
+redis_lock_expiry_seconds = 300
+delay_between_retries_in_milliseconds = 100  # Faster retries for Sunny
+
+# KV store configuration
+[kv_config]
+ttl = 1800        # 30 minutes for Sunny's session data
+soft_kill = false
+
+# File storage for Sunny's document management
+[file_storage]
+file_storage_backend = "aws_s3"  # Sunny uses S3 for scalability
+
+# Payout configuration for Sunny's instant settlements
+[payouts]
+payout_eligibility = true
+
+# Apple Pay configuration for Sunny
+[applepay_merchant_configs]
+merchant_cert_key = "${SUNNY_APPLE_PAY_MERCHANT_CERT_KEY}"
+merchant_cert = "${SUNNY_APPLE_PAY_MERCHANT_CERT}"
+common_merchant_identifier = "${SUNNY_APPLE_PAY_MERCHANT_ID}"
+applepay_endpoint = "${SUNNY_APPLE_PAY_ENDPOINT}"
+
+[applepay_decrypt_keys]
+apple_pay_ppc = "${SUNNY_APPLE_PAY_PPC}"
+apple_pay_ppc_key = "${SUNNY_APPLE_PAY_PPC_KEY}"
+apple_pay_merchant_cert = "${SUNNY_APPLE_PAY_MERCHANT_CERT}"
+apple_pay_merchant_cert_key = "${SUNNY_APPLE_PAY_MERCHANT_CERT_KEY}"
+
+# Google Pay configuration for Sunny
+[google_pay_decrypt_keys]
+google_pay_root_signing_keys = "${SUNNY_GOOGLE_PAY_ROOT_KEYS}"
+
+# Enhanced refund configuration
+[refund]
+max_attempts = 5   # Reduced for faster feedback
+max_age = 365
+
+# API key configuration
+[api_keys]
+hash_key = "${SUNNY_API_HASH_KEY}"
+
+# Forex API for Sunny's multi-currency operations
+[forex_api]
+api_key = "${SUNNY_FOREX_API_KEY}"
+fallback_api_key = "${SUNNY_FOREX_FALLBACK_KEY}"
+data_expiration_delay_in_seconds = 10800  # 3 hours
+redis_lock_timeout_in_seconds = 120
+redis_ttl_in_seconds = 86400  # 24 hours
+
+# Revenue recovery optimization for Sunny
+[revenue_recovery.recovery_timestamp]
+initial_timestamp_in_seconds = 1800    # 30 minutes initial delay
+job_schedule_buffer_time_in_seconds = 1800
+reopen_workflow_buffer_time_in_seconds = 1800
+max_random_schedule_delay_in_seconds = 180
+
+# Card network specific retry limits optimized for Sunny
+[revenue_recovery.card_config.amex]
+max_retries_per_day = 15
+max_retry_count_for_thirty_day = 25
+
+[revenue_recovery.card_config.mastercard]
+max_retries_per_day = 12
+max_retry_count_for_thirty_day = 40
+
+[revenue_recovery.card_config.visa]
+max_retries_per_day = 15
+max_retry_count_for_thirty_day = 30
+
+[revenue_recovery.card_config.discover]
+max_retries_per_day = 15
+max_retry_count_for_thirty_day = 25
+
+# Proxy status configuration for transparency
+[proxy_status_mapping]
+proxy_connector_http_status_code = true  # Sunny wants full transparency
+
+# Enhanced security headers
+[unmasked_headers]
+keys = "accept-language,user-agent,x-sunny-client-id,x-sunny-session-id"
+
+# Debit routing for Sunny's markets
+[debit_routing_config]
+supported_currencies = "USD,EUR,GBP,KES,NGN,GHS,ZAR,CAD,AUD"
+supported_connectors = "adyen,stripe,paystack"
+
+[debit_routing_config.connector_supported_debit_networks]
+adyen = "Star,Pulse,Accel,Nyce,Interac"
+stripe = "Visa,Mastercard,Discover,AmericanExpress"
+paystack = "Visa,Mastercard,Verve"
+
+# Sunny-specific connector priorities for African markets
+[pm_filters.paystack]
+credit = { country = "NG,GH,ZA,KE,CI,SN", currency = "NGN,GHS,ZAR,KES,XOF" }
+debit = { country = "NG,GH,ZA,KE,CI,SN", currency = "NGN,GHS,ZAR,KES,XOF" }
+bank_transfer = { country = "NG,GH,ZA", currency = "NGN,GHS,ZAR" }
+mobile_money = { country = "GH,KE", currency = "GHS,KES" }
+
+# Additional connector configuration optimized for Sunny's global reach
+[connectors]
+# Priority connectors for different regions
+stripe.base_url = "https://api.stripe.com/"
+stripe.secondary_base_url = "https://connect.stripe.com/"
+paystack.base_url = "https://api.paystack.co"
+adyen.base_url = "https://checkout-live.adyen.com/"
+coinbase.base_url = "https://api.commerce.coinbase.com"
+paypal.base_url = "https://api-m.paypal.com/"
+
+# Mobile money specific configurations for African markets
+flutterwave.base_url = "https://api.flutterwave.com/v3"
+mpesa.base_url = "${SUNNY_MPESA_GATEWAY_URL}"
+airtel_money.base_url = "${SUNNY_AIRTEL_GATEWAY_URL}"
+
+# Saved payment methods for Sunny's customer experience
+[saved_payment_methods]
+sdk_eligible_payment_methods = "card,wallet,bank_transfer,mobile_money"
+
+# Network tokenization for enhanced security
+[network_tokenization_supported_card_networks]
+card_networks = "Visa,Mastercard,AmericanExpress,Discover,JCB,UnionPay"
+
+[network_tokenization_supported_connectors]
+connector_list = "adyen,cybersource,stripe,nuvei,checkout"
+
+# Enhanced authentication for Sunny's security model
+[user_auth_methods]
+encryption_key = "${SUNNY_USER_AUTH_ENCRYPTION_KEY}"
+
+# Cell information for regional optimization
+[cell_information]
+id = "sunny_global_001"
+
+# Connector customer configuration
+[connector_customer]
+connector_list = "stripe,adyen,paystack,coinbase,paypal,authorizedotnet,nuvei"
+payout_connector_list = "stripe,wise,paypal,dwolla"
+
+# Dummy connector for testing (disabled in production)
+[dummy_connector]
+enabled = false
+assets_base_url = "https://internal.sunnypayments.com/assets/TestProcessor/"
+default_return_url = "https://app.sunnypayments.com/"
+
+# Open router configuration for Sunny's intelligent routing
+[open_router]
+dynamic_routing_enabled = true
+static_routing_enabled = true
+url = "${SUNNY_ROUTING_ENGINE_URL}"
+
+# L2/L3 data for enhanced transaction processing
+[l2_l3_data_config]
+enabled = "true"
+
+# Chat/AI configuration for Sunny's support
+[chat]
+enabled = true
+hyperswitch_ai_host = "${SUNNY_AI_HOST}"
+
+# Connector onboarding for easy setup
+[connector_onboarding.paypal]
+client_id = "${SUNNY_PAYPAL_CLIENT_ID}"
+client_secret = "${SUNNY_PAYPAL_CLIENT_SECRET}"
+partner_id = "${SUNNY_PAYPAL_PARTNER_ID}"
+enabled = true
+
+[connector_onboarding.stripe]
+client_id = "${SUNNY_STRIPE_CLIENT_ID}"
+enabled = true
+
+# Clone connector allowlist for Sunny's merchant management
+[clone_connector_allowlist]
+merchant_ids = "${SUNNY_ALLOWED_MERCHANT_IDS}"
+connector_names = "stripe,adyen,paystack,coinbase,paypal,wise"
+
+# Infrastructure values for Sunny's deployment
+[infra_values]
+cluster = "SUNNY_PRODUCTION"
+version = "SUNNY_V1"

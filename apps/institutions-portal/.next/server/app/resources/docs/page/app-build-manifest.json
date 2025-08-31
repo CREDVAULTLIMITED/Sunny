@@ -1,0 +1,26 @@
+{
+  "pages": {
+    "/resources/docs/page": [
+      "static/chunks/[root-of-the-server]__fcd891f5._.css",
+      "static/chunks/0a46a_next_dist_585101ca._.js",
+      "static/chunks/apps_institutions-portal_src_components_providers_ThemeProvider_tsx_e1ec114a._.js",
+      "static/chunks/apps_institutions-portal_src_app_layout_tsx_b9da8c7f._.js",
+      "static/chunks/0a46a_next_dist_client_components_builtin_global-error_ef36a168.js",
+      "static/chunks/_1936bf98._.js",
+      "static/chunks/c0b41_motion-dom_dist_es_60d8b549._.js",
+      "static/chunks/90956_framer-motion_dist_es_162b7935._.js",
+      "static/chunks/7fbd0_zod_v4_dcba12eb._.js",
+      "static/chunks/node_modules__pnpm_935d5670._.js",
+      "static/chunks/apps_institutions-portal_src_app_resources_docs_page_tsx_ef36a168._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_b8d2975a._.js",
+      "static/chunks/0a46a_next_dist_compiled_react-dom_6e2f11e4._.js",
+      "static/chunks/0a46a_next_dist_compiled_next-devtools_index_42c0a5eb.js",
+      "static/chunks/0a46a_next_dist_compiled_769b99e2._.js",
+      "static/chunks/0a46a_next_dist_client_9997581d._.js",
+      "static/chunks/0a46a_next_dist_16fd90dd._.js",
+      "static/chunks/61dca_@swc_helpers_cjs_72a991a3._.js",
+      "static/chunks/apps_institutions-portal_e69f0d32._.js",
+      "static/chunks/apps_institutions-portal_9310a126._.js"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+# Kenya-focused packages get priority in resolution
+prefer-workspace-packages: true
+
+# Shared dependencies across all packages
+shared-workspace-lockfile: true
+
+# Auto-install peers
+auto-install-peers: true
+
+# Hoist common dependencies to root
+hoist-pattern:
+  - '@types/*'
+  - 'eslint*'
+  - 'prettier*'
+  - 'typescript'
+  - 'turbo'
+
+# Don't hoist these to avoid conflicts
+public-hoist-pattern:
+  - '*eslint*'
+  - '*prettier*'
+  - '@sunny/*'

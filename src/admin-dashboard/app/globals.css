@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #02A669;
+  --primary-light: #05B19B;
+  --secondary: #0177A5;
+  --secondary-light: #12AACF;
+  --background: #F6F8F6;
+  --foreground: #000000;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #02A669;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #05B19B;
+  --accent-foreground: #FFFFFF;
+  --popover: #FFFFFF;
+  --popover-foreground: #000000;
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+}
+
+.dark {
+  --primary: #05B19B;
+  --primary-light: #02A669;
+  --secondary: #12AACF;
+  --secondary-light: #0177A5;
+  --background: #121212;
+  --foreground: #FFFFFF;
+  --border: #2D3748;
+  --input: #2D3748;
+  --ring: #05B19B;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --muted: #2D3748;
+  --muted-foreground: #A0AEC0;
+  --accent: #02A669;
+  --accent-foreground: #FFFFFF;
+  --popover: #1A1A1A;
+  --popover-foreground: #FFFFFF;
+  --card: #1A1A1A;
+  --card-foreground: #FFFFFF;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Dashboard specific styles */
+.dashboard-card {
+  @apply bg-card text-card-foreground rounded-lg shadow-sm p-6;
+}
+
+.dashboard-card-header {
+  @apply flex justify-between items-center mb-4;
+}
+
+.dashboard-card-title {
+  @apply text-lg font-semibold;
+}
+
+.dashboard-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+.dashboard-stat {
+  @apply text-2xl font-bold;
+}
+
+.dashboard-stat-label {
+  @apply text-sm text-muted-foreground;
+}
+
+/* Table styles */
+.data-table {
+  @apply w-full border-collapse;
+}
+
+.data-table th {
+  @apply text-left p-3 bg-muted text-muted-foreground font-medium text-sm;
+}
+
+.data-table td {
+  @apply p-3 border-b border-border;
+}
+
+.data-table tr:hover {
+  @apply bg-muted/50;
+}
+
+/* Status badges */
+.status-badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.status-success {
+  @apply bg-primary/20 text-primary;
+}
+
+.status-pending {
+  @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-500;
+}
+
+.status-failed {
+  @apply bg-destructive/20 text-destructive;
+}
+
+/* Form styles */
+.form-group {
+  @apply mb-4;
+}
+
+.form-label {
+  @apply block text-sm font-medium mb-1;
+}
+
+.form-input {
+  @apply block w-full rounded-md border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+}
+
+.form-error {
+  @apply text-destructive text-sm mt-1;
+}
+
+/* Button styles */
+.btn {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+}
+
+.btn-primary {
+  @apply bg-primary text-white hover:bg-primary-light;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-white hover:bg-secondary-light;
+}
+
+.btn-outline {
+  @apply border border-input bg-background hover:bg-muted hover:text-foreground;
+}
+
+.btn-ghost {
+  @apply hover:bg-muted hover:text-foreground;
+}
+
+.btn-destructive {
+  @apply bg-destructive text-destructive-foreground hover:bg-destructive/90;
+}
+
+.btn-sm {
+  @apply h-8 px-3 text-xs;
+}
+
+.btn-md {
+  @apply h-10 px-4;
+}
+
+.btn-lg {
+  @apply h-12 px-6 text-base;
+}

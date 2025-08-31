@@ -1,0 +1,159 @@
+# Advanced Cipher Suite Configuration
+
+# TLS Configuration
+tls:
+  min_version: TLSv1.3
+  max_version: TLSv1.3
+  
+  # Cipher priority for TLS 1.3
+  cipher_suites:
+    # Post-Quantum hybrid KEMs with improved security
+    - TLS_AES_256_GCM_SHA384_KYBER1024 # Primary hybrid KEM
+    - TLS_CHACHA20_POLY1305_SHA256_KYBER1024 # Secondary hybrid KEM
+    - TLS_AES_256_GCM_SHA384_NTRU_HPS4096821 # Alternate PQ KEM
+    
+    # Classical high-security ciphers (backup)
+    - TLS_AES_256_GCM_SHA384
+    - TLS_CHACHA20_POLY1305_SHA256
+  
+  # Signature algorithms
+  signature_algorithms:
+    # Post-Quantum signatures
+    - dilithium5
+    - falcon1024
+    
+    # Classical signatures
+    - ecdsa_secp384r1_sha384
+    - ed25519
+  
+  # Key exchange groups
+  groups:
+    # Post-Quantum groups
+    - kyber1024
+    - ntru_hps4096821
+    
+    # Classical groups
+    - x25519
+    - secp384r1
+
+# Symmetric Encryption
+symmetric:
+  # Primary block cipher
+  aes:
+    key_size: 256
+    mode: GCM
+    tag_length: 128
+    nonce_length: 96
+  
+  # Secondary block cipher
+  chacha20:
+    key_size: 256
+    nonce_length: 96
+  
+  # Key derivation
+  kdf:
+    primary: BLAKE3
+    secondary: HKDF-SHA384
+    salt_length: 32
+    info_prefix: "Sunny-KDF-v1"
+
+# Asymmetric Encryption
+asymmetric:
+  # Traditional public key encryption
+  classic:
+    key_types:
+      - x25519
+      - secp384r1
+    key_usage:
+      - key_agreement
+      - digital_signature
+  
+  # Post-quantum encryption
+  quantum_resistant:
+    kem:
+      - kyber1024
+      - ntru_hps4096821
+    signature:
+      - dilithium5
+      - falcon1024
+
+# Hash Functions
+hashing:
+  # Primary hash
+  primary: BLAKE3
+  
+  # Secondary hash for compatibility
+  secondary: SHA384
+  
+  # MAC algorithms
+  mac:
+    - HMAC-BLAKE3
+    - HMAC-SHA384
+    - KMAC256
+
+# Key Management
+key_management:
+  rotation:
+    encryption_keys: 30d
+    signing_keys: 90d
+    master_keys: 180d
+  
+  storage:
+    encryption_method: hybrid # Uses both classical and PQ encryption
+    backup_encryption: true
+    key_wrapping: true
+  
+  derivation:
+    method: hybrid_kdf
+    min_entropy: 256
+    stretching_rounds: 10000
+
+# Algorithm Combinations
+hybrid_schemes:
+  # Key encapsulation
+  kem:
+    - name: hybrid_kem_1
+      classical: x25519
+      quantum: kyber1024
+      combination: xor
+    
+    - name: hybrid_kem_2
+      classical: secp384r1
+      quantum: ntru_hps4096821
+      combination: concat
+  
+  # Digital signatures
+  signatures:
+    - name: hybrid_sig_1
+      classical: ed25519
+      quantum: dilithium5
+      combination: parallel
+    
+    - name: hybrid_sig_2
+      classical: ecdsa_secp384r1
+      quantum: falcon1024
+      combination: nested
+
+# Security Parameters
+parameters:
+  min_key_size: 256
+  min_hash_size: 384
+  nonce_reuse_prevention: true
+  padding_scheme: OAEP-BLAKE3
+  tag_verification: mandatory
+  authenticated_data: required
+
+# Protocol Versioning
+versioning:
+  min_protocol: 2.0.0
+  current_protocol: 2.1.0
+  max_protocol: 3.0.0
+  fallback_allowed: false
+
+# Compliance
+compliance:
+  fips: true
+  common_criteria: EAL4+
+  pci_dss: true
+  quantum_safe: true
+  perfect_forward_secrecy: true

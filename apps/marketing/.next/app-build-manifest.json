@@ -1,0 +1,50 @@
+{
+  "pages": {
+    "/page": [
+      "static/chunks/0a46a_next_dist_2a439c91._.js",
+      "static/chunks/apps_marketing_src_app_favicon_ico_mjs_6b51b079._.js",
+      "static/chunks/[root-of-the-server]__fcd891f5._.css",
+      "static/chunks/apps_marketing_src_59397b37._.js",
+      "static/chunks/c0b41_motion-dom_dist_es_683f0d92._.js",
+      "static/chunks/90956_framer-motion_dist_es_0189c898._.js",
+      "static/chunks/node_modules__pnpm_216c0fc3._.js",
+      "static/chunks/apps_marketing_src_app_layout_tsx_b9da8c7f._.js",
+      "static/chunks/0a46a_next_dist_client_components_builtin_global-error_dca92f73.js",
+      "static/chunks/apps_marketing_src_762f67d5._.js",
+      "static/chunks/node_modules__pnpm_45cb5f67._.js",
+      "static/chunks/apps_marketing_src_app_page_tsx_dca92f73._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_b8d2975a._.js",
+      "static/chunks/0a46a_next_dist_compiled_react-dom_6e2f11e4._.js",
+      "static/chunks/0a46a_next_dist_compiled_next-devtools_index_42c0a5eb.js",
+      "static/chunks/0a46a_next_dist_compiled_769b99e2._.js",
+      "static/chunks/0a46a_next_dist_client_9997581d._.js",
+      "static/chunks/0a46a_next_dist_16fd90dd._.js",
+      "static/chunks/61dca_@swc_helpers_cjs_72a991a3._.js",
+      "static/chunks/apps_marketing_e69f0d32._.js",
+      "static/chunks/apps_marketing_9310a126._.js"
+    ],
+    "/payment-gateway/page": [
+      "static/chunks/0a46a_next_dist_2a439c91._.js",
+      "static/chunks/apps_marketing_src_app_favicon_ico_mjs_6b51b079._.js",
+      "static/chunks/[root-of-the-server]__fcd891f5._.css",
+      "static/chunks/apps_marketing_src_59397b37._.js",
+      "static/chunks/c0b41_motion-dom_dist_es_683f0d92._.js",
+      "static/chunks/90956_framer-motion_dist_es_0189c898._.js",
+      "static/chunks/node_modules__pnpm_216c0fc3._.js",
+      "static/chunks/apps_marketing_src_app_layout_tsx_b9da8c7f._.js",
+      "static/chunks/0a46a_next_dist_client_components_builtin_global-error_dca92f73.js",
+      "static/chunks/apps_marketing_src_components_payment-gateway_6d5121bd._.js",
+      "static/chunks/node_modules__pnpm_18806c67._.js",
+      "static/chunks/apps_marketing_src_app_payment-gateway_page_tsx_dca92f73._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_b8d2975a._.js",
+      "static/chunks/0a46a_next_dist_compiled_react-dom_6e2f11e4._.js",
+      "static/chunks/0a46a_next_dist_compiled_next-devtools_index_42c0a5eb.js",
+      "static/chunks/0a46a_next_dist_compiled_769b99e2._.js",
+      "static/chunks/0a46a_next_dist_client_9997581d._.js",
+      "static/chunks/0a46a_next_dist_16fd90dd._.js",
+      "static/chunks/61dca_@swc_helpers_cjs_72a991a3._.js",
+      "static/chunks/apps_marketing_e69f0d32._.js",
+      "static/chunks/apps_marketing_9310a126._.js"
+    ]
+  }
+}

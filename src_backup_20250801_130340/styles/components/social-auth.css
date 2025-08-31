@@ -1,0 +1,120 @@
+/* Social Authentication Buttons */
+.social-login,
+.social-signup {
+  margin-top: 2rem;
+  position: relative;
+  text-align: center;
+}
+
+.social-login::before,
+.social-signup::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border-color, #e2e8f0);
+  z-index: 0;
+}
+
+.social-login span,
+.social-signup span {
+  position: relative;
+  background: white;
+  padding: 0 1rem;
+  color: var(--text-secondary, #666);
+  font-size: 0.875rem;
+  z-index: 1;
+}
+
+.social-login-buttons,
+.social-signup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.social-auth-btn {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.social-auth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.social-auth-btn img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* Provider-specific styles */
+.social-auth-btn.google:hover {
+  border-color: #4285f4;
+}
+
+.social-auth-btn.apple:hover {
+  border-color: #000;
+}
+
+.social-auth-btn.microsoft:hover {
+  border-color: #00a4ef;
+}
+
+.social-auth-btn.slack:hover {
+  border-color: #e01e5a;
+}
+
+/* Provider button variations */
+.social-auth-btn.large {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  padding: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.social-auth-btn.large img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .social-login::before,
+  .social-signup::before {
+    background: var(--border-color-dark, #2d3748);
+  }
+
+  .social-login span,
+  .social-signup span {
+    background: var(--background-dark, #1a202c);
+    color: var(--text-secondary-dark, #a0aec0);
+  }
+
+  .social-auth-btn {
+    background: var(--background-dark, #1a202c);
+    border-color: var(--border-color-dark, #2d3748);
+  }
+
+  .social-auth-btn img {
+    filter: invert(1);
+  }
+}

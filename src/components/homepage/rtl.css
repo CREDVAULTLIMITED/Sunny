@@ -1,0 +1,95 @@
+/* RTL Support Styles */
+
+/* Set up RTL text direction */
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Fix spacing for RTL mode */
+.rtl .ml-3 {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+.rtl .ml-16 {
+  margin-left: 0;
+  margin-right: 4rem;
+}
+
+.rtl .mr-1 {
+  margin-right: 0;
+  margin-left: 0.25rem;
+}
+
+/* Flip icons for RTL */
+.rtl svg:not(.no-flip) {
+  transform: scaleX(-1);
+}
+
+/* Adjust language selector in RTL mode */
+.rtl .language-menu {
+  left: 0;
+  right: auto;
+}
+
+/* Fix feature card layout for RTL */
+.rtl .feature-icon {
+  left: auto;
+  right: 0;
+}
+
+/* Fix grid gaps in RTL mode */
+.rtl .sm\:ml-3 {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+/* Animated transitions */
+.language-transition {
+  transition: all 0.5s ease-in-out;
+}
+
+/* Font settings for different languages */
+html[lang="ar"] body {
+  font-family: 'Noto Sans Arabic', 'Noto Sans', sans-serif;
+}
+
+html[lang="zh"] body {
+  font-family: 'Noto Sans SC', 'Noto Sans', sans-serif;
+}
+
+/* RTL checkbox adjustments */
+.rtl-checkbox {
+  padding-right: 30px;
+  padding-left: 0;
+}
+
+.rtl-checkbox .checkmark {
+  right: 0;
+  left: auto;
+}
+
+/* RTL value props */
+.rtl-value-prop {
+  border-left: none;
+  border-right: 3px solid white;
+  padding-left: 0;
+  padding-right: 16px;
+}
+
+/* RTL features layout */
+.rtl-features {
+  flex-direction: row-reverse;
+}
+
+/* Loading animation */
+.language-loader {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.loading .language-loader {
+  opacity: 1;
+}
+

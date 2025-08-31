@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["file:///C:/projects/Cred%20Vault/Sunny/apps/marketing/src/app/%28auth%29/layout.tsx"],"sourcesContent":["import type { Metadata } from 'next';\r\n\r\nexport const metadata: Metadata = {\r\n  title: 'Authentication | Sunny Payments',\r\n  description: 'Sign in or create your Sunny Payments account',\r\n};\r\n\r\nexport default function AuthLayout({\r\n  children,\r\n}: {\r\n  children: React.ReactNode;\r\n}) {\r\n  return (\r\n    <div className=\"min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-900 dark:to-green-900/20\">\r\n      {children}\r\n    </div>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;;;AAEO,MAAM,WAAqB;IAChC,OAAO;IACP,aAAa;AACf;AAEe,SAAS,WAAW,EACjC,QAAQ,EAGT;IACC,qBACE,6WAAC;QAAI,WAAU;kBACZ;;;;;;AAGP","debugId":null}}]
+}

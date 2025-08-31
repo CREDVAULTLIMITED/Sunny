@@ -1,0 +1,7 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/resources/docs/getting-started/institution-setup/page": "app/resources/docs/getting-started/institution-setup/page.js",
+  "/resources/docs/getting-started/page": "app/resources/docs/getting-started/page.js",
+  "/resources/docs/getting-started/registration/page": "app/resources/docs/getting-started/registration/page.js",
+  "/resources/docs/page": "app/resources/docs/page.js"
+}

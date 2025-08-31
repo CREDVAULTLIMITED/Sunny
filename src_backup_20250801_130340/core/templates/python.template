@@ -1,0 +1,33 @@
+# Sunny Payments - Python SDK Setup
+# Generated at {{activatedAt}}
+
+from sunny.payments import Sunny
+from typing import Dict, Any
+
+# Configuration
+config: Dict[str, Any] = {
+    "api_key": "{{apiKey}}",
+    "account_type": "{{accountType}}",
+    "environment": "{{environment}}",
+    "merchant_id": "{{merchantId}}"
+}
+
+# Initialize Sunny SDK
+sunny = Sunny(**config)
+
+# Example usage:
+async def example():
+    try:
+        # Create a payment
+        payment = await sunny.payments.create(
+            amount=1000,
+            currency="USD",
+            description="Test payment"
+        )
+        print(f"Payment created: {payment.id}")
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(example())

@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespaces.yaml
+  - api-gateway.yaml
+  - core-processing.yaml
+  - admin-dashboard.yaml
+  - monitoring.yaml
+  - security.yaml
+  - database-migrations.yaml
+
+commonLabels:
+  app.kubernetes.io/part-of: sunny
+  app.kubernetes.io/managed-by: kustomize
+
+commonAnnotations:
+  app.kubernetes.io/version: "1.0.0"
+  app.kubernetes.io/repository: "github.com/creditboost/sunny"
+
+namespace: sunny

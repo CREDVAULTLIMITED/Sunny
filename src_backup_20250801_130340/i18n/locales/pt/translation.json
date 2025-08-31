@@ -1,0 +1,130 @@
+{
+  "common": {
+    "brandName": "Sunny",
+    "signIn": "Entrar",
+    "signUp": "Cadastrar",
+    "getStarted": "Começar",
+    "startNow": "Começar agora",
+    "learnMore": "Saiba mais",
+    "about": "Sobre",
+    "features": "Recursos",
+    "whyChooseUs": "Por que nos escolher",
+    "pricing": "Preços",
+    "contact": "Contato",
+    "terms": "Termos",
+    "privacy": "Privacidade",
+    "copyright": "© 2025 CREDVAULT LIMITED. Todos os direitos reservados.",
+    "home": "Início",
+    "solutions": "Soluções",
+    "developers": "Desenvolvedores",
+    "back": "Voltar",
+    "continue": "Continuar",
+    "allRightsReserved": "Todos os direitos reservados",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "loading": "Carregando...",
+    "sending": "Enviando..."
+  },
+  "homePage": {
+    "hero": {
+      "title1": "Nova Geração",
+      "title2": "Plataforma de Pagamento",
+      "description": "Envie, receba e gerencie pagamentos globais com uma única integração."
+    },
+    "features": {
+      "title": "Tudo que você precisa para gerenciar pagamentos",
+      "subtitle": "Nossa suíte completa de soluções de pagamento foi projetada para ajudar empresas de todos os tamanhos a aceitar pagamentos globalmente.",
+      "globalPayments": {
+        "title": "Pagamentos Globais",
+        "description": "Aceite pagamentos de clientes em todo o mundo com uma única integração."
+      },
+      "cardPayments": {
+        "title": "Pagamentos com Cartão",
+        "description": "Aceite todos os principais cartões de crédito e débito com segurança."
+      },
+      "mobilePayments": {
+        "title": "Pagamentos Móveis",
+        "description": "Integre-se com os principais provedores de dinheiro móvel da África, Ásia e além."
+      }
+    },
+    "stats": {
+      "title": "Confiado por empresas em todo o mundo",
+      "subtitle": "Junte-se a milhares de empresas que já usam nossa plataforma",
+      "transactions": "Transações",
+      "users": "Usuários",
+      "countries": "Países"
+    }
+  },
+  "auth": {
+    "login": {
+      "welcomeBack": "Bem-vindo de volta",
+      "loginAccount": "Entre na sua conta",
+      "email": "E-mail",
+      "password": "Senha",
+      "forgotPassword": "Esqueceu a senha?",
+      "rememberMe": "Lembrar-me",
+      "loginButton": "Entrar",
+      "noAccount": "Não tem uma conta?",
+      "createAccount": "Criar conta"
+    }
+  },
+  "cookies": {
+    "message": "Usamos cookies para melhorar sua experiência no nosso site.",
+    "shortMessage": "Este site usa cookies.",
+    "accept": "Aceitar",
+    "decline": "Recusar"
+  },
+  "sdkGuides": {
+    "title": "Guias de Implementação SDK",
+    "subtitle": "Integre o Sunny Payments em sua aplicação com nossos SDKs oficiais",
+    "features": {
+      "title": "Recursos do SDK",
+      "security": {
+        "title": "Segurança Empresarial",
+        "description": "Recursos de segurança integrados incluindo criptografia e prevenção de fraudes"
+      },
+      "global": {
+        "title": "Suporte Global",
+        "description": "Suporte para múltiplas moedas e métodos de pagamento em todo o mundo"
+      }
+    }
+  },
+  "blog": {
+    "categories": {
+      "all": "Todos",
+      "product": "Produto",
+      "engineering": "Engenharia",
+      "company": "Empresa",
+      "insights": "Insights"
+    },
+    "newsletter": {
+      "title": "Inscreva-se no nosso newsletter",
+      "subtitle": "Receba as últimas notícias sobre pagamentos e tecnologia",
+      "placeholder": "Seu e-mail",
+      "subscribe": "Inscrever"
+    }
+  },
+  "careers": {
+    "hero": {
+      "title": "Crie o futuro dos pagamentos conosco",
+      "subtitle": "Junte-se a uma equipe global apaixonada por tornar os pagamentos mais acessíveis",
+      "viewJobs": "Ver vagas",
+      "learnMore": "Saiba mais"
+    },
+    "departments": {
+      "all": "Todos os departamentos",
+      "engineering": "Engenharia",
+      "product": "Produto",
+      "design": "Design",
+      "sales": "Vendas",
+      "marketing": "Marketing"
+    },
+    "locations": {
+      "all": "Todas as localizações",
+      "nairobi": "Nairóbi",
+      "lagos": "Lagos",
+      "london": "Londres",
+      "remote": "Remoto"
+    }
+  }
+}

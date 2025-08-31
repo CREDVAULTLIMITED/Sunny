@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="300px" viewBox="0 0 400 300" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Checkout Illustration</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#02A669" offset="0%"></stop>
+            <stop stop-color="#05B19B" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#0177A5" offset="0%"></stop>
+            <stop stop-color="#12AACF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Checkout-Illustration" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <!-- Background Elements -->
+        <circle id="bg-circle-1" fill="#F6F8F6" cx="50" cy="50" r="50"></circle>
+        <circle id="bg-circle-2" fill="#F6F8F6" cx="350" cy="250" r="40"></circle>
+        
+        <!-- Credit Card -->
+        <g id="credit-card" transform="translate(100, 80)">
+            <rect id="card-body" fill="url(#linearGradient-1)" x="0" y="0" width="200" height="120" rx="10"></rect>
+            <rect id="card-chip" fill="#FFD700" x="20" y="30" width="30" height="20" rx="3"></rect>
+            <rect id="card-stripe" fill="#FFFFFF" opacity="0.2" x="0" y="40" width="200" height="25"></rect>
+            <text id="card-number" font-family="Arial-BoldMT, Arial" font-size="16" font-weight="bold" fill="#FFFFFF">
+                <tspan x="20" y="90">•••• •••• •••• 4242</tspan>
+            </text>
+            <text id="card-name" font-family="Arial-BoldMT, Arial" font-size="12" font-weight="bold" fill="#FFFFFF">
+                <tspan x="20" y="110">JOHN DOE</tspan>
+            </text>
+            <circle id="card-logo-1" fill="#FFFFFF" opacity="0.8" cx="170" cy="30" r="10"></circle>
+            <circle id="card-logo-2" fill="#FFFFFF" opacity="0.6" cx="155" cy="30" r="10"></circle>
+        </g>
+        
+        <!-- Mobile Phone -->
+        <g id="mobile-phone" transform="translate(50, 150)">
+            <rect id="phone-body" fill="#333333" x="0" y="0" width="70" height="120" rx="8"></rect>
+            <rect id="phone-screen" fill="#FFFFFF" x="5" y="10" width="60" height="100" rx="2"></rect>
+            <circle id="phone-button" fill="#FFFFFF" cx="35" cy="115" r="3"></circle>
+            <rect id="phone-app-header" fill="url(#linearGradient-2)" x="5" y="10" width="60" height="15" rx="2"></rect>
+            <rect id="phone-app-button" fill="#02A669" x="15" y="80" width="40" height="15" rx="3"></rect>
+            <rect id="phone-app-field-1" fill="#F1F5F9" x="15" y="35" width="40" height="10" rx="2"></rect>
+            <rect id="phone-app-field-2" fill="#F1F5F9" x="15" y="55" width="40" height="10" rx="2"></rect>
+        </g>
+        
+        <!-- Checkmark Circle -->
+        <g id="checkmark-circle" transform="translate(280, 150)">
+            <circle id="check-bg" fill="url(#linearGradient-1)" cx="30" cy="30" r="30"></circle>
+            <path d="M20,30 L27,37 L40,23" id="checkmark" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+        
+        <!-- Connection Lines -->
+        <path d="M200,140 C230,140 250,160 280,160" id="connection-line-1" stroke="#02A669" stroke-width="2" stroke-dasharray="5,5"></path>
+        <path d="M120,150 C150,150 170,170 200,170" id="connection-line-2" stroke="#0177A5" stroke-width="2" stroke-dasharray="5,5"></path>
+        
+        <!-- Dollar Signs -->
+        <text id="dollar-1" font-family="Arial-BoldMT, Arial" font-size="24" font-weight="bold" fill="#02A669">
+            <tspan x="240" cy="100">$</tspan>
+        </text>
+        <text id="dollar-2" font-family="Arial-BoldMT, Arial" font-size="18" font-weight="bold" fill="#0177A5">
+            <tspan x="150" cy="50">$</tspan>
+        </text>
+        <text id="dollar-3" font-family="Arial-BoldMT, Arial" font-size="14" font-weight="bold" fill="#05B19B">
+            <tspan x="70" cy="100">$</tspan>
+        </text>
+    </g>
+</svg>

@@ -1,0 +1,148 @@
+/* Documentation Page specific styling */
+.docs-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  padding: 4rem 0;
+}
+
+.docs-sidebar {
+  position: sticky;
+  top: 2rem;
+  height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+.docs-sidebar h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+}
+
+.docs-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+}
+
+.docs-sidebar a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.docs-sidebar a:hover {
+  color: #1e293b;
+  background: #f1f5f9;
+}
+
+.docs-sidebar a.active {
+  color: #4f46e5;
+  background: #eff6ff;
+  font-weight: 500;
+}
+
+/* Stripe-style developer page layout */
+.devpage-header-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.devpage-icon svg {
+  width: 40px;
+  height: 40px;
+  color: #4a90e2;
+  background: #f7fafc;
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 2px 8px rgba(74,144,226,0.08);
+}
+.devpage-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+}
+.devpage-hero {
+  margin-bottom: 2.5rem;
+  background: #f7fafc;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 2px 8px rgba(74,144,226,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.devpage-description {
+  font-size: 1.25rem;
+  color: #334155;
+  margin: 0;
+  flex: 1;
+}
+.devpage-hero .btn {
+  margin-left: 2rem;
+}
+.devpage-content {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(74,144,226,0.04);
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+}
+.code-block {
+  background: #1a1f36;
+  color: #e2e8f0;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 1rem;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+.sdk-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.sdk-tab {
+  background: #f7fafc;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a90e2;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.sdk-tab.active {
+  background: #fff;
+  color: #1a202c;
+  box-shadow: 0 2px 8px rgba(74,144,226,0.04);
+}
+.sdk-details {
+  background: #f7fafc;
+  border-radius: 0 0 12px 12px;
+  padding: 2rem;
+}
+@media (max-width: 700px) {
+  .devpage-header-row { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .devpage-hero { flex-direction: column; align-items: flex-start; padding: 1.25rem; }
+  .devpage-content { padding: 1rem; }
+}
+@media (max-width: 768px) {
+  .docs-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .docs-sidebar {
+    position: static;
+    height: auto;
+  }
+}

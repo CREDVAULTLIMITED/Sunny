@@ -1,0 +1,72 @@
+{
+  "common": {
+    "brandName": "صني",
+    "signIn": "تسجيل الدخول",
+    "getStarted": "ابدأ الآن",
+    "startNow": "ابدأ الآن",
+    "copyright": "© 2023 صني. جميع الحقوق محفوظة.",
+    "features": "المميزات"
+  },
+  "auth": {
+    "login": {
+      "welcomeBack": "مرحباً بعودتك",
+      "loginAccount": "تسجيل الدخول إلى حسابك",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "rememberMe": "تذكرني",
+      "loginButton": "تسجيل الدخول",
+      "noAccount": "ليس لديك حساب؟",
+      "createAccount": "إنشاء حساب",
+      "secureAccess": "وصول آمن",
+      "secureAccessDesc": "وصول آمن إلى خدماتك المالية",
+      "dashboard": "لوحة التحكم",
+      "dashboardDesc": "إدارة أموالك بسهولة",
+      "support": "الدعم",
+      "supportDesc": "دعم على مدار الساعة لجميع احتياجاتك",
+      "secureAuth": "مصادقة آمنة",
+      "fastAccess": "وصول سريع"
+    }
+  },
+  "homePage": {
+    "hero": {
+      "title1": "مدفوعات بسيطة",
+      "title2": "للجميع",
+      "description": "حلول دفع آمنة وفعالة للشركات والأفراد"
+    },
+    "features": {
+      "title": "أفضل منصة للمدفوعات",
+      "globalPayments": {
+        "title": "مدفوعات عالمية",
+        "description": "إرسال واستلام المدفوعات حول العالم"
+      },
+      "cardPayments": {
+        "title": "مدفوعات البطاقات",
+        "description": "معالجة آمنة لمدفوعات البطاقات"
+      },
+      "bankTransfers": {
+        "title": "التحويلات المصرفية",
+        "description": "إجراء تحويلات مصرفية مباشرة"
+      }
+    },
+    "stats": {
+      "title": "رائد في حلول الدفع",
+      "subtitle": "موثوق به من قبل الشركات حول العالم",
+      "transactions": "المعاملات",
+      "transactions_value": "+1M",
+      "users": "المستخدمين",
+      "users_value": "+100K",
+      "countries": "البلدان",
+      "countries_value": "+150"
+    },
+    "cta": {
+      "title": "هل أنت مستعد لتبسيط مدفوعاتك؟",
+      "subtitle": "انضم إلى آلاف العملاء الراضين"
+    }
+  },
+  "footer": {
+    "about": "عن الشركة",
+    "terms": "الشروط",
+    "privacy": "الخصوصية"
+  }
+}
+

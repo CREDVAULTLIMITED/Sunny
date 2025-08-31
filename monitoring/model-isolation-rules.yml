@@ -1,0 +1,46 @@
+groups:
+  - name: model_isolation_alerts
+    rules:
+      - alert: ModelContainerMemoryHigh
+        expr: container_memory_usage_bytes{container=~"model-.*"} > container_spec_memory_limit_bytes{container=~"model-.*"} * 0.9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: High memory usage on {{ $labels.container }}
+          description: Container memory usage is over 90% of its limit
+
+      - alert: ModelContainerCPUHigh
+        expr: rate(container_cpu_usage_seconds_total{container=~"model-.*"}[5m]) > 0.9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: High CPU usage on {{ $labels.container }}
+          description: Container CPU usage is over 90%
+
+      - alert: ModelContainerRestarting
+        expr: changes(container_start_time_seconds{container=~"model-.*"}[15m]) > 2
+        labels:
+          severity: warning
+        annotations:
+          summary: Container {{ $labels.container }} restarting frequently
+          description: Container has restarted more than 2 times in 15 minutes
+
+      - alert: ModelNetworkAnomalies
+        expr: rate(container_network_receive_bytes_total{container=~"model-.*"}[5m]) > 1e6
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Network anomaly detected on {{ $labels.container }}
+          description: Unusual network activity detected
+
+      - alert: ModelIsolationBreach
+        expr: container_tasks_state{container=~"model-.*", state="running"} > container_spec_memory_limit_bytes{container=~"model-.*"} * 0.001
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: Isolation breach detected on {{ $labels.container }}
+          description: Container is running more processes than expected

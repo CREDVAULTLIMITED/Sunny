@@ -1,0 +1,43 @@
+package main
+
+/**
+ * Sunny Payments - Go SDK Setup
+ * Generated at {{activatedAt}}
+ */
+
+import (
+    "fmt"
+    "log"
+
+    "github.com/sunny-payments/sunny-go"
+)
+
+func main() {
+    // Configuration
+    config := &sunny.Config{
+        APIKey:      "{{apiKey}}",
+        AccountType: "{{accountType}}",
+        Environment: "{{environment}}",
+        MerchantID:  "{{merchantId}}",
+    }
+
+    // Initialize Sunny SDK
+    client, err := sunny.NewClient(config)
+    if err != nil {
+        log.Fatalf("Failed to initialize Sunny: %v", err)
+    }
+
+    // Example usage:
+    payment, err := client.Payments.Create(&sunny.PaymentRequest{
+        Amount:      1000,
+        Currency:    "USD",
+        Description: "Test payment",
+    })
+    
+    if err != nil {
+        log.Printf("Error: %v\n", err)
+        return
+    }
+
+    fmt.Printf("Payment created: %s\n", payment.ID)
+}

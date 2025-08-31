@@ -1,0 +1,137 @@
+# Bare Metal Configuration for Sunny Payment Gateway
+
+# System Configuration
+system:
+  cores_required: 16
+  ram_required_gb: 64
+  storage_required_gb: 100
+
+# Network Configuration
+network:
+  interfaces:
+    primary:
+      device: eth0
+      type: bond_primary
+      ip: 10.0.0.10/24
+      gateway: 10.0.0.1
+    backup:
+      device: eth1
+      type: bond_backup
+      ip: 10.0.0.11/24
+    hsm:
+      device: eth2
+      type: dedicated
+      ip: 10.0.0.12/24
+
+  bonding:
+    mode: active-backup
+    miimon: 100
+    primary: eth0
+
+# Storage Configuration
+storage:
+  data:
+    device: /dev/sdb
+    mount: /data/sunny
+    type: xfs
+    size_gb: 500
+  logs:
+    device: /dev/sdc
+    mount: /var/log/sunny
+    type: xfs
+    size_gb: 200
+  backup:
+    device: /dev/sdd
+    mount: /backup/sunny
+    type: xfs
+    size_gb: 1000
+
+# HSM Configuration
+hsm:
+  devices:
+    - id: hsm1
+      vendor: thales
+      model: payshield-10k
+      ip: 10.0.0.50
+      port: 1500
+      backup: false
+    - id: hsm2
+      vendor: thales
+      model: payshield-10k
+      ip: 10.0.0.51
+      port: 1500
+      backup: true
+
+# Database Configuration
+database:
+  type: mongodb
+  replica_set: true
+  nodes:
+    - role: primary
+      ip: 10.0.0.100
+      port: 27017
+    - role: secondary
+      ip: 10.0.0.101
+      port: 27017
+    - role: arbiter
+      ip: 10.0.0.102
+      port: 27017
+
+# Load Balancer Configuration
+load_balancer:
+  type: haproxy
+  nodes:
+    - role: active
+      ip: 10.0.0.20
+    - role: backup
+      ip: 10.0.0.21
+  virtual_ip: 10.0.0.25
+
+# Monitoring Configuration
+monitoring:
+  prometheus:
+    port: 9090
+    retention_days: 30
+    storage_path: /data/sunny/prometheus
+  grafana:
+    port: 3000
+    plugins:
+      - grafana-piechart-panel
+      - grafana-worldmap-panel
+  alerts:
+    email:
+      - admin@company.com
+      - operations@company.com
+    slack:
+      channel: "#alerts-production"
+
+# Security Configuration
+security:
+  ssl:
+    cert_path: /etc/sunny/ssl/server.crt
+    key_path: /etc/sunny/ssl/server.key
+    ca_path: /etc/sunny/ssl/ca.crt
+  firewall:
+    allowed_ips:
+      - 10.0.0.0/24  # Internal network
+      - 192.168.1.0/24  # Management network
+    admin_ports:
+      - 22    # SSH
+      - 9090  # Prometheus
+      - 3000  # Grafana
+    service_ports:
+      - 443   # HTTPS
+      - 8443  # API
+
+# Backup Configuration
+backup:
+  schedule:
+    full: "0 0 * * 0"    # Weekly full backup
+    incremental: "0 0 * * 1-6"  # Daily incremental
+  retention:
+    full_backups: 4      # Keep 4 weeks
+    incremental: 7       # Keep 7 days
+  paths:
+    - /data/sunny
+    - /etc/sunny
+    - /var/log/sunny

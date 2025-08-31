@@ -1,0 +1,51 @@
+{
+  "name": "@sunny/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "module": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.mjs",
+      "module": "./dist/hooks/index.mjs",
+      "require": "./dist/hooks/index.js"
+    }
+  },
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --external react",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --external react --watch",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "dependencies": {
+    "@sunny/shared-types": "workspace:*",
+    "@tanstack/react-query": "^5.84.2",
+    "axios": "^1.11.0",
+    "zod": "^4.0.17"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@sunny/eslint-config": "workspace:*",
+    "@sunny/tsconfig": "workspace:*",
+    "@types/react": "^19",
+    "eslint": "^9",
+    "tsup": "^8.0.0",
+    "typescript": "^5"
+  }
+}

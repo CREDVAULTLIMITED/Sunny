@@ -1,0 +1,157 @@
+# API Security Configuration
+
+# Rate Limiting
+rate_limiting:
+  default:
+    requests_per_second: 10
+    burst: 20
+    response:
+      status: 429
+      message: "Too many requests"
+  
+  endpoints:
+    /api/v1/payments:
+      requests_per_second: 5
+      burst: 10
+    /api/v1/auth:
+      requests_per_second: 3
+      burst: 5
+
+# Request Validation
+request_validation:
+  max_body_size: 10mb
+  content_types:
+    - application/json
+    - application/x-www-form-urlencoded
+  
+  sanitization:
+    remove_html: true
+    max_depth: 10
+    max_string_length: 1000
+
+# Authentication
+authentication:
+  jwt:
+    algorithms:
+      - ES256
+      - RS256
+    expiration: 1h
+    refresh_token:
+      expiration: 24h
+      rotation: true
+    
+  mfa:
+    required_for:
+      - admin_access
+      - payment_operations
+      - key_management
+    methods:
+      - totp
+      - hardware_token
+      - biometric
+
+# API Keys
+api_keys:
+  rotation_period: 90d
+  max_active_keys: 3
+  rate_limiting:
+    requests_per_day: 10000
+    burst: 100
+
+# Request Signing
+request_signing:
+  required_for:
+    - /api/v1/payments
+    - /api/v1/refunds
+    - /api/v1/settlements
+  algorithms:
+    - ES256
+    - RS256
+  max_timestamp_diff: 300s
+
+# Response Security
+response_security:
+  headers:
+    Strict-Transport-Security: "max-age=31536000; includeSubDomains; preload"
+    Content-Security-Policy: "default-src 'self'"
+    X-Content-Type-Options: "nosniff"
+    X-Frame-Options: "DENY"
+    X-XSS-Protection: "1; mode=block"
+    Referrer-Policy: "strict-origin-when-cross-origin"
+    
+  data_masking:
+    enabled: true
+    fields:
+      - credit_card_number
+      - cvv
+      - social_security_number
+    masking_char: "*"
+
+# IP Filtering
+ip_filtering:
+  whitelist:
+    - type: CIDR
+      value: "10.0.0.0/8"
+      description: "Internal network"
+    - type: CIDR
+      value: "172.16.0.0/12"
+      description: "VPN network"
+  
+  blacklist:
+    - type: COUNTRY
+      value: "CN,RU,NK"
+      description: "High-risk countries"
+    - type: IP_RANGE
+      value: "185.159.0.0-185.159.255.255"
+      description: "Known malicious range"
+
+# WAF Rules
+waf_rules:
+  sql_injection:
+    enabled: true
+    action: block
+    sensitivity: high
+    
+  xss:
+    enabled: true
+    action: block
+    sensitivity: high
+    
+  path_traversal:
+    enabled: true
+    action: block
+    
+  command_injection:
+    enabled: true
+    action: block
+    
+  file_upload:
+    enabled: true
+    max_size: 5mb
+    allowed_types:
+      - image/jpeg
+      - image/png
+      - application/pdf
+
+# Audit Logging
+audit_logging:
+  enabled: true
+  endpoints:
+    - pattern: /api/v1/*
+      log_request: true
+      log_response: false
+      mask_sensitive: true
+  
+  fields:
+    - timestamp
+    - request_id
+    - user_id
+    - ip_address
+    - endpoint
+    - method
+    - status_code
+    - response_time
+    
+  retention:
+    duration: 2y
+    storage: encrypted
